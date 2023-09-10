@@ -1,0 +1,392 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Mandatory Assignment 1 - STK-IN4300},
+  pdfauthor={Alessia Sanfelici},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Mandatory Assignment 1 - STK-IN4300}
+\author{Alessia Sanfelici}
+\date{September 21, 2023}
+
+\begin{document}
+\maketitle
+
+The selected dataset is about Data Science Salaries and was found on the
+website Kaggle at the following link:
+\url{https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023}.
+
+The dataset contains 3755 observations and 11 variables. Each row
+represents one employee, with all the informations described by the
+columns. There are no missing values, meaning that the whole dataset is
+full.\textbackslash{}
+
+The variables are the following:
+
+\begin{itemize}
+    \item $work\_year$: the year the salary was paid;
+    \item $experience\_level$: experience level of the employee during the year;
+    \item $employment\_type$: type of employee;
+    \item $job\_title$: role worked during the year;
+    \item $salary$: total salary expressed in the currency of the country of work;
+    \item $salary\_currency$: currency of the salary;
+    \item $salary\_in\_usd$: salary converted in USD;
+    \item $employee\_residence$: primary country of residence of the employee during during the working year;
+    \item $remote\_ratio$: overall amount of work done remotely; 
+    \item $company\_location$: country of the company where the employee works;
+    \item $company\_size$: size (in terms of number of working people) of the company during the year;
+\end{itemize}
+
+The categorical variables are: \(experience\_level\),
+\(employment\_type\), \(job\_title\), \(salary\_currency\),
+\(employee\_residence\), \(company\_location\) and \(company\_size\).
+\textbackslash{} The integer variables are: \(work\_year\), \(salary\),
+\(salary\_in\_usd\) and \(remote\_ratio\). \newline
+
+\hypertarget{problem-1.-summary-statistics-table}{%
+\subsection{Problem 1. Summary Statistics
+Table}\label{problem-1.-summary-statistics-table}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summary statistics for numerical variables}
+\FunctionTok{summary}\NormalTok{(df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    work_year    experience_level   employment_type     job_title        
+##  Min.   :2020   Length:3755        Length:3755        Length:3755       
+##  1st Qu.:2022   Class :character   Class :character   Class :character  
+##  Median :2022   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :2022                                                           
+##  3rd Qu.:2023                                                           
+##  Max.   :2023                                                           
+##      salary         salary_currency    salary_in_usd    employee_residence
+##  Min.   :    6000   Length:3755        Min.   :  5132   Length:3755       
+##  1st Qu.:  100000   Class :character   1st Qu.: 95000   Class :character  
+##  Median :  138000   Mode  :character   Median :135000   Mode  :character  
+##  Mean   :  190696                      Mean   :137570                     
+##  3rd Qu.:  180000                      3rd Qu.:175000                     
+##  Max.   :30400000                      Max.   :450000                     
+##   remote_ratio    company_location   company_size      
+##  Min.   :  0.00   Length:3755        Length:3755       
+##  1st Qu.:  0.00   Class :character   Class :character  
+##  Median :  0.00   Mode  :character   Mode  :character  
+##  Mean   : 46.27                                        
+##  3rd Qu.:100.00                                        
+##  Max.   :100.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"gtsummary"}\NormalTok{)}
+
+\CommentTok{\# Summary for continuous variables}
+\NormalTok{df}\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{tbl\_summary}\NormalTok{(}\AttributeTok{type =} \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"continuous2"}\NormalTok{, }\AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}\FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\StringTok{"\{mean\} (\{sd\})"}\NormalTok{, }\StringTok{"\{median\}"}\NormalTok{, }\StringTok{"\{min\}{-}\{max\}"}\NormalTok{)),}
+  \AttributeTok{digits =} \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }\AttributeTok{include =} \FunctionTok{c}\NormalTok{(work\_year, salary, salary\_in\_usd, remote\_ratio),}
+  \AttributeTok{label =} \FunctionTok{list}\NormalTok{(work\_year }\SpecialCharTok{\textasciitilde{}} \StringTok{"Work Year"}\NormalTok{, salary }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary"}\NormalTok{, salary\_in\_usd }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary in USD"}\NormalTok{, remote\_ratio }\SpecialCharTok{\textasciitilde{}} \StringTok{"Remote Ratio"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bold\_labels}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_caption}\NormalTok{(}\StringTok{"**Continuous Variables**"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lc@{}}
+\caption{\textbf{Continuous Variables}}\tabularnewline
+\toprule\noalign{}
+\textbf{Characteristic} & \textbf{N = 3,755} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\textbf{Characteristic} & \textbf{N = 3,755} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Work Year} & \\
+2020 & 76 (2.0\%) \\
+2021 & 230 (6.1\%) \\
+2022 & 1,664 (44\%) \\
+2023 & 1,785 (48\%) \\
+\textbf{Salary} & \\
+Mean (SD) & 190,695.57 (671,676.50) \\
+Median & 138,000 \\
+Minimum-Maximum & 6,000-30,400,000 \\
+\textbf{Salary in USD} & \\
+Mean (SD) & 137,570.39 (63,055.63) \\
+Median & 135,000 \\
+Minimum-Maximum & 5,132-450,000 \\
+\textbf{Remote Ratio} & \\
+0 & 1,923 (51\%) \\
+50 & 189 (5.0\%) \\
+100 & 1,643 (44\%) \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summary for categorical variables}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{problem-2.-bad-data-visualization}{%
+\subsection{Problem 2. Bad Data
+Visualization}\label{problem-2.-bad-data-visualization}}
+
+The first graph represents the average salary (in USD) of the employees
+with respect to the work year and also to the size of the company. Using
+a bar plot with stacked bars allows us to to have an idea of the amount
+of average salary for each year, but it is difficult to make a
+comparison between the different values of the salary with respect to
+year and company size. That is, for each year, we can only see the total
+salary, obtained by the sum of the average salaries for small, medium
+and large companies, without any indication about the single values,
+which cannot be compared. \newline
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{low\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{150000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{150000}\NormalTok{)}
+\NormalTok{medium\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{100000} \SpecialCharTok{\&}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{250000}\NormalTok{)}
+\NormalTok{high\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{250000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{250000}\NormalTok{)}
+
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(df, }\AttributeTok{salary\_category =} \DecValTok{0}\NormalTok{)}
+
+\NormalTok{by\_year }\OtherTok{\textless{}{-}} \FunctionTok{group\_by}\NormalTok{(df, work\_year, company\_size)}
+\NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{summarize}\NormalTok{(by\_year, }\AttributeTok{average\_salary =} \FunctionTok{mean}\NormalTok{(salary\_in\_usd, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+
+\CommentTok{\# Bad plot 1}
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio)))}\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{( }\AttributeTok{color=}\StringTok{\textquotesingle{}\#e9ecef\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-2-1.pdf}
+The second ``bad'' plot shows the density of the salary according to the
+remote ratio. The graph is a barplot, containing bars of different
+colors, with respect to the amount of work done remotely (0, 50 or 100).
+We can identify three main problems in this plot:
+
+\begin{enumerate}
+    \item The bars overlap, making the trends confusing and difficult to understand and analyze;
+    \item Since the 50 category has a very low number of cases, the corresponding bars are very small, making it very hard to catch the frequency and the behaviour of this category;
+    \item The values on the X-axis are not so easy to interpret.
+\end{enumerate}
+\newline
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Bad plot 2}
+
+\FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Work Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average Salary (USD)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Average Salary by Work Year and Company Size"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-3-1.pdf}
+\#\# Problem 3. Good Data Visualization
+
+The ``good'' version of the first graph uses a bar for each category of
+the company size. Thanks to this trick, it is possible to visualize data
+in a more organized way: for each year, we have 3 columns, each one
+representing the average salary for each company size. This allows a
+deeper analysis, with a particular interest on the behaviour of the
+average salary over time, according to each company size. For instance,
+it is possible to notice that, while small companies had more or less
+stable salaries over time, the average salary in large companies
+increased with the years, with a growth of more than 250000 USD from
+2020 to 2023. \newline
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Good plot 1}
+\NormalTok{rem\_0 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
+\NormalTok{rem\_50 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{50}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
+\NormalTok{rem\_100 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{100}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
+\NormalTok{d0 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_0[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
+\NormalTok{d50 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_50[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
+\NormalTok{d100 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_100[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
+\FunctionTok{plot}\NormalTok{(d50, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, ,}\AttributeTok{main =} \StringTok{"Density of salary according to remote ratio"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"Salary in USD"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Density"}\NormalTok{, }\AttributeTok{xaxt =} \StringTok{"n"}\NormalTok{) }
+\CommentTok{\# Customize the x{-}axis labels to be in thousands}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{),}
+     \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{comma\_format}\NormalTok{(}\AttributeTok{scale =} \FloatTok{1e{-}3}\NormalTok{)(}\FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{)))}
+\FunctionTok{lines}\NormalTok{(d0, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(d100, }\AttributeTok{col =} \StringTok{"green"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"}\NormalTok{, }\StringTok{"Remote ratio = 50"}\NormalTok{, }\StringTok{"Remote ratio = 100"}\NormalTok{),}
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"green"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio))) }\SpecialCharTok{+}
+  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{position =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Density of salary according to remote ratio"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Salary in USD"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Density"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{),}
+                     \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{comma\_format}\NormalTok{(}\AttributeTok{scale =} \FloatTok{1e{-}3}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"} \OtherTok{=} \StringTok{"blue"}\NormalTok{,}
+                               \StringTok{"Remote ratio = 50"} \OtherTok{=} \StringTok{"red"}\NormalTok{,}
+                               \StringTok{"Remote ratio = 100"} \OtherTok{=} \StringTok{"green"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"} \OtherTok{=} \StringTok{"blue"}\NormalTok{,}
+                                \StringTok{"Remote ratio = 50"} \OtherTok{=} \StringTok{"red"}\NormalTok{,}
+                                \StringTok{"Remote ratio = 100"} \OtherTok{=} \StringTok{"green"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"topright"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{guides}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title =} \StringTok{"Remote Ratio"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio)))}\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{( }\AttributeTok{color=}\StringTok{\textquotesingle{}\#e9ecef\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-3.pdf}
+
+The second plot have been improved by substituting the subplot with a
+density plot. This solution, allows to obtain a clearer graph, composed
+of just three lines. Each line represents the density distribution of
+the salary, according to the remote ratio category. Moreover, since the
+data for all the categories have been transformed to densities, we don't
+have small bars for a single category anymore. The problem of the values
+on the X-axis has been solved too, changing the unit of measure of the
+axis (from USD to thousand of USD). \textbackslash{} According to this
+graph, for example, it can be understood that employees with a value of
+50 of remote ratio tend to have a lower salary than the other categories
+(the pick of the density is under 100000 USD, probably around 80000
+USD). On the contrary, the other two categories have similar densities,
+with a mean around 150000 USD. \newline
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Good plot 2}
+\FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }
+           \AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Work Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average Salary (USD)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Average Salary by Work Year and Company Size"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\end{document}

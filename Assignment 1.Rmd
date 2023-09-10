@@ -1,0 +1,174 @@
+---
+title: "Mandatory Assignment 1 - STK-IN4300"
+author: "Alessia Sanfelici"
+date: "September 21, 2023"
+output: pdf_document
+---
+
+The selected dataset is about Data Science Salaries and was found on the website Kaggle at the following link: \url{https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023}.
+
+The dataset contains 3755 observations and 11 variables. Each row represents one employee, with all the informations described by the columns. There are no missing values, meaning that the whole dataset is full.\\
+
+The variables are the following:
+\begin{itemize}
+    \item $work\_year$: the year the salary was paid;
+    \item $experience\_level$: experience level of the employee during the year;
+    \item $employment\_type$: type of employee;
+    \item $job\_title$: role worked during the year;
+    \item $salary$: total salary expressed in the currency of the country of work;
+    \item $salary\_currency$: currency of the salary;
+    \item $salary\_in\_usd$: salary converted in USD;
+    \item $employee\_residence$: primary country of residence of the employee during during the working year;
+    \item $remote\_ratio$: overall amount of work done remotely; 
+    \item $company\_location$: country of the company where the employee works;
+    \item $company\_size$: size (in terms of number of working people) of the company during the year;
+\end{itemize}
+The categorical variables are: $experience\_level$, $employment\_type$, $job\_title$, $salary\_currency$, $employee\_residence$, $company\_location$ and $company\_size$.
+\\
+The integer variables are: $salary$ and $salary\_in\_usd$.
+\\
+The remaining variables, $work\_year$ and $remote\_ratio$, are integer variables but, since they are not continuous but discrete (they represent years and percentages respectively), it is better to consider them as categorical variables.
+\newline
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+
+library(tidyverse)
+df <- read.csv("ds_salaries.csv")
+head(df)
+num_rows <- nrow(df)
+print(num_rows)
+# Check for missing values
+sum(is.na(df))
+# Understand the variables
+str(df)
+```
+
+## Problem 1. Summary Statistics Table
+
+```{r, tidy=FALSE}
+# Summary statistics for numerical variables
+summary(df)
+library("gtsummary")
+
+# Summary for continuous variables
+df%>% 
+  tbl_summary(type = c(salary ~ "continuous2", salary_in_usd ~ "continuous2"), 
+              statistic = list(all_continuous() ~ c("{mean} ({sd})", 
+                                                    "{median}", "{min}-{max}")),
+              digits = all_continuous() ~ c(2, 2, 0, 0, 0), 
+              include = c(salary, salary_in_usd),
+              label = list(salary ~ "Salary", salary_in_usd ~ "Salary in USD")) %>%
+  bold_labels() %>%
+  modify_caption("**Continuous Variables**")
+
+# Summary for categorical variables 
+df %>%
+  tbl_summary(type = everything() ~ "categorical", 
+              digits = all_categorical() ~ c(0, 2), 
+              label = list(work_year ~ "WOrk Year", 
+                           experience_level ~ "Experience Level",
+                           employment_type ~ "Employment type",
+                           job_title ~ "Job Title", 
+                           salary_currency ~ "Salary Currency",
+                           employee_residence ~ "Employee Residence",
+                           remote_ratio ~ "Remote Ratio",
+                           company_location ~ "Company Location",
+                           company_size ~ "company Size"),
+              include = c(work_year, experience_level, employment_type, job_title,
+                          salary_currency, employee_residence, remote_ratio,
+                           company_location, company_size),
+              statistic = list(all_categorical() ~ "{n} ({p}%)")) %>%
+  bold_labels() %>%
+  modify_caption("**Categorical Variables**")
+
+
+```
+
+## Problem 2. Bad Data Visualization
+
+The first graph represents the average salary (in USD) of the employees with respect to the work year and also to the size of the company. Using a bar plot with stacked bars allows us to to have an idea of the amount of average salary for each year, but it is difficult to make a comparison between the different values of the salary with respect to year and company size. That is, for each year, we can only see the total salary, obtained by the sum of the average salaries for small, medium and large companies, without any indication about the single values, which cannot be compared. \newline
+
+```{r}
+# Bad plot 1
+
+ggplot(new_df) +
+  geom_bar(mapping = aes(x = work_year, y = average_salary, fill = company_size), stat = "identity")+
+  labs(x = "Work Year", y = "Average Salary (USD)", title = "Average Salary by Work Year and Company Size")
+```
+The second "bad" plot shows the density of the salary according to the remote ratio. The graph is a barplot, containing bars of different colors, with respect to the amount of work done remotely (0, 50 or 100). We can identify three main problems in this plot:
+\begin{enumerate}
+    \item The bars overlap, making the trends confusing and difficult to understand and analyze;
+    \item Since the 50 category has a very low number of cases, the corresponding bars are very small, making it very hard to catch the frequency and the behaviour of this category;
+    \item The values on the X-axis are not so easy to interpret.
+\end{enumerate}
+\newline
+```{r}
+low_salary <- subset(df, df$salary_in_usd < 150000 | df$salary_in_usd == 150000)
+medium_salary <- subset(df, df$salary_in_usd > 100000 & df$salary_in_usd < 250000)
+high_salary <- subset(df, df$salary_in_usd > 250000 | df$salary_in_usd == 250000)
+
+df <- mutate(df, salary_category = 0)
+
+by_year <- group_by(df, work_year, company_size)
+new_df <- summarize(by_year, average_salary = mean(salary_in_usd, na.rm = TRUE))
+
+# Bad plot 2
+ggplot(df, aes(x = salary_in_usd, fill = as.factor(remote_ratio)))+
+  geom_histogram( color='#e9ecef', alpha=0.6, position='identity')+
+  labs(x = "Salary in USD", y = "Count", title = "Frequency of salary according to remote ratio")
+```
+
+## Problem 3. Good Data Visualization
+
+The "good" version of the first graph uses a bar for each category of the company size. Thanks to this trick, it is possible to visualize data in a more organized way: for each year, we have 3 columns, each one representing the average salary for each company size. This allows a deeper analysis, with a particular interest on the behaviour of the average salary over time, according to each company size. For instance, it is possible to notice that, while small companies had more or less stable salaries over time, the average salary in large companies increased with the years, with a growth of more than 250000 USD from 2020 to 2023.
+\newline
+```{r}
+# Good plot 1
+ggplot(new_df) +
+  geom_bar(mapping = aes(x = work_year, y = average_salary, fill = company_size), 
+           stat = "summary", position = "dodge") + 
+  labs(x = "Work Year", y = "Average Salary (USD)", title = "Average Salary by Work Year and Company Size")
+```
+
+The second plot have been improved by substituting the subplot with a density plot. This solution, allows to obtain a clearer graph, composed of just three lines. Each line represents the density distribution of the salary, according to the remote ratio category. Moreover, since the data for all the categories have been transformed to densities, we don't have small bars for a single category anymore. The problem of the values on the X-axis has been solved too, changing the unit of measure of the axis (from USD to thousand of USD).
+\\
+According to this graph, for example, it can be understood that employees with a value of 50 of remote ratio tend to have a lower salary than the other categories (the pick of the density is under 100000 USD, probably around 80000 USD). On the contrary, the other two categories have similar densities, with a mean around 150000 USD. 
+\newline
+
+```{r}
+#Good plot 2
+rem_0 <- subset(df, df$remote_ratio == 0, select = c(salary_in_usd))
+rem_50 <- subset(df, df$remote_ratio == 50, select = c(salary_in_usd))
+rem_100 <- subset(df, df$remote_ratio == 100, select = c(salary_in_usd))
+d0 <- density(as.vector(rem_0[["salary_in_usd"]]))
+d50 <- density(as.vector(rem_50[["salary_in_usd"]]))
+d100 <- density(as.vector(rem_100[["salary_in_usd"]]))
+plot(d50, col = "red", ,main = "Density of salary according to remote ratio",
+     xlab = "Salary in thousands of USD", ylab = "Density", xaxt = "n") 
+# Customize the x-axis labels to be in thousands
+axis(1, at = seq(1e5, 5e5, by = 1e5),
+     labels = scales::comma_format(scale = 1e-3)(seq(1e5, 5e5, by = 1e5)))
+lines(d0, col = "blue")
+lines(d100, col = "green")
+legend("topright", legend = c("Remote ratio = 0", "Remote ratio = 50", "Remote ratio = 100"),
+       col = c("blue", "red", "green"), lty = 1)
+
+ggplot(df, aes(x = salary_in_usd, fill = as.factor(remote_ratio))) +
+  geom_density(alpha = 0.5, position = "identity") +
+  labs(title = "Density of salary according to remote ratio",
+       x = "Salary in USD (thousands of USD)",
+       y = "Density") +
+  scale_x_continuous(breaks = seq(1e5, 5e5, by = 1e5),
+                     labels = scales::comma_format(scale = 1e-3)) +
+  scale_fill_manual(values = c("Remote ratio = 0" = "blue",
+                               "Remote ratio = 50" = "red",
+                               "Remote ratio = 100" = "green")) +
+  scale_color_manual(values = c("Remote ratio = 0" = "blue",
+                                "Remote ratio = 50" = "red",
+                                "Remote ratio = 100" = "green")) +
+  theme(legend.position = "topright") +
+  theme_minimal() + 
+  guides(fill = guide_legend(title = "Remote Ratio"))
+```
