@@ -29,6 +29,7 @@ The integer variables are: $salary$ and $salary\_in\_usd$.
 \\
 The remaining variables, $work\_year$ and $remote\_ratio$, are integer variables but, since they are not continuous but discrete (they represent years and percentages respectively), it is better to consider them as categorical variables.
 \newline
+Possible use of the data?????
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = TRUE)
@@ -46,10 +47,12 @@ str(df)
 ```
 
 ## Problem 1. Summary Statistics Table
+For an easier understanding of the data, continuous and categorical variables have been summarized in two separated tables. That is due to the fact that these two types of variables can be described with different quantities and information. The summaries of the variables have been created by using the library \textbf{gtsummary}.
+\\
+The following table reports information about the continuous variables: it includes the mean, the standard deviation, the median and the minimum and maximum values.
+\newline
 
 ```{r, tidy=FALSE}
-# Summary statistics for numerical variables
-summary(df)
 library("gtsummary")
 
 # Summary for continuous variables
@@ -62,7 +65,12 @@ df%>%
               label = list(salary ~ "Salary", salary_in_usd ~ "Salary in USD")) %>%
   bold_labels() %>%
   modify_caption("**Continuous Variables**")
+```
 
+For the remaining variables, a new table has been created. Since the variables are categorical, other information needs to be outlighted: the absolute and the relative frequency of each variable in the dataset. 
+\newline
+
+```{r, tidy=FALSE}
 # Summary for categorical variables 
 df %>%
   tbl_summary(type = everything() ~ "categorical", 
@@ -82,8 +90,6 @@ df %>%
               statistic = list(all_categorical() ~ "{n} ({p}%)")) %>%
   bold_labels() %>%
   modify_caption("**Categorical Variables**")
-
-
 ```
 
 ## Problem 2. Bad Data Visualization
