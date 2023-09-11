@@ -1673,9 +1673,10 @@ variables. Possible use of the data?????</p>
 variables have been summarized in two separated tables. That is due to
 the fact that these two types of variables can be described with
 different quantities and information. The summaries of the variables
-have been created by using the library . \ The following table reports
-information about the continuous variables: it includes the mean, the
-standard deviation, the median and the minimum and maximum values. </p>
+have been created by using the library <strong>gtsummary</strong>.</p>
+<p>The following table reports information about the continuous
+variables: it includes the mean, the standard deviation, the median and
+the minimum and maximum values. </p>
 <pre class="r"><code>library(&quot;gtsummary&quot;)
 
 # Summary for continuous variables
@@ -1688,20 +1689,20 @@ df%&gt;%
               label = list(salary ~ &quot;Salary&quot;, salary_in_usd ~ &quot;Salary in USD&quot;)) %&gt;%
   bold_labels() %&gt;%
   modify_caption(&quot;**Continuous Variables**&quot;)</code></pre>
-<div id="awottrxhdy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#awottrxhdy table {
+<div id="levgpoxgaq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#levgpoxgaq table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#awottrxhdy thead, #awottrxhdy tbody, #awottrxhdy tfoot, #awottrxhdy tr, #awottrxhdy td, #awottrxhdy th {
+#levgpoxgaq thead, #levgpoxgaq tbody, #levgpoxgaq tfoot, #levgpoxgaq tr, #levgpoxgaq td, #levgpoxgaq th {
 border-style: none;
 }
-#awottrxhdy p {
+#levgpoxgaq p {
 margin: 0;
 padding: 0;
 }
-#awottrxhdy .gt_table {
+#levgpoxgaq .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1726,11 +1727,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#awottrxhdy .gt_caption {
+#levgpoxgaq .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#awottrxhdy .gt_title {
+#levgpoxgaq .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1741,7 +1742,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#awottrxhdy .gt_subtitle {
+#levgpoxgaq .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1752,7 +1753,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#awottrxhdy .gt_heading {
+#levgpoxgaq .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1763,12 +1764,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#awottrxhdy .gt_bottom_border {
+#levgpoxgaq .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#awottrxhdy .gt_col_headings {
+#levgpoxgaq .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1782,7 +1783,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#awottrxhdy .gt_col_heading {
+#levgpoxgaq .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1801,7 +1802,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#awottrxhdy .gt_column_spanner_outer {
+#levgpoxgaq .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1812,13 +1813,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#awottrxhdy .gt_column_spanner_outer:first-child {
+#levgpoxgaq .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#awottrxhdy .gt_column_spanner_outer:last-child {
+#levgpoxgaq .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#awottrxhdy .gt_column_spanner {
+#levgpoxgaq .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1829,10 +1830,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#awottrxhdy .gt_spanner_row {
+#levgpoxgaq .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#awottrxhdy .gt_group_heading {
+#levgpoxgaq .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1857,7 +1858,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#awottrxhdy .gt_empty_group_heading {
+#levgpoxgaq .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1871,13 +1872,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#awottrxhdy .gt_from_md > :first-child {
+#levgpoxgaq .gt_from_md > :first-child {
 margin-top: 0;
 }
-#awottrxhdy .gt_from_md > :last-child {
+#levgpoxgaq .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#awottrxhdy .gt_row {
+#levgpoxgaq .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1895,7 +1896,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#awottrxhdy .gt_stub {
+#levgpoxgaq .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1907,7 +1908,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#awottrxhdy .gt_stub_row_group {
+#levgpoxgaq .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1920,13 +1921,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#awottrxhdy .gt_row_group_first td {
+#levgpoxgaq .gt_row_group_first td {
 border-top-width: 2px;
 }
-#awottrxhdy .gt_row_group_first th {
+#levgpoxgaq .gt_row_group_first th {
 border-top-width: 2px;
 }
-#awottrxhdy .gt_summary_row {
+#levgpoxgaq .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1935,14 +1936,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#awottrxhdy .gt_first_summary_row {
+#levgpoxgaq .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#awottrxhdy .gt_first_summary_row.thick {
+#levgpoxgaq .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#awottrxhdy .gt_last_summary_row {
+#levgpoxgaq .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1951,7 +1952,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#awottrxhdy .gt_grand_summary_row {
+#levgpoxgaq .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1960,7 +1961,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#awottrxhdy .gt_first_grand_summary_row {
+#levgpoxgaq .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1969,7 +1970,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#awottrxhdy .gt_last_grand_summary_row_top {
+#levgpoxgaq .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1978,10 +1979,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#awottrxhdy .gt_striped {
+#levgpoxgaq .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#awottrxhdy .gt_table_body {
+#levgpoxgaq .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1989,7 +1990,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#awottrxhdy .gt_footnotes {
+#levgpoxgaq .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2002,7 +2003,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#awottrxhdy .gt_footnote {
+#levgpoxgaq .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -2010,7 +2011,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#awottrxhdy .gt_sourcenotes {
+#levgpoxgaq .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2023,57 +2024,57 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#awottrxhdy .gt_sourcenote {
+#levgpoxgaq .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#awottrxhdy .gt_left {
+#levgpoxgaq .gt_left {
 text-align: left;
 }
-#awottrxhdy .gt_center {
+#levgpoxgaq .gt_center {
 text-align: center;
 }
-#awottrxhdy .gt_right {
+#levgpoxgaq .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#awottrxhdy .gt_font_normal {
+#levgpoxgaq .gt_font_normal {
 font-weight: normal;
 }
-#awottrxhdy .gt_font_bold {
+#levgpoxgaq .gt_font_bold {
 font-weight: bold;
 }
-#awottrxhdy .gt_font_italic {
+#levgpoxgaq .gt_font_italic {
 font-style: italic;
 }
-#awottrxhdy .gt_super {
+#levgpoxgaq .gt_super {
 font-size: 65%;
 }
-#awottrxhdy .gt_footnote_marks {
+#levgpoxgaq .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#awottrxhdy .gt_asterisk {
+#levgpoxgaq .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#awottrxhdy .gt_indent_1 {
+#levgpoxgaq .gt_indent_1 {
 text-indent: 5px;
 }
-#awottrxhdy .gt_indent_2 {
+#levgpoxgaq .gt_indent_2 {
 text-indent: 10px;
 }
-#awottrxhdy .gt_indent_3 {
+#levgpoxgaq .gt_indent_3 {
 text-indent: 15px;
 }
-#awottrxhdy .gt_indent_4 {
+#levgpoxgaq .gt_indent_4 {
 text-indent: 20px;
 }
-#awottrxhdy .gt_indent_5 {
+#levgpoxgaq .gt_indent_5 {
 text-indent: 25px;
 }
 </style>
@@ -2110,8 +2111,11 @@ text-indent: 25px;
 </div>
 <p>For the remaining variables, a new table has been created. Since the
 variables are categorical, other information needs to be outlighted: the
-absolute and the relative frequency of each variable in the dataset.
-</p>
+absolute and the relative frequency of each variable in the dataset.</p>
+<p>For the creation of a clearer summary table for categorical
+variables, some columns have been removed, since they were characterized
+by many different values with very low frequency (otherwise the table
+would be infinite). These columns are: <span class="math inline">\(job_title\)</span>, <span class="math inline">\(employee_residence\)</span> and <span class="math inline">\(company_location\)</span>.</p>
 <pre class="r"><code># Summary for categorical variables 
 df %&gt;%
   tbl_summary(type = everything() ~ &quot;categorical&quot;, 
@@ -2119,31 +2123,28 @@ df %&gt;%
               label = list(work_year ~ &quot;Work Year&quot;, 
                            experience_level ~ &quot;Experience Level&quot;,
                            employment_type ~ &quot;Employment type&quot;,
-                           job_title ~ &quot;Job Title&quot;, 
                            salary_currency ~ &quot;Salary Currency&quot;,
                            remote_ratio ~ &quot;Remote Ratio&quot;,
-                           company_location ~ &quot;Company Location&quot;,
                            company_size ~ &quot;company Size&quot;),
-              include = c(work_year, experience_level, employment_type, job_title,
-                          salary_currency, remote_ratio,
-                           company_location, company_size),
+              include = c(work_year, experience_level, employment_type,
+                          salary_currency, remote_ratio, company_size),
               statistic = list(all_categorical() ~ &quot;{n} ({p}%)&quot;)) %&gt;%
   bold_labels() %&gt;%
   modify_caption(&quot;**Categorical Variables**&quot;)</code></pre>
-<div id="efcnamvzzn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#efcnamvzzn table {
+<div id="ftwroouibc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ftwroouibc table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#efcnamvzzn thead, #efcnamvzzn tbody, #efcnamvzzn tfoot, #efcnamvzzn tr, #efcnamvzzn td, #efcnamvzzn th {
+#ftwroouibc thead, #ftwroouibc tbody, #ftwroouibc tfoot, #ftwroouibc tr, #ftwroouibc td, #ftwroouibc th {
 border-style: none;
 }
-#efcnamvzzn p {
+#ftwroouibc p {
 margin: 0;
 padding: 0;
 }
-#efcnamvzzn .gt_table {
+#ftwroouibc .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2168,11 +2169,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#efcnamvzzn .gt_caption {
+#ftwroouibc .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#efcnamvzzn .gt_title {
+#ftwroouibc .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2183,7 +2184,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#efcnamvzzn .gt_subtitle {
+#ftwroouibc .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2194,7 +2195,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#efcnamvzzn .gt_heading {
+#ftwroouibc .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -2205,12 +2206,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#efcnamvzzn .gt_bottom_border {
+#ftwroouibc .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#efcnamvzzn .gt_col_headings {
+#ftwroouibc .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2224,7 +2225,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#efcnamvzzn .gt_col_heading {
+#ftwroouibc .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2243,7 +2244,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#efcnamvzzn .gt_column_spanner_outer {
+#ftwroouibc .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2254,13 +2255,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#efcnamvzzn .gt_column_spanner_outer:first-child {
+#ftwroouibc .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#efcnamvzzn .gt_column_spanner_outer:last-child {
+#ftwroouibc .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#efcnamvzzn .gt_column_spanner {
+#ftwroouibc .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -2271,10 +2272,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#efcnamvzzn .gt_spanner_row {
+#ftwroouibc .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#efcnamvzzn .gt_group_heading {
+#ftwroouibc .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2299,7 +2300,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#efcnamvzzn .gt_empty_group_heading {
+#ftwroouibc .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -2313,13 +2314,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#efcnamvzzn .gt_from_md > :first-child {
+#ftwroouibc .gt_from_md > :first-child {
 margin-top: 0;
 }
-#efcnamvzzn .gt_from_md > :last-child {
+#ftwroouibc .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#efcnamvzzn .gt_row {
+#ftwroouibc .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2337,7 +2338,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#efcnamvzzn .gt_stub {
+#ftwroouibc .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2349,7 +2350,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#efcnamvzzn .gt_stub_row_group {
+#ftwroouibc .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2362,13 +2363,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#efcnamvzzn .gt_row_group_first td {
+#ftwroouibc .gt_row_group_first td {
 border-top-width: 2px;
 }
-#efcnamvzzn .gt_row_group_first th {
+#ftwroouibc .gt_row_group_first th {
 border-top-width: 2px;
 }
-#efcnamvzzn .gt_summary_row {
+#ftwroouibc .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2377,14 +2378,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#efcnamvzzn .gt_first_summary_row {
+#ftwroouibc .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#efcnamvzzn .gt_first_summary_row.thick {
+#ftwroouibc .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#efcnamvzzn .gt_last_summary_row {
+#ftwroouibc .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2393,7 +2394,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#efcnamvzzn .gt_grand_summary_row {
+#ftwroouibc .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2402,7 +2403,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#efcnamvzzn .gt_first_grand_summary_row {
+#ftwroouibc .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2411,7 +2412,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#efcnamvzzn .gt_last_grand_summary_row_top {
+#ftwroouibc .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2420,10 +2421,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#efcnamvzzn .gt_striped {
+#ftwroouibc .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#efcnamvzzn .gt_table_body {
+#ftwroouibc .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2431,7 +2432,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#efcnamvzzn .gt_footnotes {
+#ftwroouibc .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2444,7 +2445,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#efcnamvzzn .gt_footnote {
+#ftwroouibc .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -2452,7 +2453,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#efcnamvzzn .gt_sourcenotes {
+#ftwroouibc .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2465,57 +2466,57 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#efcnamvzzn .gt_sourcenote {
+#ftwroouibc .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#efcnamvzzn .gt_left {
+#ftwroouibc .gt_left {
 text-align: left;
 }
-#efcnamvzzn .gt_center {
+#ftwroouibc .gt_center {
 text-align: center;
 }
-#efcnamvzzn .gt_right {
+#ftwroouibc .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#efcnamvzzn .gt_font_normal {
+#ftwroouibc .gt_font_normal {
 font-weight: normal;
 }
-#efcnamvzzn .gt_font_bold {
+#ftwroouibc .gt_font_bold {
 font-weight: bold;
 }
-#efcnamvzzn .gt_font_italic {
+#ftwroouibc .gt_font_italic {
 font-style: italic;
 }
-#efcnamvzzn .gt_super {
+#ftwroouibc .gt_super {
 font-size: 65%;
 }
-#efcnamvzzn .gt_footnote_marks {
+#ftwroouibc .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#efcnamvzzn .gt_asterisk {
+#ftwroouibc .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#efcnamvzzn .gt_indent_1 {
+#ftwroouibc .gt_indent_1 {
 text-indent: 5px;
 }
-#efcnamvzzn .gt_indent_2 {
+#ftwroouibc .gt_indent_2 {
 text-indent: 10px;
 }
-#efcnamvzzn .gt_indent_3 {
+#ftwroouibc .gt_indent_3 {
 text-indent: 15px;
 }
-#efcnamvzzn .gt_indent_4 {
+#ftwroouibc .gt_indent_4 {
 text-indent: 20px;
 }
-#efcnamvzzn .gt_indent_5 {
+#ftwroouibc .gt_indent_5 {
 text-indent: 25px;
 }
 </style>
@@ -2559,194 +2560,6 @@ text-indent: 25px;
 <td headers="stat_0" class="gt_row gt_center">3,718 (99.01%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    PT</td>
 <td headers="stat_0" class="gt_row gt_center">17 (0.45%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Job Title</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    3D Computer Vision Researcher</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AI Developer</td>
-<td headers="stat_0" class="gt_row gt_center">11 (0.29%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AI Programmer</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AI Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">16 (0.43%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Analytics Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">103 (2.74%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Applied Data Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">10 (0.27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Applied Machine Learning Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Applied Machine Learning Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">12 (0.32%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Applied Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">58 (1.54%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Autonomous Vehicle Technician</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Azure Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BI Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">9 (0.24%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BI Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">15 (0.40%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BI Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BI Developer</td>
-<td headers="stat_0" class="gt_row gt_center">13 (0.35%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Big Data Architect</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Big Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">11 (0.29%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Business Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">15 (0.40%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Business Intelligence Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Cloud Data Architect</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Cloud Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Cloud Database Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Compliance Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Computer Vision Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">18 (0.48%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Computer Vision Software Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">612 (16.30%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Analytics Consultant</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Analytics Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Analytics Lead</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Analytics Manager</td>
-<td headers="stat_0" class="gt_row gt_center">22 (0.59%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Analytics Specialist</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Architect</td>
-<td headers="stat_0" class="gt_row gt_center">101 (2.69%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data DevOps Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">1,040 (27.70%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Infrastructure Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Lead</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Management Specialist</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Manager</td>
-<td headers="stat_0" class="gt_row gt_center">29 (0.77%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Modeler</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Operations Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Operations Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">10 (0.27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Quality Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">7 (0.19%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Science Consultant</td>
-<td headers="stat_0" class="gt_row gt_center">24 (0.64%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Science Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Science Lead</td>
-<td headers="stat_0" class="gt_row gt_center">8 (0.21%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Science Manager</td>
-<td headers="stat_0" class="gt_row gt_center">58 (1.54%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Science Tech Lead</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">840 (22.37%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Scientist Lead</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Specialist</td>
-<td headers="stat_0" class="gt_row gt_center">14 (0.37%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Data Strategist</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Deep Learning Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Deep Learning Researcher</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Director of Data Science</td>
-<td headers="stat_0" class="gt_row gt_center">11 (0.29%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    ETL Developer</td>
-<td headers="stat_0" class="gt_row gt_center">10 (0.27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    ETL Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Finance Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Financial Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Head of Data</td>
-<td headers="stat_0" class="gt_row gt_center">10 (0.27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Head of Data Science</td>
-<td headers="stat_0" class="gt_row gt_center">9 (0.24%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Head of Machine Learning</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Insight Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Lead Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Lead Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Lead Data Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">9 (0.24%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Lead Machine Learning Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Developer</td>
-<td headers="stat_0" class="gt_row gt_center">7 (0.19%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">289 (7.70%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Infrastructure Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">11 (0.29%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Manager</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Research Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Researcher</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">26 (0.69%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Machine Learning Software Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">10 (0.27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Manager Data Management</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Marketing Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Marketing Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    ML Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">34 (0.91%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MLOps Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    NLP Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">7 (0.19%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Power BI Developer</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Principal Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Principal Data Architect</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Principal Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Principal Data Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">8 (0.21%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Principal Machine Learning Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Product Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Product Data Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Research Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">37 (0.99%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Research Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">82 (2.18%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Software Data Engineer</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Staff Data Analyst</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Staff Data Scientist</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Salary Currency</td>
 <td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    AUD</td>
@@ -2797,152 +2610,6 @@ text-indent: 25px;
 <td headers="stat_0" class="gt_row gt_center">189 (5.03%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    100</td>
 <td headers="stat_0" class="gt_row gt_center">1,643 (43.75%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Company Location</td>
-<td headers="stat_0" class="gt_row gt_center"></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AE</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AL</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AM</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AR</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AS</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AT</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AU</td>
-<td headers="stat_0" class="gt_row gt_center">14 (0.37%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BA</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BE</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BO</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BR</td>
-<td headers="stat_0" class="gt_row gt_center">15 (0.40%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    BS</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CA</td>
-<td headers="stat_0" class="gt_row gt_center">87 (2.32%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CF</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CH</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CL</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CN</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CO</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CR</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    CZ</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    DE</td>
-<td headers="stat_0" class="gt_row gt_center">56 (1.49%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    DK</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    DZ</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    EE</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    EG</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    ES</td>
-<td headers="stat_0" class="gt_row gt_center">77 (2.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    FI</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    FR</td>
-<td headers="stat_0" class="gt_row gt_center">34 (0.91%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    GB</td>
-<td headers="stat_0" class="gt_row gt_center">172 (4.58%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    GH</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    GR</td>
-<td headers="stat_0" class="gt_row gt_center">14 (0.37%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    HK</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    HN</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    HR</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    HU</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    ID</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    IE</td>
-<td headers="stat_0" class="gt_row gt_center">7 (0.19%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    IL</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    IN</td>
-<td headers="stat_0" class="gt_row gt_center">58 (1.54%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    IQ</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    IR</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    IT</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    JP</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    KE</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    LT</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    LU</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    LV</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MA</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MD</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MK</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MT</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MX</td>
-<td headers="stat_0" class="gt_row gt_center">10 (0.27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    MY</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    NG</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    NL</td>
-<td headers="stat_0" class="gt_row gt_center">13 (0.35%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    NZ</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    PH</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    PK</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    PL</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    PR</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    PT</td>
-<td headers="stat_0" class="gt_row gt_center">14 (0.37%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    RO</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    RU</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    SE</td>
-<td headers="stat_0" class="gt_row gt_center">2 (0.05%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    SG</td>
-<td headers="stat_0" class="gt_row gt_center">6 (0.16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    SI</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    SK</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    TH</td>
-<td headers="stat_0" class="gt_row gt_center">3 (0.08%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    TR</td>
-<td headers="stat_0" class="gt_row gt_center">5 (0.13%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    UA</td>
-<td headers="stat_0" class="gt_row gt_center">4 (0.11%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    US</td>
-<td headers="stat_0" class="gt_row gt_center">3,040 (80.96%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    VN</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.03%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">company Size</td>
 <td headers="stat_0" class="gt_row gt_center"></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    L</td>
@@ -2980,10 +2647,18 @@ ggplot(new_df) +
   geom_bar(mapping = aes(x = work_year, y = average_salary, fill = company_size), stat = &quot;identity&quot;)+
   labs(x = &quot;Work Year&quot;, y = &quot;Average Salary (USD)&quot;, title = &quot;Average Salary by Work Year and Company Size&quot;)</code></pre>
 <p><img src="data:image/png;base64,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" width="672" /></p>
-The second “bad” plot shows the density of the salary according to the
-remote ratio. The graph is a barplot, containing bars of different
+<p>The second “bad” plot shows the density of the salary according to
+the remote ratio. The graph is a barplot, containing bars of different
 colors, with respect to the amount of work done remotely (0, 50 or 100).
-We can identify three main problems in this plot:
+We can identify three main problems in this plot:</p>
+<ul>
+<li><p>The bars overlap, making the trends confusing and difficult to
+understand and</p></li>
+<li><p>Since the 50 category has a very low number of cases, the
+corresponding bars are very small, making it very hard to catch the
+frequency and the behaviour of this category;</p></li>
+<li><p>The values on the X-axis are not so easy to interpret.</p></li>
+</ul>
 <pre class="r"><code>low_salary &lt;- subset(df, df$salary_in_usd &lt; 150000 | df$salary_in_usd == 150000)
 medium_salary &lt;- subset(df, df$salary_in_usd &gt; 100000 &amp; df$salary_in_usd &lt; 250000)
 high_salary &lt;- subset(df, df$salary_in_usd &gt; 250000 | df$salary_in_usd == 250000)

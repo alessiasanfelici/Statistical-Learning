@@ -3,9 +3,9 @@ title: "Mandatory Assignment 1 - STK-IN4300"
 author: "Alessia Sanfelici"
 date: "September 21, 2023"
 output:
-  word_document: default
   html_document:
     df_print: paged
+  word_document: default
   pdf_document: default
 ---
 
@@ -62,8 +62,8 @@ str(df)
 ```
 
 ## Problem 1. Summary Statistics Table
-For an easier understanding of the data, continuous and categorical variables have been summarized in two separated tables. That is due to the fact that these two types of variables can be described with different quantities and information. The summaries of the variables have been created by using the library \textbf{gtsummary}.
-\\
+For an easier understanding of the data, continuous and categorical variables have been summarized in two separated tables. That is due to the fact that these two types of variables can be described with different quantities and information. The summaries of the variables have been created by using the library **gtsummary**.
+
 The following table reports information about the continuous variables: it includes the mean, the standard deviation, the median and the minimum and maximum values.
 \newline
 
@@ -83,7 +83,8 @@ df%>%
 ```
 \newline
 For the remaining variables, a new table has been created. Since the variables are categorical, other information needs to be outlighted: the absolute and the relative frequency of each variable in the dataset. 
-\newline
+
+For the creation of a clearer summary table for categorical variables, some columns have been removed, since they were characterized by many different values with very low frequency (otherwise the table would be infinite). These columns are: $job_title$, $employee_residence$ and $company_location$.
 
 ```{r, tidy=FALSE}
 # Summary for categorical variables 
@@ -93,14 +94,11 @@ df %>%
               label = list(work_year ~ "Work Year", 
                            experience_level ~ "Experience Level",
                            employment_type ~ "Employment type",
-                           job_title ~ "Job Title", 
                            salary_currency ~ "Salary Currency",
                            remote_ratio ~ "Remote Ratio",
-                           company_location ~ "Company Location",
                            company_size ~ "company Size"),
-              include = c(work_year, experience_level, employment_type, job_title,
-                          salary_currency, remote_ratio,
-                           company_location, company_size),
+              include = c(work_year, experience_level, employment_type,
+                          salary_currency, remote_ratio, company_size),
               statistic = list(all_categorical() ~ "{n} ({p}%)")) %>%
   bold_labels() %>%
   modify_caption("**Categorical Variables**")
@@ -120,14 +118,14 @@ ggplot(new_df) +
   labs(x = "Work Year", y = "Average Salary (USD)", title = "Average Salary by Work Year and Company Size")
 ```
 
-\newline
 The second "bad" plot shows the density of the salary according to the remote ratio. The graph is a barplot, containing bars of different colors, with respect to the amount of work done remotely (0, 50 or 100). We can identify three main problems in this plot:
-\begin{enumerate}
-    \item The bars overlap, making the trends confusing and difficult to understand and analyze;
-    \item Since the 50 category has a very low number of cases, the corresponding bars are very small, making it very hard to catch the frequency and the behaviour of this category;
-    \item The values on the X-axis are not so easy to interpret.
-\end{enumerate}
-\newline
+
+- The bars overlap, making the trends confusing and difficult to understand and 
+
+- Since the 50 category has a very low number of cases, the corresponding bars are very small, making it very hard to catch the frequency and the behaviour of this category;
+
+- The values on the X-axis are not so easy to interpret.
+
 ```{r}
 low_salary <- subset(df, df$salary_in_usd < 150000 | df$salary_in_usd == 150000)
 medium_salary <- subset(df, df$salary_in_usd > 100000 & df$salary_in_usd < 250000)
