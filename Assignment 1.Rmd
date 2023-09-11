@@ -2,31 +2,46 @@
 title: "Mandatory Assignment 1 - STK-IN4300"
 author: "Alessia Sanfelici"
 date: "September 21, 2023"
-output: pdf_document
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
 ---
 
 The selected dataset is about Data Science Salaries and was found on the website Kaggle at the following link: \url{https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023}.
 
-The dataset contains 3755 observations and 11 variables. Each row represents one employee, with all the informations described by the columns. There are no missing values, meaning that the whole dataset is full.\\
+The dataset contains 3755 observations and 11 variables. Each row represents one employee, with all the informations described by the columns. There are no missing values, meaning that the whole dataset is full.
 
 The variables are the following:
-\begin{itemize}
-    \item $work\_year$: the year the salary was paid;
-    \item $experience\_level$: experience level of the employee during the year;
-    \item $employment\_type$: type of employee;
-    \item $job\_title$: role worked during the year;
-    \item $salary$: total salary expressed in the currency of the country of work;
-    \item $salary\_currency$: currency of the salary;
-    \item $salary\_in\_usd$: salary converted in USD;
-    \item $employee\_residence$: primary country of residence of the employee during during the working year;
-    \item $remote\_ratio$: overall amount of work done remotely; 
-    \item $company\_location$: country of the company where the employee works;
-    \item $company\_size$: size (in terms of number of working people) of the company during the year;
-\end{itemize}
+
+- $work\_year$: the year the salary was paid;
+
+- $experience\_level$: experience level of the employee during the year;
+
+- $employment\_type$: type of employee;
+
+- $job\_title$: role worked during the year;
+
+- $salary$: total salary expressed in the currency of the country of work;
+
+- $salary\_currency$: currency of the country of work;
+
+- $salary\_in\_usd$: salary converted in USD;
+
+- $employee\_residence$: primary country of residence of the employee during during the working year;
+
+- $remote\_ratio$: overall amount of work done remotely; 
+
+- $company\_location$: country of the company where the employee works;
+
+- $company\_size$: size (in terms of number of working people) of the company during the year;
+
 The categorical variables are: $experience\_level$, $employment\_type$, $job\_title$, $salary\_currency$, $employee\_residence$, $company\_location$ and $company\_size$.
-\\
+
 The integer variables are: $salary$ and $salary\_in\_usd$.
-\\
+
+
 The remaining variables, $work\_year$ and $remote\_ratio$, are integer variables but, since they are not continuous but discrete (they represent years and percentages respectively), it is better to consider them as categorical variables.
 \newline
 Possible use of the data?????
@@ -66,7 +81,7 @@ df%>%
   bold_labels() %>%
   modify_caption("**Continuous Variables**")
 ```
-
+\newline
 For the remaining variables, a new table has been created. Since the variables are categorical, other information needs to be outlighted: the absolute and the relative frequency of each variable in the dataset. 
 \newline
 
@@ -75,17 +90,16 @@ For the remaining variables, a new table has been created. Since the variables a
 df %>%
   tbl_summary(type = everything() ~ "categorical", 
               digits = all_categorical() ~ c(0, 2), 
-              label = list(work_year ~ "WOrk Year", 
+              label = list(work_year ~ "Work Year", 
                            experience_level ~ "Experience Level",
                            employment_type ~ "Employment type",
                            job_title ~ "Job Title", 
                            salary_currency ~ "Salary Currency",
-                           employee_residence ~ "Employee Residence",
                            remote_ratio ~ "Remote Ratio",
                            company_location ~ "Company Location",
                            company_size ~ "company Size"),
               include = c(work_year, experience_level, employment_type, job_title,
-                          salary_currency, employee_residence, remote_ratio,
+                          salary_currency, remote_ratio,
                            company_location, company_size),
               statistic = list(all_categorical() ~ "{n} ({p}%)")) %>%
   bold_labels() %>%
@@ -98,11 +112,15 @@ The first graph represents the average salary (in USD) of the employees with res
 
 ```{r}
 # Bad plot 1
+by_year <- group_by(df, work_year, company_size)
+new_df <- summarize(by_year, average_salary = mean(salary_in_usd, na.rm = TRUE))
 
 ggplot(new_df) +
   geom_bar(mapping = aes(x = work_year, y = average_salary, fill = company_size), stat = "identity")+
   labs(x = "Work Year", y = "Average Salary (USD)", title = "Average Salary by Work Year and Company Size")
 ```
+
+\newline
 The second "bad" plot shows the density of the salary according to the remote ratio. The graph is a barplot, containing bars of different colors, with respect to the amount of work done remotely (0, 50 or 100). We can identify three main problems in this plot:
 \begin{enumerate}
     \item The bars overlap, making the trends confusing and difficult to understand and analyze;
@@ -138,6 +156,7 @@ ggplot(new_df) +
   labs(x = "Work Year", y = "Average Salary (USD)", title = "Average Salary by Work Year and Company Size")
 ```
 
+\newline
 The second plot have been improved by substituting the subplot with a density plot. This solution, allows to obtain a clearer graph, composed of just three lines. Each line represents the density distribution of the salary, according to the remote ratio category. Moreover, since the data for all the categories have been transformed to densities, we don't have small bars for a single category anymore. The problem of the values on the X-axis has been solved too, changing the unit of measure of the axis (from USD to thousand of USD).
 \\
 According to this graph, for example, it can be understood that employees with a value of 50 of remote ratio tend to have a lower salary than the other categories (the pick of the density is under 100000 USD, probably around 80000 USD). On the contrary, the other two categories have similar densities, with a mean around 150000 USD. 
@@ -161,20 +180,4 @@ lines(d100, col = "green")
 legend("topright", legend = c("Remote ratio = 0", "Remote ratio = 50", "Remote ratio = 100"),
        col = c("blue", "red", "green"), lty = 1)
 
-ggplot(df, aes(x = salary_in_usd, fill = as.factor(remote_ratio))) +
-  geom_density(alpha = 0.5, position = "identity") +
-  labs(title = "Density of salary according to remote ratio",
-       x = "Salary in USD (thousands of USD)",
-       y = "Density") +
-  scale_x_continuous(breaks = seq(1e5, 5e5, by = 1e5),
-                     labels = scales::comma_format(scale = 1e-3)) +
-  scale_fill_manual(values = c("Remote ratio = 0" = "blue",
-                               "Remote ratio = 50" = "red",
-                               "Remote ratio = 100" = "green")) +
-  scale_color_manual(values = c("Remote ratio = 0" = "blue",
-                                "Remote ratio = 50" = "red",
-                                "Remote ratio = 100" = "green")) +
-  theme(legend.position = "topright") +
-  theme_minimal() + 
-  guides(fill = guide_legend(title = "Remote Ratio"))
 ```

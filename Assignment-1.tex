@@ -130,64 +130,63 @@ website Kaggle at the following link:
 The dataset contains 3755 observations and 11 variables. Each row
 represents one employee, with all the informations described by the
 columns. There are no missing values, meaning that the whole dataset is
-full.\textbackslash{}
+full.
 
 The variables are the following:
 
 \begin{itemize}
-    \item $work\_year$: the year the salary was paid;
-    \item $experience\_level$: experience level of the employee during the year;
-    \item $employment\_type$: type of employee;
-    \item $job\_title$: role worked during the year;
-    \item $salary$: total salary expressed in the currency of the country of work;
-    \item $salary\_currency$: currency of the salary;
-    \item $salary\_in\_usd$: salary converted in USD;
-    \item $employee\_residence$: primary country of residence of the employee during during the working year;
-    \item $remote\_ratio$: overall amount of work done remotely; 
-    \item $company\_location$: country of the company where the employee works;
-    \item $company\_size$: size (in terms of number of working people) of the company during the year;
+\item
+  \(work\_year\): the year the salary was paid;
+\item
+  \(experience\_level\): experience level of the employee during the
+  year;
+\item
+  \(employment\_type\): type of employee;
+\item
+  \(job\_title\): role worked during the year;
+\item
+  \(salary\): total salary expressed in the currency of the country of
+  work;
+\item
+  \(salary\_currency\): currency of the country of work;
+\item
+  \(salary\_in\_usd\): salary converted in USD;
+\item
+  \(employee\_residence\): primary country of residence of the employee
+  during during the working year;
+\item
+  \(remote\_ratio\): overall amount of work done remotely;
+\item
+  \(company\_location\): country of the company where the employee
+  works;
+\item
+  \(company\_size\): size (in terms of number of working people) of the
+  company during the year;
 \end{itemize}
 
 The categorical variables are: \(experience\_level\),
 \(employment\_type\), \(job\_title\), \(salary\_currency\),
 \(employee\_residence\), \(company\_location\) and \(company\_size\).
-\textbackslash{} The integer variables are: \(work\_year\), \(salary\),
-\(salary\_in\_usd\) and \(remote\_ratio\). \newline
+
+The integer variables are: \(salary\) and \(salary\_in\_usd\).
+
+The remaining variables, \(work\_year\) and \(remote\_ratio\), are
+integer variables but, since they are not continuous but discrete (they
+represent years and percentages respectively), it is better to consider
+them as categorical variables. \newline Possible use of the data?????
 
 \hypertarget{problem-1.-summary-statistics-table}{%
 \subsection{Problem 1. Summary Statistics
 Table}\label{problem-1.-summary-statistics-table}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Summary statistics for numerical variables}
-\FunctionTok{summary}\NormalTok{(df)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##    work_year    experience_level   employment_type     job_title        
-##  Min.   :2020   Length:3755        Length:3755        Length:3755       
-##  1st Qu.:2022   Class :character   Class :character   Class :character  
-##  Median :2022   Mode  :character   Mode  :character   Mode  :character  
-##  Mean   :2022                                                           
-##  3rd Qu.:2023                                                           
-##  Max.   :2023                                                           
-##      salary         salary_currency    salary_in_usd    employee_residence
-##  Min.   :    6000   Length:3755        Min.   :  5132   Length:3755       
-##  1st Qu.:  100000   Class :character   1st Qu.: 95000   Class :character  
-##  Median :  138000   Mode  :character   Median :135000   Mode  :character  
-##  Mean   :  190696                      Mean   :137570                     
-##  3rd Qu.:  180000                      3rd Qu.:175000                     
-##  Max.   :30400000                      Max.   :450000                     
-##   remote_ratio    company_location   company_size      
-##  Min.   :  0.00   Length:3755        Length:3755       
-##  1st Qu.:  0.00   Class :character   Class :character  
-##  Median :  0.00   Mode  :character   Mode  :character  
-##  Mean   : 46.27                                        
-##  3rd Qu.:100.00                                        
-##  Max.   :100.00
-\end{verbatim}
+For an easier understanding of the data, continuous and categorical
+variables have been summarized in two separated tables. That is due to
+the fact that these two types of variables can be described with
+different quantities and information. The summaries of the variables
+have been created by using the library \textbf{gtsummary}.
+\textbackslash{} The following table reports information about the
+continuous variables: it includes the mean, the standard deviation, the
+median and the minimum and maximum values. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -195,9 +194,12 @@ Table}\label{problem-1.-summary-statistics-table}}
 
 \CommentTok{\# Summary for continuous variables}
 \NormalTok{df}\SpecialCharTok{\%\textgreater{}\%} 
-  \FunctionTok{tbl\_summary}\NormalTok{(}\AttributeTok{type =} \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"continuous2"}\NormalTok{, }\AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}\FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\StringTok{"\{mean\} (\{sd\})"}\NormalTok{, }\StringTok{"\{median\}"}\NormalTok{, }\StringTok{"\{min\}{-}\{max\}"}\NormalTok{)),}
-  \AttributeTok{digits =} \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }\AttributeTok{include =} \FunctionTok{c}\NormalTok{(work\_year, salary, salary\_in\_usd, remote\_ratio),}
-  \AttributeTok{label =} \FunctionTok{list}\NormalTok{(work\_year }\SpecialCharTok{\textasciitilde{}} \StringTok{"Work Year"}\NormalTok{, salary }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary"}\NormalTok{, salary\_in\_usd }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary in USD"}\NormalTok{, remote\_ratio }\SpecialCharTok{\textasciitilde{}} \StringTok{"Remote Ratio"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}\AttributeTok{type =} \FunctionTok{c}\NormalTok{(salary }\SpecialCharTok{\textasciitilde{}} \StringTok{"continuous2"}\NormalTok{, salary\_in\_usd }\SpecialCharTok{\textasciitilde{}} \StringTok{"continuous2"}\NormalTok{), }
+              \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}\FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\StringTok{"\{mean\} (\{sd\})"}\NormalTok{, }
+                                                    \StringTok{"\{median\}"}\NormalTok{, }\StringTok{"\{min\}{-}\{max\}"}\NormalTok{)),}
+              \AttributeTok{digits =} \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{), }
+              \AttributeTok{include =} \FunctionTok{c}\NormalTok{(salary, salary\_in\_usd),}
+              \AttributeTok{label =} \FunctionTok{list}\NormalTok{(salary }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary"}\NormalTok{, salary\_in\_usd }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary in USD"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{bold\_labels}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{modify\_caption}\NormalTok{(}\StringTok{"**Continuous Variables**"}\NormalTok{)}
 \end{Highlighting}
@@ -215,11 +217,6 @@ Table}\label{problem-1.-summary-statistics-table}}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-\textbf{Work Year} & \\
-2020 & 76 (2.0\%) \\
-2021 & 230 (6.1\%) \\
-2022 & 1,664 (44\%) \\
-2023 & 1,785 (48\%) \\
 \textbf{Salary} & \\
 Mean (SD) & 190,695.57 (671,676.50) \\
 Median & 138,000 \\
@@ -228,17 +225,262 @@ Minimum-Maximum & 6,000-30,400,000 \\
 Mean (SD) & 137,570.39 (63,055.63) \\
 Median & 135,000 \\
 Minimum-Maximum & 5,132-450,000 \\
-\textbf{Remote Ratio} & \\
-0 & 1,923 (51\%) \\
-50 & 189 (5.0\%) \\
-100 & 1,643 (44\%) \\
 \end{longtable}
+
+\newline
+
+For the remaining variables, a new table has been created. Since the
+variables are categorical, other information needs to be outlighted: the
+absolute and the relative frequency of each variable in the dataset.
+\newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Summary for categorical variables}
+\CommentTok{\# Summary for categorical variables }
+\NormalTok{df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{tbl\_summary}\NormalTok{(}\AttributeTok{type =} \FunctionTok{everything}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{, }
+              \AttributeTok{digits =} \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{), }
+              \AttributeTok{label =} \FunctionTok{list}\NormalTok{(work\_year }\SpecialCharTok{\textasciitilde{}} \StringTok{"Work Year"}\NormalTok{, }
+\NormalTok{                           experience\_level }\SpecialCharTok{\textasciitilde{}} \StringTok{"Experience Level"}\NormalTok{,}
+\NormalTok{                           employment\_type }\SpecialCharTok{\textasciitilde{}} \StringTok{"Employment type"}\NormalTok{,}
+\NormalTok{                           job\_title }\SpecialCharTok{\textasciitilde{}} \StringTok{"Job Title"}\NormalTok{, }
+\NormalTok{                           salary\_currency }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary Currency"}\NormalTok{,}
+\NormalTok{                           remote\_ratio }\SpecialCharTok{\textasciitilde{}} \StringTok{"Remote Ratio"}\NormalTok{,}
+\NormalTok{                           company\_location }\SpecialCharTok{\textasciitilde{}} \StringTok{"Company Location"}\NormalTok{,}
+\NormalTok{                           company\_size }\SpecialCharTok{\textasciitilde{}} \StringTok{"company Size"}\NormalTok{),}
+              \AttributeTok{include =} \FunctionTok{c}\NormalTok{(work\_year, experience\_level, employment\_type, job\_title,}
+\NormalTok{                          salary\_currency, remote\_ratio,}
+\NormalTok{                           company\_location, company\_size),}
+              \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}\FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{bold\_labels}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{modify\_caption}\NormalTok{(}\StringTok{"**Categorical Variables**"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{longtable}[]{@{}lc@{}}
+\caption{\textbf{Categorical Variables}}\tabularnewline
+\toprule\noalign{}
+\textbf{Characteristic} & \textbf{N = 3,755} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\textbf{Characteristic} & \textbf{N = 3,755} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Work Year} & \\
+2020 & 76 (2.02\%) \\
+2021 & 230 (6.13\%) \\
+2022 & 1,664 (44.31\%) \\
+2023 & 1,785 (47.54\%) \\
+\textbf{Experience Level} & \\
+EN & 320 (8.52\%) \\
+EX & 114 (3.04\%) \\
+MI & 805 (21.44\%) \\
+SE & 2,516 (67.00\%) \\
+\textbf{Employment type} & \\
+CT & 10 (0.27\%) \\
+FL & 10 (0.27\%) \\
+FT & 3,718 (99.01\%) \\
+PT & 17 (0.45\%) \\
+\textbf{Job Title} & \\
+3D Computer Vision Researcher & 4 (0.11\%) \\
+AI Developer & 11 (0.29\%) \\
+AI Programmer & 2 (0.05\%) \\
+AI Scientist & 16 (0.43\%) \\
+Analytics Engineer & 103 (2.74\%) \\
+Applied Data Scientist & 10 (0.27\%) \\
+Applied Machine Learning Engineer & 2 (0.05\%) \\
+Applied Machine Learning Scientist & 12 (0.32\%) \\
+Applied Scientist & 58 (1.54\%) \\
+Autonomous Vehicle Technician & 2 (0.05\%) \\
+Azure Data Engineer & 1 (0.03\%) \\
+BI Analyst & 9 (0.24\%) \\
+BI Data Analyst & 15 (0.40\%) \\
+BI Data Engineer & 1 (0.03\%) \\
+BI Developer & 13 (0.35\%) \\
+Big Data Architect & 2 (0.05\%) \\
+Big Data Engineer & 11 (0.29\%) \\
+Business Data Analyst & 15 (0.40\%) \\
+Business Intelligence Engineer & 4 (0.11\%) \\
+Cloud Data Architect & 1 (0.03\%) \\
+Cloud Data Engineer & 3 (0.08\%) \\
+Cloud Database Engineer & 5 (0.13\%) \\
+Compliance Data Analyst & 1 (0.03\%) \\
+Computer Vision Engineer & 18 (0.48\%) \\
+Computer Vision Software Engineer & 5 (0.13\%) \\
+Data Analyst & 612 (16.30\%) \\
+Data Analytics Consultant & 2 (0.05\%) \\
+Data Analytics Engineer & 6 (0.16\%) \\
+Data Analytics Lead & 2 (0.05\%) \\
+Data Analytics Manager & 22 (0.59\%) \\
+Data Analytics Specialist & 2 (0.05\%) \\
+Data Architect & 101 (2.69\%) \\
+Data DevOps Engineer & 1 (0.03\%) \\
+Data Engineer & 1,040 (27.70\%) \\
+Data Infrastructure Engineer & 6 (0.16\%) \\
+Data Lead & 2 (0.05\%) \\
+Data Management Specialist & 1 (0.03\%) \\
+Data Manager & 29 (0.77\%) \\
+Data Modeler & 2 (0.05\%) \\
+Data Operations Analyst & 4 (0.11\%) \\
+Data Operations Engineer & 10 (0.27\%) \\
+Data Quality Analyst & 7 (0.19\%) \\
+Data Science Consultant & 24 (0.64\%) \\
+Data Science Engineer & 5 (0.13\%) \\
+Data Science Lead & 8 (0.21\%) \\
+Data Science Manager & 58 (1.54\%) \\
+Data Science Tech Lead & 1 (0.03\%) \\
+Data Scientist & 840 (22.37\%) \\
+Data Scientist Lead & 2 (0.05\%) \\
+Data Specialist & 14 (0.37\%) \\
+Data Strategist & 2 (0.05\%) \\
+Deep Learning Engineer & 6 (0.16\%) \\
+Deep Learning Researcher & 1 (0.03\%) \\
+Director of Data Science & 11 (0.29\%) \\
+ETL Developer & 10 (0.27\%) \\
+ETL Engineer & 2 (0.05\%) \\
+Finance Data Analyst & 1 (0.03\%) \\
+Financial Data Analyst & 3 (0.08\%) \\
+Head of Data & 10 (0.27\%) \\
+Head of Data Science & 9 (0.24\%) \\
+Head of Machine Learning & 1 (0.03\%) \\
+Insight Analyst & 2 (0.05\%) \\
+Lead Data Analyst & 5 (0.13\%) \\
+Lead Data Engineer & 6 (0.16\%) \\
+Lead Data Scientist & 9 (0.24\%) \\
+Lead Machine Learning Engineer & 3 (0.08\%) \\
+Machine Learning Developer & 7 (0.19\%) \\
+Machine Learning Engineer & 289 (7.70\%) \\
+Machine Learning Infrastructure Engineer & 11 (0.29\%) \\
+Machine Learning Manager & 3 (0.08\%) \\
+Machine Learning Research Engineer & 4 (0.11\%) \\
+Machine Learning Researcher & 6 (0.16\%) \\
+Machine Learning Scientist & 26 (0.69\%) \\
+Machine Learning Software Engineer & 10 (0.27\%) \\
+Manager Data Management & 1 (0.03\%) \\
+Marketing Data Analyst & 2 (0.05\%) \\
+Marketing Data Engineer & 1 (0.03\%) \\
+ML Engineer & 34 (0.91\%) \\
+MLOps Engineer & 4 (0.11\%) \\
+NLP Engineer & 7 (0.19\%) \\
+Power BI Developer & 1 (0.03\%) \\
+Principal Data Analyst & 2 (0.05\%) \\
+Principal Data Architect & 1 (0.03\%) \\
+Principal Data Engineer & 2 (0.05\%) \\
+Principal Data Scientist & 8 (0.21\%) \\
+Principal Machine Learning Engineer & 1 (0.03\%) \\
+Product Data Analyst & 5 (0.13\%) \\
+Product Data Scientist & 1 (0.03\%) \\
+Research Engineer & 37 (0.99\%) \\
+Research Scientist & 82 (2.18\%) \\
+Software Data Engineer & 2 (0.05\%) \\
+Staff Data Analyst & 1 (0.03\%) \\
+Staff Data Scientist & 1 (0.03\%) \\
+\textbf{Salary Currency} & \\
+AUD & 9 (0.24\%) \\
+BRL & 6 (0.16\%) \\
+CAD & 25 (0.67\%) \\
+CHF & 4 (0.11\%) \\
+CLP & 1 (0.03\%) \\
+CZK & 1 (0.03\%) \\
+DKK & 3 (0.08\%) \\
+EUR & 236 (6.28\%) \\
+GBP & 161 (4.29\%) \\
+HKD & 1 (0.03\%) \\
+HUF & 3 (0.08\%) \\
+ILS & 1 (0.03\%) \\
+INR & 60 (1.60\%) \\
+JPY & 3 (0.08\%) \\
+MXN & 1 (0.03\%) \\
+PLN & 5 (0.13\%) \\
+SGD & 6 (0.16\%) \\
+THB & 2 (0.05\%) \\
+TRY & 3 (0.08\%) \\
+USD & 3,224 (85.86\%) \\
+\textbf{Remote Ratio} & \\
+0 & 1,923 (51.21\%) \\
+50 & 189 (5.03\%) \\
+100 & 1,643 (43.75\%) \\
+\textbf{Company Location} & \\
+AE & 3 (0.08\%) \\
+AL & 1 (0.03\%) \\
+AM & 1 (0.03\%) \\
+AR & 3 (0.08\%) \\
+AS & 3 (0.08\%) \\
+AT & 6 (0.16\%) \\
+AU & 14 (0.37\%) \\
+BA & 1 (0.03\%) \\
+BE & 4 (0.11\%) \\
+BO & 1 (0.03\%) \\
+BR & 15 (0.40\%) \\
+BS & 1 (0.03\%) \\
+CA & 87 (2.32\%) \\
+CF & 2 (0.05\%) \\
+CH & 5 (0.13\%) \\
+CL & 1 (0.03\%) \\
+CN & 1 (0.03\%) \\
+CO & 4 (0.11\%) \\
+CR & 1 (0.03\%) \\
+CZ & 3 (0.08\%) \\
+DE & 56 (1.49\%) \\
+DK & 4 (0.11\%) \\
+DZ & 1 (0.03\%) \\
+EE & 2 (0.05\%) \\
+EG & 1 (0.03\%) \\
+ES & 77 (2.05\%) \\
+FI & 3 (0.08\%) \\
+FR & 34 (0.91\%) \\
+GB & 172 (4.58\%) \\
+GH & 2 (0.05\%) \\
+GR & 14 (0.37\%) \\
+HK & 1 (0.03\%) \\
+HN & 1 (0.03\%) \\
+HR & 3 (0.08\%) \\
+HU & 2 (0.05\%) \\
+ID & 2 (0.05\%) \\
+IE & 7 (0.19\%) \\
+IL & 2 (0.05\%) \\
+IN & 58 (1.54\%) \\
+IQ & 1 (0.03\%) \\
+IR & 1 (0.03\%) \\
+IT & 4 (0.11\%) \\
+JP & 6 (0.16\%) \\
+KE & 2 (0.05\%) \\
+LT & 2 (0.05\%) \\
+LU & 3 (0.08\%) \\
+LV & 4 (0.11\%) \\
+MA & 1 (0.03\%) \\
+MD & 1 (0.03\%) \\
+MK & 1 (0.03\%) \\
+MT & 1 (0.03\%) \\
+MX & 10 (0.27\%) \\
+MY & 1 (0.03\%) \\
+NG & 5 (0.13\%) \\
+NL & 13 (0.35\%) \\
+NZ & 1 (0.03\%) \\
+PH & 1 (0.03\%) \\
+PK & 4 (0.11\%) \\
+PL & 5 (0.13\%) \\
+PR & 4 (0.11\%) \\
+PT & 14 (0.37\%) \\
+RO & 2 (0.05\%) \\
+RU & 3 (0.08\%) \\
+SE & 2 (0.05\%) \\
+SG & 6 (0.16\%) \\
+SI & 4 (0.11\%) \\
+SK & 1 (0.03\%) \\
+TH & 3 (0.08\%) \\
+TR & 5 (0.13\%) \\
+UA & 4 (0.11\%) \\
+US & 3,040 (80.96\%) \\
+VN & 1 (0.03\%) \\
+\textbf{company Size} & \\
+L & 454 (12.09\%) \\
+M & 3,153 (83.97\%) \\
+S & 148 (3.94\%) \\
+\end{longtable}
 
 \hypertarget{problem-2.-bad-data-visualization}{%
 \subsection{Problem 2. Bad Data
@@ -256,22 +498,20 @@ which cannot be compared. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{low\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{150000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{150000}\NormalTok{)}
-\NormalTok{medium\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{100000} \SpecialCharTok{\&}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{250000}\NormalTok{)}
-\NormalTok{high\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{250000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{250000}\NormalTok{)}
-
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(df, }\AttributeTok{salary\_category =} \DecValTok{0}\NormalTok{)}
-
+\CommentTok{\# Bad plot 1}
 \NormalTok{by\_year }\OtherTok{\textless{}{-}} \FunctionTok{group\_by}\NormalTok{(df, work\_year, company\_size)}
 \NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{summarize}\NormalTok{(by\_year, }\AttributeTok{average\_salary =} \FunctionTok{mean}\NormalTok{(salary\_in\_usd, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
 
-\CommentTok{\# Bad plot 1}
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio)))}\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{( }\AttributeTok{color=}\StringTok{\textquotesingle{}\#e9ecef\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{)}
+\FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Work Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average Salary (USD)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Average Salary by Work Year and Company Size"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-2-1.pdf}
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\newline
+
 The second ``bad'' plot shows the density of the salary according to the
 remote ratio. The graph is a barplot, containing bars of different
 colors, with respect to the amount of work done remotely (0, 50 or 100).
@@ -286,16 +526,27 @@ We can identify three main problems in this plot:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Bad plot 2}
+\NormalTok{low\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{150000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{150000}\NormalTok{)}
+\NormalTok{medium\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{100000} \SpecialCharTok{\&}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{250000}\NormalTok{)}
+\NormalTok{high\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{250000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{250000}\NormalTok{)}
 
-\FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
-  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Work Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average Salary (USD)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Average Salary by Work Year and Company Size"}\NormalTok{)}
+\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(df, }\AttributeTok{salary\_category =} \DecValTok{0}\NormalTok{)}
+
+\NormalTok{by\_year }\OtherTok{\textless{}{-}} \FunctionTok{group\_by}\NormalTok{(df, work\_year, company\_size)}
+\NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{summarize}\NormalTok{(by\_year, }\AttributeTok{average\_salary =} \FunctionTok{mean}\NormalTok{(salary\_in\_usd, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+
+\CommentTok{\# Bad plot 2}
+\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio)))}\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{( }\AttributeTok{color=}\StringTok{\textquotesingle{}\#e9ecef\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{)}\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Salary in USD"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Count"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Frequency of salary according to remote ratio"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-3-1.pdf}
-\#\# Problem 3. Good Data Visualization
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\hypertarget{problem-3.-good-data-visualization}{%
+\subsection{Problem 3. Good Data
+Visualization}\label{problem-3.-good-data-visualization}}
 
 The ``good'' version of the first graph uses a bar for each category of
 the company size. Thanks to this trick, it is possible to visualize data
@@ -310,58 +561,17 @@ increased with the years, with a growth of more than 250000 USD from
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\#Good plot 1}
-\NormalTok{rem\_0 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
-\NormalTok{rem\_50 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{50}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
-\NormalTok{rem\_100 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{100}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
-\NormalTok{d0 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_0[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
-\NormalTok{d50 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_50[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
-\NormalTok{d100 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_100[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
-\FunctionTok{plot}\NormalTok{(d50, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, ,}\AttributeTok{main =} \StringTok{"Density of salary according to remote ratio"}\NormalTok{,}
-     \AttributeTok{xlab =} \StringTok{"Salary in USD"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Density"}\NormalTok{, }\AttributeTok{xaxt =} \StringTok{"n"}\NormalTok{) }
-\CommentTok{\# Customize the x{-}axis labels to be in thousands}
-\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{),}
-     \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{comma\_format}\NormalTok{(}\AttributeTok{scale =} \FloatTok{1e{-}3}\NormalTok{)(}\FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{)))}
-\FunctionTok{lines}\NormalTok{(d0, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(d100, }\AttributeTok{col =} \StringTok{"green"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"}\NormalTok{, }\StringTok{"Remote ratio = 50"}\NormalTok{, }\StringTok{"Remote ratio = 100"}\NormalTok{),}
-       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"green"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{)}
+\CommentTok{\# Good plot 1}
+\FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }
+           \AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Work Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average Salary (USD)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Average Salary by Work Year and Company Size"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-1.pdf}
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-5-1.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio))) }\SpecialCharTok{+}
-  \FunctionTok{geom\_density}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{position =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Density of salary according to remote ratio"}\NormalTok{,}
-       \AttributeTok{x =} \StringTok{"Salary in USD"}\NormalTok{,}
-       \AttributeTok{y =} \StringTok{"Density"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{),}
-                     \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{comma\_format}\NormalTok{(}\AttributeTok{scale =} \FloatTok{1e{-}3}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"} \OtherTok{=} \StringTok{"blue"}\NormalTok{,}
-                               \StringTok{"Remote ratio = 50"} \OtherTok{=} \StringTok{"red"}\NormalTok{,}
-                               \StringTok{"Remote ratio = 100"} \OtherTok{=} \StringTok{"green"}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"} \OtherTok{=} \StringTok{"blue"}\NormalTok{,}
-                                \StringTok{"Remote ratio = 50"} \OtherTok{=} \StringTok{"red"}\NormalTok{,}
-                                \StringTok{"Remote ratio = 100"} \OtherTok{=} \StringTok{"green"}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position =} \StringTok{"topright"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+} 
-  \FunctionTok{guides}\NormalTok{(}\AttributeTok{fill =} \FunctionTok{guide\_legend}\NormalTok{(}\AttributeTok{title =} \StringTok{"Remote Ratio"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-2.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio)))}\SpecialCharTok{+}
-  \FunctionTok{geom\_histogram}\NormalTok{( }\AttributeTok{color=}\StringTok{\textquotesingle{}\#e9ecef\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-4-3.pdf}
+\newline
 
 The second plot have been improved by substituting the subplot with a
 density plot. This solution, allows to obtain a clearer graph, composed
@@ -379,14 +589,25 @@ with a mean around 150000 USD. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Good plot 2}
-\FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
-  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }
-           \AttributeTok{stat =} \StringTok{"summary"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Work Year"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average Salary (USD)"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Average Salary by Work Year and Company Size"}\NormalTok{)}
+\CommentTok{\#Good plot 2}
+\NormalTok{rem\_0 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
+\NormalTok{rem\_50 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{50}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
+\NormalTok{rem\_100 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{100}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
+\NormalTok{d0 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_0[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
+\NormalTok{d50 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_50[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
+\NormalTok{d100 }\OtherTok{\textless{}{-}} \FunctionTok{density}\NormalTok{(}\FunctionTok{as.vector}\NormalTok{(rem\_100[[}\StringTok{"salary\_in\_usd"}\NormalTok{]]))}
+\FunctionTok{plot}\NormalTok{(d50, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, ,}\AttributeTok{main =} \StringTok{"Density of salary according to remote ratio"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"Salary in thousands of USD"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Density"}\NormalTok{, }\AttributeTok{xaxt =} \StringTok{"n"}\NormalTok{) }
+\CommentTok{\# Customize the x{-}axis labels to be in thousands}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{),}
+     \AttributeTok{labels =}\NormalTok{ scales}\SpecialCharTok{::}\FunctionTok{comma\_format}\NormalTok{(}\AttributeTok{scale =} \FloatTok{1e{-}3}\NormalTok{)(}\FunctionTok{seq}\NormalTok{(}\FloatTok{1e5}\NormalTok{, }\FloatTok{5e5}\NormalTok{, }\AttributeTok{by =} \FloatTok{1e5}\NormalTok{)))}
+\FunctionTok{lines}\NormalTok{(d0, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(d100, }\AttributeTok{col =} \StringTok{"green"}\NormalTok{)}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Remote ratio = 0"}\NormalTok{, }\StringTok{"Remote ratio = 50"}\NormalTok{, }\StringTok{"Remote ratio = 100"}\NormalTok{),}
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{, }\StringTok{"green"}\NormalTok{), }\AttributeTok{lty =} \DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-5-1.pdf}
+\includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-6-1.pdf}
 
 \end{document}
