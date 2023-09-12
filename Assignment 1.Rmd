@@ -9,7 +9,7 @@ output:
   pdf_document: default
 ---
 
-The selected dataset is about Data Science Salaries and was found on the website Kaggle at the following link: \url{https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023}.
+The selected dataset is about Data Science Salaries and was found on the website Kaggle at the following link: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023.
 
 The dataset contains 3755 observations and 11 variables. Each row represents one employee, with all the informations described by the columns. There are no missing values, meaning that the whole dataset is full.
 
@@ -21,7 +21,7 @@ The variables are the following:
 
 - $employment\_type$: type of employee;
 
-- $job\_title$: role worked during the year;
+- $job\_title$: role of the employee during the year;
 
 - $salary$: total salary expressed in the currency of the country of work;
 
@@ -29,7 +29,7 @@ The variables are the following:
 
 - $salary\_in\_usd$: salary converted in USD;
 
-- $employee\_residence$: primary country of residence of the employee during during the working year;
+- $employee\_residence$: primary country of residence of the employee during the working year;
 
 - $remote\_ratio$: overall amount of work done remotely; 
 
@@ -84,7 +84,7 @@ df%>%
 \newline
 For the remaining variables, a new table has been created. Since the variables are categorical, other information needs to be outlighted: the absolute and the relative frequency of each variable in the dataset. 
 
-For the creation of a clearer summary table for categorical variables, some columns have been removed, since they were characterized by many different values with very low frequency (otherwise the table would be infinite). These columns are: $job_title$, $employee_residence$ and $company_location$.
+For the creation of a clearer summary table for categorical variables, some columns have been removed, since they were characterized by many different values with very low frequency (otherwise the table would be infinite). These columns are: $job\_title$, $employee\_residence$ and $company\_location$.
 
 ```{r, tidy=FALSE}
 # Summary for categorical variables 
@@ -106,7 +106,7 @@ df %>%
 
 ## Problem 2. Bad Data Visualization
 
-The first graph represents the average salary (in USD) of the employees with respect to the work year and also to the size of the company. Using a bar plot with stacked bars allows us to to have an idea of the amount of average salary for each year, but it is difficult to make a comparison between the different values of the salary with respect to year and company size. That is, for each year, we can only see the total salary, obtained by the sum of the average salaries for small, medium and large companies, without any indication about the single values, which cannot be compared. \newline
+The first graph represents the average salary (in USD) of the employees with respect to the work year and also to the size of the company. Using a bar plot with stacked bars allows us to have an idea of the amount of average salary for each year, but it is difficult to make a comparison between the different values of the salary with respect to year and company size. That is, for each year, we can only see the total salary, obtained by the sum of the average salaries for small, medium and large companies, without any indication about the single values, which cannot be compared. \newline
 
 ```{r}
 # Bad plot 1
@@ -120,7 +120,7 @@ ggplot(new_df) +
 
 The second "bad" plot shows the density of the salary according to the remote ratio. The graph is a barplot, containing bars of different colors, with respect to the amount of work done remotely (0, 50 or 100). We can identify three main problems in this plot:
 
-- The bars overlap, making the trends confusing and difficult to understand and 
+- The bars overlap, making the trends confusing and difficult to understand; 
 
 - Since the 50 category has a very low number of cases, the corresponding bars are very small, making it very hard to catch the frequency and the behaviour of this category;
 
@@ -144,7 +144,7 @@ ggplot(df, aes(x = salary_in_usd, fill = as.factor(remote_ratio)))+
 
 ## Problem 3. Good Data Visualization
 
-The "good" version of the first graph uses a bar for each category of the company size. Thanks to this trick, it is possible to visualize data in a more organized way: for each year, we have 3 columns, each one representing the average salary for each company size. This allows a deeper analysis, with a particular interest on the behaviour of the average salary over time, according to each company size. For instance, it is possible to notice that, while small companies had more or less stable salaries over time, the average salary in large companies increased with the years, with a growth of more than 250000 USD from 2020 to 2023.
+The "good" version of the first graph uses a bar for each category of the company size. Thanks to this trick, it is possible to visualize data in a more organized way: for each year, we have 3 columns, each one representing the average salary for each company size. This allows a deeper analysis, with a particular interest on the behaviour of the average salary over time, according to the size of the company. For instance, it is possible to notice that, while small companies had more or less stable salaries over time, the average salary in large companies increased with the years, with a growth of more than 250000 USD from 2020 to 2023.
 \newline
 ```{r}
 # Good plot 1
@@ -155,9 +155,9 @@ ggplot(new_df) +
 ```
 
 \newline
-The second plot have been improved by substituting the subplot with a density plot. This solution, allows to obtain a clearer graph, composed of just three lines. Each line represents the density distribution of the salary, according to the remote ratio category. Moreover, since the data for all the categories have been transformed to densities, we don't have small bars for a single category anymore. The problem of the values on the X-axis has been solved too, changing the unit of measure of the axis (from USD to thousand of USD).
-\\
-According to this graph, for example, it can be understood that employees with a value of 50 of remote ratio tend to have a lower salary than the other categories (the pick of the density is under 100000 USD, probably around 80000 USD). On the contrary, the other two categories have similar densities, with a mean around 150000 USD. 
+The second plot have been improved by substituting the histogram with a density plot. This solution allows to obtain a clearer graph, composed of just three lines. Each line represents the density distribution of the salary, according to the remote ratio category. Moreover, since the data for all the categories have been transformed to densities, we don't have small bars for a single category anymore. The problem of the values on the X-axis has been solved by changing the unit of measure of the axis (from USD to thousand of USD).
+
+According to this graph, for example, it can be understood that employees with 50% of remote ratio tend to have a lower salary than the other categories (the pick of the density is under 100000 USD, probably around 80000 USD). On the contrary, the other two categories have similar densities, with a mean around 150000 USD. 
 \newline
 
 ```{r}
