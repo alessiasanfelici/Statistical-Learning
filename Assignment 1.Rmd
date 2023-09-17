@@ -3,9 +3,9 @@ title: "Mandatory Assignment 1 - STK-IN4300"
 author: "Alessia Sanfelici"
 date: "September 21, 2023"
 output:
-  word_document: default
   html_document:
     df_print: paged
+  word_document: default
   pdf_document: default
 ---
 
@@ -43,8 +43,8 @@ The integer variables are: $salary$ and $salary\_in\_usd$.
 
 
 The remaining variables, $work\_year$ and $remote\_ratio$, are integer variables but, since they are not continuous but discrete (they represent years and percentages respectively), it is better to consider them as categorical variables.
-\newline
-Possible use of the data?????
+
+This dataset could be used for many purposes of analysis. For example, it could be used to make a prediction of the salary of an employee, based on his/hers characteristics about the country of residence, the currency, the company, and so on. Another application of this dataset could be a clustering of the data, applied with the aim of grouping similar observations together.
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = TRUE)
