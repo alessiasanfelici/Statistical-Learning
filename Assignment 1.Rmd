@@ -3,10 +3,10 @@ title: "Mandatory Assignment 1 - STK-IN4300"
 author: "Alessia Sanfelici"
 date: "September 21, 2023"
 output:
-  html_document:
-    df_print: paged
   word_document: default
   pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 The selected dataset is about Data Science Salaries and was found on the website Kaggle at the following link: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023.
@@ -127,15 +127,6 @@ The second "bad" plot shows the density of the salary according to the remote ra
 - The values on the X-axis are not so easy to interpret.
 
 ```{r}
-low_salary <- subset(df, df$salary_in_usd < 150000 | df$salary_in_usd == 150000)
-medium_salary <- subset(df, df$salary_in_usd > 100000 & df$salary_in_usd < 250000)
-high_salary <- subset(df, df$salary_in_usd > 250000 | df$salary_in_usd == 250000)
-
-df <- mutate(df, salary_category = 0)
-
-by_year <- group_by(df, work_year, company_size)
-new_df <- summarize(by_year, average_salary = mean(salary_in_usd, na.rm = TRUE))
-
 # Bad plot 2
 ggplot(df, aes(x = salary_in_usd, fill = as.factor(remote_ratio)))+
   geom_histogram( color='#e9ecef', alpha=0.6, position='identity')+
@@ -147,6 +138,8 @@ ggplot(df, aes(x = salary_in_usd, fill = as.factor(remote_ratio)))+
 The "good" version of the first graph uses a bar for each category of the company size. Thanks to this trick, it is possible to visualize data in a more organized way: for each year, we have 3 columns, each one representing the average salary for each company size. This allows a deeper analysis, with a particular interest on the behaviour of the average salary over time, according to the size of the company. For instance, it is possible to notice that, while small companies had more or less stable salaries over time, the average salary in large companies increased with the years, with a growth of more than 250000 USD from 2020 to 2023.
 \newline
 ```{r}
+new_df <- summarize(by_year, average_salary = mean(salary_in_usd, na.rm = TRUE))
+
 # Good plot 1
 ggplot(new_df) +
   geom_bar(mapping = aes(x = work_year, y = average_salary, fill = company_size), 
@@ -162,6 +155,7 @@ According to this graph, for example, it can be understood that employees with 5
 
 ```{r}
 #Good plot 2
+
 rem_0 <- subset(df, df$remote_ratio == 0, select = c(salary_in_usd))
 rem_50 <- subset(df, df$remote_ratio == 50, select = c(salary_in_usd))
 rem_100 <- subset(df, df$remote_ratio == 100, select = c(salary_in_usd))

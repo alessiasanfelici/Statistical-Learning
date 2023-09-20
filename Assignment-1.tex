@@ -143,7 +143,7 @@ The variables are the following:
 \item
   \(employment\_type\): type of employee;
 \item
-  \(job\_title\): role worked during the year;
+  \(job\_title\): role of the employee during the year;
 \item
   \(salary\): total salary expressed in the currency of the country of
   work;
@@ -153,7 +153,7 @@ The variables are the following:
   \(salary\_in\_usd\): salary converted in USD;
 \item
   \(employee\_residence\): primary country of residence of the employee
-  during during the working year;
+  during the working year;
 \item
   \(remote\_ratio\): overall amount of work done remotely;
 \item
@@ -173,7 +173,14 @@ The integer variables are: \(salary\) and \(salary\_in\_usd\).
 The remaining variables, \(work\_year\) and \(remote\_ratio\), are
 integer variables but, since they are not continuous but discrete (they
 represent years and percentages respectively), it is better to consider
-them as categorical variables. \newline Possible use of the data?????
+them as categorical variables.
+
+This dataset could be used for many purposes of analysis. For example,
+it could be used to make a prediction of the salary of an employee,
+based on his/hers characteristics about the country of residence, the
+currency, the company, and so on. Another application of this dataset
+could be a clustering of the data, applied with the aim of grouping
+similar observations together.
 
 \hypertarget{problem-1.-summary-statistics-table}{%
 \subsection{Problem 1. Summary Statistics
@@ -184,9 +191,10 @@ variables have been summarized in two separated tables. That is due to
 the fact that these two types of variables can be described with
 different quantities and information. The summaries of the variables
 have been created by using the library \textbf{gtsummary}.
-\textbackslash{} The following table reports information about the
-continuous variables: it includes the mean, the standard deviation, the
-median and the minimum and maximum values. \newline
+
+The following table reports information about the continuous variables:
+it includes the mean, the standard deviation, the median and the minimum
+and maximum values. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -232,7 +240,12 @@ Minimum-Maximum & 5,132-450,000 \\
 For the remaining variables, a new table has been created. Since the
 variables are categorical, other information needs to be outlighted: the
 absolute and the relative frequency of each variable in the dataset.
-\newline
+
+For the creation of a clearer summary table for categorical variables,
+some columns have been removed, since they were characterized by many
+different values with very low frequency (otherwise the table would be
+infinite). These columns are: \(job\_title\), \(employee\_residence\)
+and \(company\_location\).
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -243,14 +256,11 @@ absolute and the relative frequency of each variable in the dataset.
               \AttributeTok{label =} \FunctionTok{list}\NormalTok{(work\_year }\SpecialCharTok{\textasciitilde{}} \StringTok{"Work Year"}\NormalTok{, }
 \NormalTok{                           experience\_level }\SpecialCharTok{\textasciitilde{}} \StringTok{"Experience Level"}\NormalTok{,}
 \NormalTok{                           employment\_type }\SpecialCharTok{\textasciitilde{}} \StringTok{"Employment type"}\NormalTok{,}
-\NormalTok{                           job\_title }\SpecialCharTok{\textasciitilde{}} \StringTok{"Job Title"}\NormalTok{, }
 \NormalTok{                           salary\_currency }\SpecialCharTok{\textasciitilde{}} \StringTok{"Salary Currency"}\NormalTok{,}
 \NormalTok{                           remote\_ratio }\SpecialCharTok{\textasciitilde{}} \StringTok{"Remote Ratio"}\NormalTok{,}
-\NormalTok{                           company\_location }\SpecialCharTok{\textasciitilde{}} \StringTok{"Company Location"}\NormalTok{,}
 \NormalTok{                           company\_size }\SpecialCharTok{\textasciitilde{}} \StringTok{"company Size"}\NormalTok{),}
-              \AttributeTok{include =} \FunctionTok{c}\NormalTok{(work\_year, experience\_level, employment\_type, job\_title,}
-\NormalTok{                          salary\_currency, remote\_ratio,}
-\NormalTok{                           company\_location, company\_size),}
+              \AttributeTok{include =} \FunctionTok{c}\NormalTok{(work\_year, experience\_level, employment\_type,}
+\NormalTok{                          salary\_currency, remote\_ratio, company\_size),}
               \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}\FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{bold\_labels}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{modify\_caption}\NormalTok{(}\StringTok{"**Categorical Variables**"}\NormalTok{)}
@@ -284,100 +294,6 @@ CT & 10 (0.27\%) \\
 FL & 10 (0.27\%) \\
 FT & 3,718 (99.01\%) \\
 PT & 17 (0.45\%) \\
-\textbf{Job Title} & \\
-3D Computer Vision Researcher & 4 (0.11\%) \\
-AI Developer & 11 (0.29\%) \\
-AI Programmer & 2 (0.05\%) \\
-AI Scientist & 16 (0.43\%) \\
-Analytics Engineer & 103 (2.74\%) \\
-Applied Data Scientist & 10 (0.27\%) \\
-Applied Machine Learning Engineer & 2 (0.05\%) \\
-Applied Machine Learning Scientist & 12 (0.32\%) \\
-Applied Scientist & 58 (1.54\%) \\
-Autonomous Vehicle Technician & 2 (0.05\%) \\
-Azure Data Engineer & 1 (0.03\%) \\
-BI Analyst & 9 (0.24\%) \\
-BI Data Analyst & 15 (0.40\%) \\
-BI Data Engineer & 1 (0.03\%) \\
-BI Developer & 13 (0.35\%) \\
-Big Data Architect & 2 (0.05\%) \\
-Big Data Engineer & 11 (0.29\%) \\
-Business Data Analyst & 15 (0.40\%) \\
-Business Intelligence Engineer & 4 (0.11\%) \\
-Cloud Data Architect & 1 (0.03\%) \\
-Cloud Data Engineer & 3 (0.08\%) \\
-Cloud Database Engineer & 5 (0.13\%) \\
-Compliance Data Analyst & 1 (0.03\%) \\
-Computer Vision Engineer & 18 (0.48\%) \\
-Computer Vision Software Engineer & 5 (0.13\%) \\
-Data Analyst & 612 (16.30\%) \\
-Data Analytics Consultant & 2 (0.05\%) \\
-Data Analytics Engineer & 6 (0.16\%) \\
-Data Analytics Lead & 2 (0.05\%) \\
-Data Analytics Manager & 22 (0.59\%) \\
-Data Analytics Specialist & 2 (0.05\%) \\
-Data Architect & 101 (2.69\%) \\
-Data DevOps Engineer & 1 (0.03\%) \\
-Data Engineer & 1,040 (27.70\%) \\
-Data Infrastructure Engineer & 6 (0.16\%) \\
-Data Lead & 2 (0.05\%) \\
-Data Management Specialist & 1 (0.03\%) \\
-Data Manager & 29 (0.77\%) \\
-Data Modeler & 2 (0.05\%) \\
-Data Operations Analyst & 4 (0.11\%) \\
-Data Operations Engineer & 10 (0.27\%) \\
-Data Quality Analyst & 7 (0.19\%) \\
-Data Science Consultant & 24 (0.64\%) \\
-Data Science Engineer & 5 (0.13\%) \\
-Data Science Lead & 8 (0.21\%) \\
-Data Science Manager & 58 (1.54\%) \\
-Data Science Tech Lead & 1 (0.03\%) \\
-Data Scientist & 840 (22.37\%) \\
-Data Scientist Lead & 2 (0.05\%) \\
-Data Specialist & 14 (0.37\%) \\
-Data Strategist & 2 (0.05\%) \\
-Deep Learning Engineer & 6 (0.16\%) \\
-Deep Learning Researcher & 1 (0.03\%) \\
-Director of Data Science & 11 (0.29\%) \\
-ETL Developer & 10 (0.27\%) \\
-ETL Engineer & 2 (0.05\%) \\
-Finance Data Analyst & 1 (0.03\%) \\
-Financial Data Analyst & 3 (0.08\%) \\
-Head of Data & 10 (0.27\%) \\
-Head of Data Science & 9 (0.24\%) \\
-Head of Machine Learning & 1 (0.03\%) \\
-Insight Analyst & 2 (0.05\%) \\
-Lead Data Analyst & 5 (0.13\%) \\
-Lead Data Engineer & 6 (0.16\%) \\
-Lead Data Scientist & 9 (0.24\%) \\
-Lead Machine Learning Engineer & 3 (0.08\%) \\
-Machine Learning Developer & 7 (0.19\%) \\
-Machine Learning Engineer & 289 (7.70\%) \\
-Machine Learning Infrastructure Engineer & 11 (0.29\%) \\
-Machine Learning Manager & 3 (0.08\%) \\
-Machine Learning Research Engineer & 4 (0.11\%) \\
-Machine Learning Researcher & 6 (0.16\%) \\
-Machine Learning Scientist & 26 (0.69\%) \\
-Machine Learning Software Engineer & 10 (0.27\%) \\
-Manager Data Management & 1 (0.03\%) \\
-Marketing Data Analyst & 2 (0.05\%) \\
-Marketing Data Engineer & 1 (0.03\%) \\
-ML Engineer & 34 (0.91\%) \\
-MLOps Engineer & 4 (0.11\%) \\
-NLP Engineer & 7 (0.19\%) \\
-Power BI Developer & 1 (0.03\%) \\
-Principal Data Analyst & 2 (0.05\%) \\
-Principal Data Architect & 1 (0.03\%) \\
-Principal Data Engineer & 2 (0.05\%) \\
-Principal Data Scientist & 8 (0.21\%) \\
-Principal Machine Learning Engineer & 1 (0.03\%) \\
-Product Data Analyst & 5 (0.13\%) \\
-Product Data Scientist & 1 (0.03\%) \\
-Research Engineer & 37 (0.99\%) \\
-Research Scientist & 82 (2.18\%) \\
-Software Data Engineer & 2 (0.05\%) \\
-Staff Data Analyst & 1 (0.03\%) \\
-Staff Data Scientist & 1 (0.03\%) \\
 \textbf{Salary Currency} & \\
 AUD & 9 (0.24\%) \\
 BRL & 6 (0.16\%) \\
@@ -403,79 +319,6 @@ USD & 3,224 (85.86\%) \\
 0 & 1,923 (51.21\%) \\
 50 & 189 (5.03\%) \\
 100 & 1,643 (43.75\%) \\
-\textbf{Company Location} & \\
-AE & 3 (0.08\%) \\
-AL & 1 (0.03\%) \\
-AM & 1 (0.03\%) \\
-AR & 3 (0.08\%) \\
-AS & 3 (0.08\%) \\
-AT & 6 (0.16\%) \\
-AU & 14 (0.37\%) \\
-BA & 1 (0.03\%) \\
-BE & 4 (0.11\%) \\
-BO & 1 (0.03\%) \\
-BR & 15 (0.40\%) \\
-BS & 1 (0.03\%) \\
-CA & 87 (2.32\%) \\
-CF & 2 (0.05\%) \\
-CH & 5 (0.13\%) \\
-CL & 1 (0.03\%) \\
-CN & 1 (0.03\%) \\
-CO & 4 (0.11\%) \\
-CR & 1 (0.03\%) \\
-CZ & 3 (0.08\%) \\
-DE & 56 (1.49\%) \\
-DK & 4 (0.11\%) \\
-DZ & 1 (0.03\%) \\
-EE & 2 (0.05\%) \\
-EG & 1 (0.03\%) \\
-ES & 77 (2.05\%) \\
-FI & 3 (0.08\%) \\
-FR & 34 (0.91\%) \\
-GB & 172 (4.58\%) \\
-GH & 2 (0.05\%) \\
-GR & 14 (0.37\%) \\
-HK & 1 (0.03\%) \\
-HN & 1 (0.03\%) \\
-HR & 3 (0.08\%) \\
-HU & 2 (0.05\%) \\
-ID & 2 (0.05\%) \\
-IE & 7 (0.19\%) \\
-IL & 2 (0.05\%) \\
-IN & 58 (1.54\%) \\
-IQ & 1 (0.03\%) \\
-IR & 1 (0.03\%) \\
-IT & 4 (0.11\%) \\
-JP & 6 (0.16\%) \\
-KE & 2 (0.05\%) \\
-LT & 2 (0.05\%) \\
-LU & 3 (0.08\%) \\
-LV & 4 (0.11\%) \\
-MA & 1 (0.03\%) \\
-MD & 1 (0.03\%) \\
-MK & 1 (0.03\%) \\
-MT & 1 (0.03\%) \\
-MX & 10 (0.27\%) \\
-MY & 1 (0.03\%) \\
-NG & 5 (0.13\%) \\
-NL & 13 (0.35\%) \\
-NZ & 1 (0.03\%) \\
-PH & 1 (0.03\%) \\
-PK & 4 (0.11\%) \\
-PL & 5 (0.13\%) \\
-PR & 4 (0.11\%) \\
-PT & 14 (0.37\%) \\
-RO & 2 (0.05\%) \\
-RU & 3 (0.08\%) \\
-SE & 2 (0.05\%) \\
-SG & 6 (0.16\%) \\
-SI & 4 (0.11\%) \\
-SK & 1 (0.03\%) \\
-TH & 3 (0.08\%) \\
-TR & 5 (0.13\%) \\
-UA & 4 (0.11\%) \\
-US & 3,040 (80.96\%) \\
-VN & 1 (0.03\%) \\
 \textbf{company Size} & \\
 L & 454 (12.09\%) \\
 M & 3,153 (83.97\%) \\
@@ -488,13 +331,13 @@ Visualization}\label{problem-2.-bad-data-visualization}}
 
 The first graph represents the average salary (in USD) of the employees
 with respect to the work year and also to the size of the company. Using
-a bar plot with stacked bars allows us to to have an idea of the amount
-of average salary for each year, but it is difficult to make a
-comparison between the different values of the salary with respect to
-year and company size. That is, for each year, we can only see the total
-salary, obtained by the sum of the average salaries for small, medium
-and large companies, without any indication about the single values,
-which cannot be compared. \newline
+a bar plot with stacked bars allows us to have an idea of the amount of
+average salary for each year, but it is difficult to make a comparison
+between the different values of the salary with respect to year and
+company size. That is, for each year, we can only see the total salary,
+obtained by the sum of the average salaries for small, medium and large
+companies, without any indication about the single values, which cannot
+be compared. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -510,31 +353,25 @@ which cannot be compared. \newline
 
 \includegraphics{Assignment-1_files/figure-latex/unnamed-chunk-3-1.pdf}
 
-\newline
-
 The second ``bad'' plot shows the density of the salary according to the
 remote ratio. The graph is a barplot, containing bars of different
 colors, with respect to the amount of work done remotely (0, 50 or 100).
 We can identify three main problems in this plot:
 
-\begin{enumerate}
-    \item The bars overlap, making the trends confusing and difficult to understand and analyze;
-    \item Since the 50 category has a very low number of cases, the corresponding bars are very small, making it very hard to catch the frequency and the behaviour of this category;
-    \item The values on the X-axis are not so easy to interpret.
-\end{enumerate}
-\newline
+\begin{itemize}
+\item
+  The bars overlap, making the trends confusing and difficult to
+  understand;
+\item
+  Since the 50 category has a very low number of cases, the
+  corresponding bars are very small, making it very hard to catch the
+  frequency and the behaviour of this category;
+\item
+  The values on the X-axis are not so easy to interpret.
+\end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{low\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{150000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{150000}\NormalTok{)}
-\NormalTok{medium\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{100000} \SpecialCharTok{\&}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textless{}} \DecValTok{250000}\NormalTok{)}
-\NormalTok{high\_salary }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{\textgreater{}} \DecValTok{250000} \SpecialCharTok{|}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{salary\_in\_usd }\SpecialCharTok{==} \DecValTok{250000}\NormalTok{)}
-
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{mutate}\NormalTok{(df, }\AttributeTok{salary\_category =} \DecValTok{0}\NormalTok{)}
-
-\NormalTok{by\_year }\OtherTok{\textless{}{-}} \FunctionTok{group\_by}\NormalTok{(df, work\_year, company\_size)}
-\NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{summarize}\NormalTok{(by\_year, }\AttributeTok{average\_salary =} \FunctionTok{mean}\NormalTok{(salary\_in\_usd, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
-
 \CommentTok{\# Bad plot 2}
 \FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ salary\_in\_usd, }\AttributeTok{fill =} \FunctionTok{as.factor}\NormalTok{(remote\_ratio)))}\SpecialCharTok{+}
   \FunctionTok{geom\_histogram}\NormalTok{( }\AttributeTok{color=}\StringTok{\textquotesingle{}\#e9ecef\textquotesingle{}}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{, }\AttributeTok{position=}\StringTok{\textquotesingle{}identity\textquotesingle{}}\NormalTok{)}\SpecialCharTok{+}
@@ -553,14 +390,16 @@ the company size. Thanks to this trick, it is possible to visualize data
 in a more organized way: for each year, we have 3 columns, each one
 representing the average salary for each company size. This allows a
 deeper analysis, with a particular interest on the behaviour of the
-average salary over time, according to each company size. For instance,
-it is possible to notice that, while small companies had more or less
-stable salaries over time, the average salary in large companies
+average salary over time, according to the size of the company. For
+instance, it is possible to notice that, while small companies had more
+or less stable salaries over time, the average salary in large companies
 increased with the years, with a growth of more than 250000 USD from
 2020 to 2023. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\NormalTok{new\_df }\OtherTok{\textless{}{-}} \FunctionTok{summarize}\NormalTok{(by\_year, }\AttributeTok{average\_salary =} \FunctionTok{mean}\NormalTok{(salary\_in\_usd, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{))}
+
 \CommentTok{\# Good plot 1}
 \FunctionTok{ggplot}\NormalTok{(new\_df) }\SpecialCharTok{+}
   \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ work\_year, }\AttributeTok{y =}\NormalTok{ average\_salary, }\AttributeTok{fill =}\NormalTok{ company\_size), }
@@ -573,23 +412,25 @@ increased with the years, with a growth of more than 250000 USD from
 
 \newline
 
-The second plot have been improved by substituting the subplot with a
-density plot. This solution, allows to obtain a clearer graph, composed
+The second plot have been improved by substituting the histogram with a
+density plot. This solution allows to obtain a clearer graph, composed
 of just three lines. Each line represents the density distribution of
 the salary, according to the remote ratio category. Moreover, since the
 data for all the categories have been transformed to densities, we don't
 have small bars for a single category anymore. The problem of the values
-on the X-axis has been solved too, changing the unit of measure of the
-axis (from USD to thousand of USD). \textbackslash{} According to this
-graph, for example, it can be understood that employees with a value of
-50 of remote ratio tend to have a lower salary than the other categories
-(the pick of the density is under 100000 USD, probably around 80000
-USD). On the contrary, the other two categories have similar densities,
-with a mean around 150000 USD. \newline
+on the X-axis has been solved by changing the unit of measure of the
+axis (from USD to thousand of USD).
+
+According to this graph, for example, it can be understood that
+employees with 50\% of remote ratio tend to have a lower salary than the
+other categories (the pick of the density is under 100000 USD, probably
+around 80000 USD). On the contrary, the other two categories have
+similar densities, with a mean around 150000 USD. \newline
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\#Good plot 2}
+
 \NormalTok{rem\_0 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{0}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
 \NormalTok{rem\_50 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{50}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
 \NormalTok{rem\_100 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(df, df}\SpecialCharTok{$}\NormalTok{remote\_ratio }\SpecialCharTok{==} \DecValTok{100}\NormalTok{, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(salary\_in\_usd))}
