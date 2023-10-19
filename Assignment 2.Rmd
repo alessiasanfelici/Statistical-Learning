@@ -124,26 +124,115 @@ null.model <- lm(LC50 ~ 1, data = train)
 
 ```{r}
 # Backward selection with BIC stopping criterion
-#backward_bic <- step(full.model)
-
+backward_bic <- step(full.model, direction = "backward", k = log(nrow(train)), trace = FALSE)
+print("Backward selection with BIC stopping criterion")
+backward_bic
 ```
 
 ```{r}
 # Backward selection with AIC stopping criterion
-#backward_aic <- step(full.model).  # or stepAIC ???
-
+backward_aic <- step(full.model, direction = "backward", k = 2, trace = FALSE)
+print("Backward selection with AIC stopping criterion")
+backward_aic
 ```
 
 ```{r}
 # Forward selection with BIC stopping criterion
-#forward_bic <- step
+forward_bic <- step(null.model, direction = "forward", scope = formula(full.model), k = log(nrow(train)), trace = FALSE)
+print("Forward selection with BIC stopping criterion")
+forward_bic
 ```
 
 ```{r}
 # Forward selection with AIC stopping criterion
-#forward_aic <- step
+forward_aic <- step(null.model, direction = "forward", scope = formula(full.model), k = 2, trace = FALSE)
+print("Forward selection with AIC stopping criterion")
+forward_aic
+```
+
+Add a comment about the different models!
+Add best subset?????
+
+# Ridge Regression
+
+```{r}
+library(glmnet)
+x = as.matrix(subset(train, select = -LC50))
+y = as.vector(train$LC50)
+# Create a sequence of lambda values to try
+lambda_seq <- 10^seq(-5, 5, length = 100)
+
+ridge_cv_model <- cv.glmnet(x, y, alpha = 0, lambda = lambda_seq, nfolds = 5)
+
+print(ridge_cv_model)
+
 ```
 
 ```{r}
+# Plot the MSE with respect to lambda
+plot(ridge_cv_model, ylab = "MSE", xlim = c(-5, 5))
+```
+
+```{r}
+best_lambda <- ridge_cv_model$lambda[which.min(ridge_cv_model$cvm)]
+sprintf("The best value of lambda is %s", best_lambda)
+#coef(ridge_cv_model, s = "lambda.min")
+```
+So, now we compute the train and test error for the model with the best value of lambda.#add cv even here or not???
+
+```{r}
+ridge_best <- glmnet(x, y, alpha = 0, lambda = best_lambda)
+ridge_cv_train_err = mean((predict(ridge_best, as.matrix(subset(train, select = -LC50))) -
+                             as.vector(train$LC50))^2)
+ridge_cv_test_err = mean((predict(ridge_best, as.matrix(subset(test, select = -LC50))) -
+                            as.vector(test$LC50))^2)
+sprintf("Ridge cv train error: %s", ridge_cv_train_err)
+sprintf("Ridge cv test error: %s", ridge_cv_test_err)
+```
+MSE???
+
+```{r}
+library(boot)
+library(pracma)
+ridge_fit <- function(data, indices, lambda_seq) {
+  data_train <- data[indices, ]
+  X_train <- as.matrix(subset(data_train, select = -LC50))
+  y_train <- as.vector(data_train$LC50)
+  fit <- glmnet(X_train, y_train, alpha = 0, lambda = lambda_seq)
+  y_pred_train <- predict(fit, newx = X_train, s = lambda_seq)
+  mse <- sum((y_train - y_pred_train)^2) / length(y_train)
+  return (mse) 
+}
+
+mse_boot = c()
+for (i in 1:100){
+  lambda = lambda_seq[i]
+  boot_results <- boot(data = train, statistic = ridge_fit, R = 100, lambda = lambda)
+  mse_boot[i] = mean(boot_results$t)
+}
+```
+
+
+```{r}
+plot(log10(ridge_cv_model$lambda), ridge_cv_model$cvm, ylab = "MSE", type = "l", xlab = "log(lambda)", col = "red", ylim = c(1, 3))
+lines(log10(lambda_seq), mse_boot, col = "black", type = "l", ylim = c(1, 3))
+legend("topleft", legend = c("Cross-Validation MSE", "Bootstrap MSE"), col = c("red", "black"), lty = 1)
+
+```
+
+```{r}
+best_lambda_boot <- lambda_seq[which.min(mse_boot)]
+sprintf("The best value of lambda is %s", best_lambda_boot)
+```
+So, now we compute the train and test error for the model with the best value of lambda.#add bootstrap even here or not???
+
+```{r}
+ridge_best_boot <- glmnet(x, y, alpha = 0, lambda = best_lambda_boot)
+ridge_boot_train_err = mean((predict(ridge_best_boot, as.matrix(subset(train, select = -LC50))) -
+                             as.vector(train$LC50))^2)
+ridge_boot_test_err = mean((predict(ridge_best_boot, as.matrix(subset(test, 
+                                    select = -LC50))) - as.vector(test$LC50))^2)
+sprintf("Ridge bootstrap train error: %s", ridge_boot_train_err)
+sprintf("Ridge bootstrap test error: %s", ridge_boot_test_err)
 
 ```
