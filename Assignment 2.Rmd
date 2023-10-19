@@ -1,0 +1,149 @@
+---
+title: "Assignment 2"
+output: html_document
+date: "2023-10-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(dplyr)
+```
+
+## Problem 1: Regression 
+
+bla bla bla
+
+```{r}
+df_toxicity <- read.csv("aquatic_toxicity.csv", sep = ";", header = FALSE)
+colnames(df_toxicity) <- c("TPSA", "SAacc", "H050", "MLOGP", "RDCHI", "GATS1p","nN", "C040", "LC50")
+# create the dichotomic version of the dataset (where the count variables are transformed using 0/1 dummy encoding)
+
+df_toxicity_dummy = df_toxicity
+df_toxicity_dummy["H050"] = c(as.integer(df_toxicity_dummy ["H050"]>0))
+df_toxicity_dummy ["nN"] = c(as.integer(df_toxicity_dummy ["nN"]>0))
+df_toxicity_dummy ["C040"] = c(as.integer(df_toxicity_dummy ["C040"]>0))
+
+```
+
+
+```{r}
+set.seed(1)
+
+# create train and test data
+sample <- sample(c(TRUE, FALSE), nrow(df_toxicity), replace = TRUE, prob = c(0.7, 0.3))
+train <- df_toxicity[sample, ]
+test <- df_toxicity[!sample, ]
+train_dummy <- df_toxicity_dummy[sample, ]
+test_dummy <- df_toxicity_dummy[!sample, ]
+```
+
+```{r}
+# linear regression model with original dataset
+linear_model <- lm(LC50 ~ . , data = train)
+summary(linear_model)
+```
+
+```{r}
+prediction <- predict.lm(linear_model, test)
+train_error = mean(linear_model$residuals^2)
+test_error = mean((test$LC50 - prediction)^2)
+sprintf("Train error: %s", train_error) # round the error??
+sprintf("Test error: %s", test_error) # round the error??
+```
+
+```{r}
+# linear regression model with dummy dataset
+linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
+summary(linear_model_dummy)
+```
+```{r}
+prediction_dummy = predict.lm(linear_model_dummy, test_dummy)
+train_error_dummy = mean(linear_model_dummy$residuals^2)
+test_error_dummy = mean((test_dummy$LC50 - prediction_dummy)^2)
+sprintf("Train error dummy: %s", train_error_dummy) # round the error??
+sprintf("Test error dummy: %s", test_error_dummy) # round the error??
+```
+
+```{r}
+# repeat the process 200 times 
+repetitions = 200
+train_error = 0
+test_error = 0
+train_error_dummy = 0
+test_error_dummy = 0
+
+for (i in 1:repetitions){
+  sample <- sample(c(TRUE, FALSE), nrow(df_toxicity), replace = TRUE, prob = c(0.7, 0.3))
+  train <- df_toxicity[sample, ]
+  test <- df_toxicity[!sample, ]
+  train_dummy <- df_toxicity_dummy[sample, ]
+  test_dummy <- df_toxicity_dummy[!sample, ]
+
+  linear_model <- lm(LC50 ~ . , data = train)
+  prediction <- predict.lm(linear_model, test)
+  train_error = train_error + mean(linear_model$residuals^2)/repetitions
+  test_error = test_error + mean((test$LC50 - prediction)^2)/repetitions
+
+  linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
+  prediction_dummy = predict.lm(linear_model_dummy, test_dummy)
+  train_error_dummy = train_error_dummy + mean(linear_model_dummy$residuals^2)/repetitions
+  test_error_dummy = test_error_dummy + mean((test_dummy$LC50 -
+                                                prediction_dummy)^2)/repetitions
+
+} # NB: perché divide per repetitions ogni volta e somma?? Pensarci!!!!
+```
+
+```{r}
+sprintf("Train error: %s", train_error) # round the error??
+sprintf("Test error: %s", test_error) # round the error??
+sprintf("Train error dummy: %s", train_error_dummy) # round the error??
+sprintf("Test error dummy: %s", test_error_dummy) # round the error??
+```
+# answer to question 1
+(Bootstrapping)?
+
+# answer to question 2
+classification, as seen in ML
+
+# VARIABLE SELECTION
+
+```{r}
+set.seed(1)
+
+sample <- sample(c(TRUE, FALSE), nrow(df_toxicity), replace = TRUE, prob = c(0.7, 0.3))
+train <- df_toxicity[sample, ]
+test <- df_toxicity[!sample, ]
+train_dummy <- df_toxicity_dummy[sample, ] # need only the first case here?? Ask!
+test_dummy <- df_toxicity_dummy[!sample, ]
+
+full.model <- lm(LC50 ~ . , data = train)
+null.model <- lm(LC50 ~ 1, data = train)
+```
+
+```{r}
+# Backward selection with BIC stopping criterion
+#backward_bic <- step(full.model)
+
+```
+
+```{r}
+# Backward selection with AIC stopping criterion
+#backward_aic <- step(full.model).  # or stepAIC ???
+
+```
+
+```{r}
+# Forward selection with BIC stopping criterion
+#forward_bic <- step
+```
+
+```{r}
+# Forward selection with AIC stopping criterion
+#forward_aic <- step
+```
+
+```{r}
+
+```
