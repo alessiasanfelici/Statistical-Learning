@@ -216,7 +216,7 @@ for (i in 1:100){
 ```{r}
 plot(log10(ridge_cv_model$lambda), ridge_cv_model$cvm, ylab = "MSE", type = "l", xlab = "log(lambda)", col = "red", ylim = c(1, 3))
 lines(log10(lambda_seq), mse_boot, col = "black", type = "l", ylim = c(1, 3))
-legend("topleft", legend = c("Cross-Validation MSE", "Bootstrap MSE"), col = c("red", "black"), lty = 1)
+legend("topleft", legend = c("5-fold Cross-Validation", "Bootstrap"), col = c("red", "black"), lty = 1)
 
 ```
 
@@ -234,5 +234,130 @@ ridge_boot_test_err = mean((predict(ridge_best_boot, as.matrix(subset(test,
                                     select = -LC50))) - as.vector(test$LC50))^2)
 sprintf("Ridge bootstrap train error: %s", ridge_boot_train_err)
 sprintf("Ridge bootstrap test error: %s", ridge_boot_test_err)
+
+```
+GAM
+
+```{r}
+library(gam)
+
+degrees = 3:10
+
+train_error_gam = zeros(length(degrees), 1)
+test_error_gam = zeros(length(degrees), 1)
+
+for (k in degrees){
+  gam_model <- gam(LC50 ~ s(TPSA, df = k) + s(SAacc, df = k) + s(H050, df = k) + 
+                     s(MLOGP, df = k) + s(RDCHI, df = k) + s(GATS1p, df = k) + 
+                     s(nN, df = k) + s(C040, df = k), data = train)
+  
+  train_error_gam[k-2] = mean((predict(gam_model, subset(train, select = -LC50)) -
+                                 train$LC50)^2)
+  test_error_gam[k-2] = mean((predict(gam_model, subset(test, select = -LC50)) -
+                                 test$LC50)^2)
+}
+
+
+```
+
+
+```{r}
+df_gam = data.frame(degrees, train_error_gam, test_error_gam)
+names(df_gam) <- c("Degrees of Freedom", "Train Error", "Test Error")
+df_gam
+
+```
+Best ones = small degrees.
+
+REGRESSION TREE
+
+```{r}
+library(rpart)
+
+# Grow the full tree
+full_tree <- rpart(LC50 ~ . , data = train, control = rpart.control(cp=0))
+plotcp(full_tree)
+
+```
+
+
+```{r}
+full_tree$cptable
+
+```
+The lowest error is given y a cp = 0.0117017714.
+
+```{r}
+# Prune the tree
+pruned_tree <- prune(full_tree, cp = 0.0117017714)
+par(mar = c(2, 2, 2, 2))
+plot(pruned_tree, main = "Pruned Tree")
+text(pruned_tree, cex = 0.5, col = "blue")
+
+```
+
+
+```{r}
+# Train and test error for the pruned tree
+
+train_error_tree = mean((predict(pruned_tree, subset(train, select = -LC50)) -
+                           train$LC50)^2)
+test_error_tree = mean((predict(pruned_tree, subset(test, select = -LC50)) - 
+                          test$LC50)^2)
+sprintf("Train error Regression Tree: %s", train_error_tree)
+sprintf("Test error Regression Tree: %s", test_error_tree)
+```
+COMPARISON OF ALL THE METHODS
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
+
+```
+
+
+```{r}
+
 
 ```
