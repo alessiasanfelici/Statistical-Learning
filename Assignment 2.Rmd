@@ -422,20 +422,116 @@ sprintf('Test error with kNN: %s', test_err_knn)
 GAM
 
 ```{r}
-model_gam <- gam(diabetes ~ s(pregnant, df = 5) + s(glucose, df = 5) + s(pressure, df = 5) + 
-                   s(triceps, df = 5) + s(insulin, df = 5) + s(mass, df = 5), s(pedigree, df = 5) + 
-                   s(age, df = 5), data = train_data) # family = binomial())
+model_gam <- mgcv::gam(diabetes ~ s(pregnant, k = 5) + s(glucose, k = 5) + s(pressure, k = 5) + 
+                   s(triceps, k = 5) + s(insulin, k = 5) + s(mass, k = 5) + s(pedigree, k = 5) + 
+                   s(age, k = 5), data = train_data, family = binomial())
+summary(model_gam)
+
+```
+ looking at the edf column (effective
+degrees of freedom), we can see that the pressure does not show any non-linear behaviour, so that variable
+will be considered linear (change!!!) ??????
+
+```{r}
+# Remove the non significant variables
+model_gam <- mgcv::gam(diabetes ~ s(glucose, k = 5) + s(mass, k = 5) + s(pedigree, k = 5) + 
+                   s(age, k = 5), data = train_data, family = binomial())
+summary(model_gam)
+
+```
+
+
+```{r}
+par(mfrow=c(2,2))
+plot(model_gam)
+
+```
+
+Comment: 
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
 
 ```
 
 
 ```{r}
 
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
 
 ```
 
 
 ```{r}
 
+```
+
+```{r}
 
 ```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+```
+
