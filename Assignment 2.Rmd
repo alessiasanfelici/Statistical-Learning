@@ -374,30 +374,57 @@ kNN
 ```{r}
 library(class)
 library(cvms)
+library(kknn)
+library(Rfast)
 
-fold5_knn <- knn.cv(x = as.matrix(subset(train, select = - diabetes)), y = train$diabetes,
-                    nfolds = 5, k = c(1:100), seed = TRUE, stratified = TRUE)
-loo_knn <- knn.cv(x = as.matrix(subset(train, select = -diabetes)), y = train$diabetes,
-                    nfolds = nrow(train), k = c(1:100), seed = TRUE, stratified = TRUE,
-                  dist.type = "euclidean", type = "C")
+fold5_errors = knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
+                      nfolds = 5, stratified = TRUE, seed = TRUE, k = c(1:150),
+                      dist.type = "euclidean", type = "C")
+loo_errors = knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
+                    nfolds = nrow(train), stratified = TRUE, seed = TRUE, k = c(1:150),
+                    dist.type = "euclidean")
+predictions_knn = knn(xnew = as.matrix(subset(test_data, select = -diabetes)), y = train_data$diabetes,
+                  x = as.matrix(subset(train_data, select = -diabetes)), k = c(1:150), type = "C")
+test_errors_knn = colMeans(abs(predictions_knn - test_data$diabetes))
+
+plot(1:150, 1 - fold5_errors$crit, type = "l", ylim = c(0.25, 0.45), col = "blue", xlab = "k", 
+     ylab = "Error")
+lines(1:150, 1 - loo_errors$crit, col = "red")
+lines(1:150, test_errors_knn, col = "green")
+title("Comparing error estimates")
+legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col = c("blue", "red", "green"), 
+       lty = 1)
+
+```
+Cross-validation tends to underestimate the error, especially for small values of k.
+
+```{r}
+k_min_5fold = which.min(1 - fold5_errors$crit)
+k_min_loo = which.min(1 - loo_errors$crit)
+k_min_knn = which.min(test_errors_knn)
+
+sprintf("k with 5-fold cv: %s", k_min_5fold)
+sprintf("k with LOO cv: %s", k_min_loo)
+sprintf("k with kNN: %s", k_min_knn)
 
 ```
 
 
 ```{r}
-
+test_err_5fold = 1 - fold5_errors$crit[k_min_5fold]
+test_err_loo = 1- loo_errors$crit[k_min_loo]
+test_err_knn = test_errors_knn[k_min_knn]
+sprintf('Test error with 5-fold cv: %s', test_err_5fold)
+sprintf('Test error with LOO cv: %s', test_err_loo)
+sprintf('Test error with kNN: %s', test_err_knn)
 
 ```
-
-
-```{r}
-
-
-```
-
+GAM
 
 ```{r}
-
+model_gam <- gam(diabetes ~ s(pregnant, df = 5) + s(glucose, df = 5) + s(pressure, df = 5) + 
+                   s(triceps, df = 5) + s(insulin, df = 5) + s(mass, df = 5), s(pedigree, df = 5) + 
+                   s(age, df = 5), data = train_data) # family = binomial())
 
 ```
 
