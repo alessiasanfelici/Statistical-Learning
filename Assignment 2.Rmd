@@ -447,15 +447,33 @@ plot(model_gam)
 
 ```
 
-Comment: 
+Comment:
+
+
+Classification tree
 
 ```{r}
+set.seed(1)
+
+# Grow the tree
+classification_tree <- rpart(diabetes ~ . , data = train_data, control = rpart.control(cp=0), 
+                             method = "class")
+plotcp(classification_tree)
 
 ```
 
+min value of cp is related to size of 10 
+
 ```{r}
+class_tree_10 <- prune(classification_tree, cp = 0.0116540354)
+par(mar = c(2, 2, 2, 2))
+plot(class_tree_10, main = "Pruned Tree")
+text(class_tree_10, cex = 0.5, col = "blue")
 
 ```
+
+Bagged trees
+Random forest
 
 ```{r}
 
