@@ -310,25 +310,76 @@ sprintf("Test error Regression Tree: %s", test_error_tree)
 COMPARISON OF ALL THE METHODS
 
 ```{r}
+methods = c("Linear Regression", "Dummy Linear Regression", "Variable selection",
+            "Ridge Cross-Validation", "Ridge Bootstrap", "GAM", "Regression Tree")
+train_errors = c(train_error, train_error_dummy, mean(backward_bic$residuals^2),
+                 ridge_cv_train_err, ridge_boot_train_err, train_error_gam[1],
+                 train_error_tree)
+test_errors =c(test_error, test_error_dummy, mean((test$LC50 - 
+                                                     predict.lm(backward_bic, test))^2),
+               ridge_cv_test_err, ridge_boot_test_err, test_error_gam[1],
+               test_error_tree)
+df_comparison <- data.frame(methods, train_errors, test_errors)
+names(df_comparison) <- c("Method", "Train Error", "Test Error")
+df_comparison
 
+```
+
+The above table shows the train and the test errors for all the different methods used by now. If we consider the best method as the one that minimizes the test error, then in this case the best one is Linear Regression. All the other methods give a larger test error.
+We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies. 
+
+
+## Problem 2: Classification 
+
+```{r}
+library(mlbench)
+
+data(PimaIndiansDiabetes)
+diabetes_df <- as.data.frame(PimaIndiansDiabetes)
+diabetes_df["diabetes"] = c(as.integer(diabetes_df["diabetes"] == "pos"))
+diabetes_df
 
 ```
 
 
 ```{r}
+# Split in train and test sets (we want similar class distributions in the two sets)
 
+positives_df = diabetes_df[diabetes_df["diabetes"] == "1", ]
+negatives_df = diabetes_df[diabetes_df["diabetes"] == "0", ]
 
+set.seed(1)
+
+sample_positives <- sample(c(TRUE, FALSE), nrow(positives_df), replace = TRUE, 
+                           prob = c(0.7, 0.3))
+train_positives <- positives_df[sample_positives, ]
+test_positives <- positives_df[!sample_positives, ]
+
+sample_negatives <- sample(c(TRUE, FALSE), nrow(negatives_df), replace = TRUE, 
+                           prob = c(0.7, 0.3))
+train_negatives <- negatives_df[sample_negatives, ]
+test_negatives <- negatives_df[!sample_negatives, ]
+
+# Reunite train and test data
+train_data <- rbind(train_positives, train_negatives)
+test_data <- rbind(test_positives, test_negatives)
+
+# Randomly shuffle train and test sets
+train_data = train_data[sample(1:nrow(train)), ]
+test_data = test_data[sample(1:nrow(test)), ]
 ```
 
+kNN
 
 ```{r}
+library(class)
+library(cvms)
 
-
-```
-
-
-```{r}
-
+fold5_knn <- knn.cv(x = as.matrix(subset(train, select = - diabetes)), y = train$diabetes,
+                    nfolds = 5, k = c(1:100), seed = TRUE, stratified = TRUE)
+loo_knn <- knn.cv(x = as.matrix(subset(train, select = -diabetes)), y = train$diabetes,
+                    nfolds = nrow(train), k = c(1:100), seed = TRUE, stratified = TRUE,
+                  dist.type = "euclidean", type = "C")
 
 ```
 
