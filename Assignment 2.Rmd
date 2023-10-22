@@ -20,10 +20,10 @@ df_toxicity <- read.csv("aquatic_toxicity.csv", sep = ";", header = FALSE)
 colnames(df_toxicity) <- c("TPSA", "SAacc", "H050", "MLOGP", "RDCHI", "GATS1p","nN", "C040", "LC50")
 # create the dichotomic version of the dataset (where the count variables are transformed using 0/1 dummy encoding)
 
-df_toxicity_dummy = df_toxicity
-df_toxicity_dummy["H050"] = c(as.integer(df_toxicity_dummy ["H050"]>0))
-df_toxicity_dummy ["nN"] = c(as.integer(df_toxicity_dummy ["nN"]>0))
-df_toxicity_dummy ["C040"] = c(as.integer(df_toxicity_dummy ["C040"]>0))
+df_toxicity_dummy <- df_toxicity
+df_toxicity_dummy["H050"] <- c(as.integer(df_toxicity_dummy ["H050"]>0))
+df_toxicity_dummy ["nN"] <- c(as.integer(df_toxicity_dummy ["nN"]>0))
+df_toxicity_dummy ["C040"] <- c(as.integer(df_toxicity_dummy ["C040"]>0))
 
 ```
 
@@ -47,10 +47,10 @@ summary(linear_model)
 
 ```{r}
 prediction <- predict.lm(linear_model, test)
-train_error = mean(linear_model$residuals^2)
-test_error = mean((test$LC50 - prediction)^2)
-sprintf("Train error: %s", train_error) # round the error??
-sprintf("Test error: %s", test_error) # round the error??
+train_error <- mean(linear_model$residuals^2)
+test_error <- mean((test$LC50 - prediction)^2)
+sprintf("Train error: %s", train_error) 
+sprintf("Test error: %s", test_error) 
 ```
 
 ```{r}
@@ -59,20 +59,20 @@ linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
 summary(linear_model_dummy)
 ```
 ```{r}
-prediction_dummy = predict.lm(linear_model_dummy, test_dummy)
-train_error_dummy = mean(linear_model_dummy$residuals^2)
-test_error_dummy = mean((test_dummy$LC50 - prediction_dummy)^2)
-sprintf("Train error dummy: %s", train_error_dummy) # round the error??
-sprintf("Test error dummy: %s", test_error_dummy) # round the error??
+prediction_dummy <- predict.lm(linear_model_dummy, test_dummy)
+train_error_dummy <- mean(linear_model_dummy$residuals^2)
+test_error_dummy <- mean((test_dummy$LC50 - prediction_dummy)^2)
+sprintf("Train error dummy: %s", train_error_dummy) 
+sprintf("Test error dummy: %s", test_error_dummy)
 ```
 
 ```{r}
 # repeat the process 200 times 
-repetitions = 200
-train_error = 0
-test_error = 0
-train_error_dummy = 0
-test_error_dummy = 0
+repetitions <- 200
+train_error <- 0
+test_error <- 0
+train_error_dummy <- 0
+test_error_dummy <- 0
 
 for (i in 1:repetitions){
   sample <- sample(c(TRUE, FALSE), nrow(df_toxicity), replace = TRUE, prob = c(0.7, 0.3))
@@ -83,13 +83,13 @@ for (i in 1:repetitions){
 
   linear_model <- lm(LC50 ~ . , data = train)
   prediction <- predict.lm(linear_model, test)
-  train_error = train_error + mean(linear_model$residuals^2)/repetitions
-  test_error = test_error + mean((test$LC50 - prediction)^2)/repetitions
+  train_error <- train_error + mean(linear_model$residuals^2)/repetitions
+  test_error <- test_error + mean((test$LC50 - prediction)^2)/repetitions
 
   linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
-  prediction_dummy = predict.lm(linear_model_dummy, test_dummy)
-  train_error_dummy = train_error_dummy + mean(linear_model_dummy$residuals^2)/repetitions
-  test_error_dummy = test_error_dummy + mean((test_dummy$LC50 -
+  prediction_dummy <- predict.lm(linear_model_dummy, test_dummy)
+  train_error_dummy <- train_error_dummy + mean(linear_model_dummy$residuals^2)/repetitions
+  test_error_dummy <- test_error_dummy + mean((test_dummy$LC50 -
                                                 prediction_dummy)^2)/repetitions
 
 } # NB: perché divide per repetitions ogni volta e somma?? Pensarci!!!!
@@ -157,8 +157,8 @@ Add best subset?????
 
 ```{r}
 library(glmnet)
-x = as.matrix(subset(train, select = -LC50))
-y = as.vector(train$LC50)
+x <- as.matrix(subset(train, select = -LC50))
+y <- as.vector(train$LC50)
 # Create a sequence of lambda values to try
 lambda_seq <- 10^seq(-5, 5, length = 100)
 
@@ -176,15 +176,14 @@ plot(ridge_cv_model, ylab = "MSE", xlim = c(-5, 5))
 ```{r}
 best_lambda <- ridge_cv_model$lambda[which.min(ridge_cv_model$cvm)]
 sprintf("The best value of lambda is %s", best_lambda)
-#coef(ridge_cv_model, s = "lambda.min")
 ```
 So, now we compute the train and test error for the model with the best value of lambda.#add cv even here or not???
 
 ```{r}
 ridge_best <- glmnet(x, y, alpha = 0, lambda = best_lambda)
-ridge_cv_train_err = mean((predict(ridge_best, as.matrix(subset(train, select = -LC50))) -
+ridge_cv_train_err <- mean((predict(ridge_best, as.matrix(subset(train, select = -LC50))) -
                              as.vector(train$LC50))^2)
-ridge_cv_test_err = mean((predict(ridge_best, as.matrix(subset(test, select = -LC50))) -
+ridge_cv_test_err <- mean((predict(ridge_best, as.matrix(subset(test, select = -LC50))) -
                             as.vector(test$LC50))^2)
 sprintf("Ridge cv train error: %s", ridge_cv_train_err)
 sprintf("Ridge cv test error: %s", ridge_cv_test_err)
@@ -204,7 +203,7 @@ ridge_fit <- function(data, indices, lambda_seq) {
   return (mse) 
 }
 
-mse_boot = c()
+mse_boot <- c()
 for (i in 1:100){
   lambda = lambda_seq[i]
   boot_results <- boot(data = train, statistic = ridge_fit, R = 100, lambda = lambda)
@@ -228,9 +227,9 @@ So, now we compute the train and test error for the model with the best value of
 
 ```{r}
 ridge_best_boot <- glmnet(x, y, alpha = 0, lambda = best_lambda_boot)
-ridge_boot_train_err = mean((predict(ridge_best_boot, as.matrix(subset(train, select = -LC50))) -
+ridge_boot_train_err <- mean((predict(ridge_best_boot, as.matrix(subset(train, select = -LC50))) -
                              as.vector(train$LC50))^2)
-ridge_boot_test_err = mean((predict(ridge_best_boot, as.matrix(subset(test, 
+ridge_boot_test_err <- mean((predict(ridge_best_boot, as.matrix(subset(test, 
                                     select = -LC50))) - as.vector(test$LC50))^2)
 sprintf("Ridge bootstrap train error: %s", ridge_boot_train_err)
 sprintf("Ridge bootstrap test error: %s", ridge_boot_test_err)
@@ -243,17 +242,17 @@ library(gam)
 
 degrees = 3:10
 
-train_error_gam = zeros(length(degrees), 1)
-test_error_gam = zeros(length(degrees), 1)
+train_error_gam <- zeros(length(degrees), 1)
+test_error_gam <- zeros(length(degrees), 1)
 
 for (k in degrees){
   gam_model <- gam(LC50 ~ s(TPSA, df = k) + s(SAacc, df = k) + s(H050, df = k) + 
                      s(MLOGP, df = k) + s(RDCHI, df = k) + s(GATS1p, df = k) + 
                      s(nN, df = k) + s(C040, df = k), data = train)
   
-  train_error_gam[k-2] = mean((predict(gam_model, subset(train, select = -LC50)) -
+  train_error_gam[k-2] <- mean((predict(gam_model, subset(train, select = -LC50)) -
                                  train$LC50)^2)
-  test_error_gam[k-2] = mean((predict(gam_model, subset(test, select = -LC50)) -
+  test_error_gam[k-2] <- mean((predict(gam_model, subset(test, select = -LC50)) -
                                  test$LC50)^2)
 }
 
@@ -262,7 +261,7 @@ for (k in degrees){
 
 
 ```{r}
-df_gam = data.frame(degrees, train_error_gam, test_error_gam)
+df_gam <- data.frame(degrees, train_error_gam, test_error_gam)
 names(df_gam) <- c("Degrees of Freedom", "Train Error", "Test Error")
 df_gam
 
@@ -300,9 +299,9 @@ text(pruned_tree, cex = 0.5, col = "blue")
 ```{r}
 # Train and test error for the pruned tree
 
-train_error_tree = mean((predict(pruned_tree, subset(train, select = -LC50)) -
+train_error_tree <- mean((predict(pruned_tree, subset(train, select = -LC50)) -
                            train$LC50)^2)
-test_error_tree = mean((predict(pruned_tree, subset(test, select = -LC50)) - 
+test_error_tree <- mean((predict(pruned_tree, subset(test, select = -LC50)) - 
                           test$LC50)^2)
 sprintf("Train error Regression Tree: %s", train_error_tree)
 sprintf("Test error Regression Tree: %s", test_error_tree)
@@ -310,12 +309,12 @@ sprintf("Test error Regression Tree: %s", test_error_tree)
 COMPARISON OF ALL THE METHODS
 
 ```{r}
-methods = c("Linear Regression", "Dummy Linear Regression", "Variable selection",
+methods <- c("Linear Regression", "Dummy Linear Regression", "Variable selection",
             "Ridge Cross-Validation", "Ridge Bootstrap", "GAM", "Regression Tree")
-train_errors = c(train_error, train_error_dummy, mean(backward_bic$residuals^2),
+train_errors <- c(train_error, train_error_dummy, mean(backward_bic$residuals^2),
                  ridge_cv_train_err, ridge_boot_train_err, train_error_gam[1],
                  train_error_tree)
-test_errors =c(test_error, test_error_dummy, mean((test$LC50 - 
+test_errors <- c(test_error, test_error_dummy, mean((test$LC50 - 
                                                      predict.lm(backward_bic, test))^2),
                ridge_cv_test_err, ridge_boot_test_err, test_error_gam[1],
                test_error_tree)
@@ -336,7 +335,7 @@ library(mlbench)
 
 data(PimaIndiansDiabetes)
 diabetes_df <- as.data.frame(PimaIndiansDiabetes)
-diabetes_df["diabetes"] = c(as.integer(diabetes_df["diabetes"] == "pos"))
+diabetes_df["diabetes"] <- c(as.integer(diabetes_df["diabetes"] == "pos"))
 diabetes_df
 
 ```
@@ -345,8 +344,8 @@ diabetes_df
 ```{r}
 # Split in train and test sets (we want similar class distributions in the two sets)
 
-positives_df = diabetes_df[diabetes_df["diabetes"] == "1", ]
-negatives_df = diabetes_df[diabetes_df["diabetes"] == "0", ]
+positives_df <- diabetes_df[diabetes_df["diabetes"] == "1", ]
+negatives_df <- diabetes_df[diabetes_df["diabetes"] == "0", ]
 
 set.seed(1)
 
@@ -365,8 +364,8 @@ train_data <- rbind(train_positives, train_negatives)
 test_data <- rbind(test_positives, test_negatives)
 
 # Randomly shuffle train and test sets
-train_data = train_data[sample(1:nrow(train)), ]
-test_data = test_data[sample(1:nrow(test)), ]
+train_data <- train_data[sample(1:nrow(train)), ]
+test_data <- test_data[sample(1:nrow(test)), ]
 ```
 
 kNN
@@ -377,15 +376,15 @@ library(cvms)
 library(kknn)
 library(Rfast)
 
-fold5_errors = knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
+fold5_errors <- knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
                       nfolds = 5, stratified = TRUE, seed = TRUE, k = c(1:150),
                       dist.type = "euclidean", type = "C")
-loo_errors = knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
+loo_errors <- knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
                     nfolds = nrow(train), stratified = TRUE, seed = TRUE, k = c(1:150),
                     dist.type = "euclidean")
-predictions_knn = knn(xnew = as.matrix(subset(test_data, select = -diabetes)), y = train_data$diabetes,
+predictions_knn <- knn(xnew = as.matrix(subset(test_data, select = -diabetes)), y = train_data$diabetes,
                   x = as.matrix(subset(train_data, select = -diabetes)), k = c(1:150), type = "C")
-test_errors_knn = colMeans(abs(predictions_knn - test_data$diabetes))
+test_errors_knn <- colMeans(abs(predictions_knn - test_data$diabetes))
 
 plot(1:150, 1 - fold5_errors$crit, type = "l", ylim = c(0.25, 0.45), col = "blue", xlab = "k", 
      ylab = "Error")
@@ -399,9 +398,9 @@ legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col = c(
 Cross-validation tends to underestimate the error, especially for small values of k.
 
 ```{r}
-k_min_5fold = which.min(1 - fold5_errors$crit)
-k_min_loo = which.min(1 - loo_errors$crit)
-k_min_knn = which.min(test_errors_knn)
+k_min_5fold <- which.min(1 - fold5_errors$crit)
+k_min_loo <- which.min(1 - loo_errors$crit)
+k_min_knn <- which.min(test_errors_knn)
 
 sprintf("k with 5-fold cv: %s", k_min_5fold)
 sprintf("k with LOO cv: %s", k_min_loo)
@@ -411,9 +410,9 @@ sprintf("k with kNN: %s", k_min_knn)
 
 
 ```{r}
-test_err_5fold = 1 - fold5_errors$crit[k_min_5fold]
-test_err_loo = 1- loo_errors$crit[k_min_loo]
-test_err_knn = test_errors_knn[k_min_knn]
+test_err_5fold <- 1 - fold5_errors$crit[k_min_5fold]
+test_err_loo <- 1- loo_errors$crit[k_min_loo]
+test_err_knn <- test_errors_knn[k_min_knn]
 sprintf('Test error with 5-fold cv: %s', test_err_5fold)
 sprintf('Test error with LOO cv: %s', test_err_loo)
 sprintf('Test error with kNN: %s', test_err_knn)
@@ -442,13 +441,24 @@ summary(model_gam)
 
 
 ```{r}
-par(mfrow=c(2,2))
+par(mfrow = c(2,2))
 plot(model_gam)
 
 ```
 
 Comment:
 
+```{r}
+ypredict_train <- predict(model_gam, newdata = subset(train_data, select = -diabetes), type = "response")
+ypredict_train <- as.factor(as.integer(ypredict_train >= 0.5))
+gam_train_error = mean((ypredict_train != train_data$diabetes))
+sprintf("Train error GAM: %s", gam_train_error)
+
+ypredict_test <- predict(model_gam, newdata = subset(test_data, select = -diabetes), type = "response")
+ypredict_test <- as.factor(as.integer(ypredict_test >= 0.5))
+gam_test_error = mean((ypredict_test != test_data$diabetes))
+sprintf("Test error GAM: %s", gam_test_error)
+```
 
 Classification tree
 
@@ -462,23 +472,242 @@ plotcp(classification_tree)
 
 ```
 
-min value of cp is related to size of 10 
+min value of cp = 0.010582011 is related to size of 10
 
 ```{r}
-class_tree_10 <- prune(classification_tree, cp = 0.0116540354)
+
+classification_tree$cptable
+
+
+class_tree_10 <- prune(classification_tree, cp = 0.010582011)
 par(mar = c(2, 2, 2, 2))
 plot(class_tree_10, main = "Pruned Tree")
 text(class_tree_10, cex = 0.5, col = "blue")
 
 ```
 
+
+```{r}
+tree_train_error <- mean(predict(class_tree_10, subset(train_data, select = -diabetes), type = "class")
+                        != train_data$diabetes)
+sprintf("Train error Classification Tree: %s", tree_train_error)
+
+tree_test_error <- mean(predict(class_tree_10, subset(test_data, select = -diabetes), type = "class") 
+                        != test_data$diabetes)
+sprintf("Train error Classification Tree: %s", tree_test_error)
+
+```
 Bagged trees
+
+
+```{r}
+bagged_tree <- ipred::bagging(diabetes ~ . , data = train_data, nbagg = 100)
+bagged_train_error <- mean(predict(bagged_tree, subset(train_data, select = -diabetes), type = "class")
+                           != train_data$diabetes)
+sprintf("Train error Bagged Trees: %s", bagged_train_error)
+
+bagged_test_error <- mean(predict(bagged_tree, subset(test_data, select = -diabetes), type = "class") 
+                        != test_data$diabetes)
+sprintf("Train error Bagged Trees: %s", bagged_test_error)
+
+```
 Random forest
 
 ```{r}
+library(randomForest)
+train_data$diabetes <- as.factor(train_data$diabetes)
+test_data$diabetes <- as.factor(test_data$diabetes)
+
+random_forest <- randomForest(diabetes  ~ . , data = train_data, ntree = 100)
+forest_train_error <- mean(predict(random_forest, subset(train_data, select = -diabetes), type = "response")
+                           != train_data$diabetes)
+sprintf("Train error Random Forest: %s", forest_train_error)
+
+forest_test_error <- mean(predict(random_forest, subset(test_data, select = -diabetes), type = "response") 
+                        != test_data$diabetes)
+sprintf("Train error Random Forest: %s", forest_test_error)
+
+```
+Comparison
+
+```{r}
+methods <- c("kNN with 5-fold cv", "kNN with LOO cv", "kNN", "GAM", "Classification Tree",
+            "Bagging", "Random Forest")
+
+test_errors <- c(test_err_5fold, test_err_loo, test_err_knn, gam_test_error, tree_test_error,
+                 bagged_test_error, forest_test_error)
+df_comparison <- data.frame(methods, test_errors)
+names(df_comparison) <- c("Method", "Test Error")
+df_comparison
+```
+
+Comment:
+
+
+New Dataset (correct)
+
+```{r}
+data(PimaIndiansDiabetes2)
+new_diabetes_df <- as.data.frame(PimaIndiansDiabetes2)
+new_diabetes_df["diabetes"] <- c(as.integer(new_diabetes_df["diabetes"] == "pos"))
+new_diabetes_df
+```
+
+
+```{r}
+# Split in train and test sets (we want similar class distributions in the two sets)
+
+positives_df <- new_diabetes_df[new_diabetes_df["diabetes"] == "1", ]
+negatives_df <- new_diabetes_df[new_diabetes_df["diabetes"] == "0", ]
+
+set.seed(1)
+
+sample_positives <- sample(c(TRUE, FALSE), nrow(positives_df), replace = TRUE, 
+                           prob = c(0.7, 0.3))
+train_positives <- positives_df[sample_positives, ]
+test_positives <- positives_df[!sample_positives, ]
+
+sample_negatives <- sample(c(TRUE, FALSE), nrow(negatives_df), replace = TRUE, 
+                           prob = c(0.7, 0.3))
+train_negatives <- negatives_df[sample_negatives, ]
+test_negatives <- negatives_df[!sample_negatives, ]
+
+# Reunite train and test data
+train_data <- rbind(train_positives, train_negatives)
+test_data <- rbind(test_positives, test_negatives)
+
+# Randomly shuffle train and test sets
+train_data <- train_data[sample(1:nrow(train)), ]
+test_data <- test_data[sample(1:nrow(test)), ]
 
 ```
 
+```{r}
+fold5_errors <- knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
+                      nfolds = 5, stratified = TRUE, seed = TRUE, k = c(1:150),
+                      dist.type = "euclidean", type = "C")
+loo_errors <- knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
+                    nfolds = nrow(train), stratified = TRUE, seed = TRUE, k = c(1:150),
+                    dist.type = "euclidean")
+predictions_knn <- knn(xnew = as.matrix(subset(test_data, select = -diabetes)), y = train_data$diabetes,
+                  x = as.matrix(subset(train_data, select = -diabetes)), k = c(1:150), type = "C")
+test_errors_knn <- colMeans(abs(predictions_knn - test_data$diabetes))
+
+plot(1:150, 1 - fold5_errors$crit, type = "l", ylim = c(0.35, 0.55), col = "blue", xlab = "k", 
+     ylab = "Error")
+lines(1:150, 1 - loo_errors$crit, col = "red")
+lines(1:150, test_errors_knn, col = "green")
+title("Comparing error estimates")
+legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col = c("blue", "red", "green"), 
+       lty = 1)
+```
+
+
+```{r}
+k_min_5fold <- which.min(1 - fold5_errors$crit)
+k_min_loo <- which.min(1 - loo_errors$crit)
+k_min_knn <- which.min(test_errors_knn)
+
+sprintf("k with 5-fold cv: %s", k_min_5fold)
+sprintf("k with LOO cv: %s", k_min_loo)
+sprintf("k with kNN: %s", k_min_knn)
+```
+
+```{r}
+test_err_5fold_2 <- 1 - fold5_errors$crit[k_min_5fold]
+test_err_loo_2 <- 1- loo_errors$crit[k_min_loo]
+test_err_knn_2 <- test_errors_knn[k_min_knn]
+sprintf('Test error with 5-fold cv: %s', test_err_5fold_2)
+sprintf('Test error with LOO cv: %s', test_err_loo_2)
+sprintf('Test error with kNN: %s', test_err_knn_2)
+```
+
+```{r}
+model_gam <- mgcv::gam(diabetes ~ s(pregnant, k = 5) + s(glucose, k = 5) + s(pressure, k = 5) + 
+                   s(triceps, k = 5) + s(insulin, k = 5) + s(mass, k = 5) + s(pedigree, k = 5) + 
+                   s(age, k = 5), data = train_data, family = binomial())
+summary(model_gam)
+```
+
+
+```{r}
+# Remove the non significant variables
+model_gam <- mgcv::gam(diabetes ~ s(glucose, k = 5) + s(pedigree, k = 5) + s(age, k = 5), 
+                       data = train_data, family = binomial())
+summary(model_gam)
+
+```
+
+```{r}
+ypredict_train <- predict(model_gam, newdata = subset(train_data, select = -diabetes), type = "response")
+ypredict_train <- as.factor(as.integer(ypredict_train >= 0.5))
+gam_train_error_2 = mean((ypredict_train != train_data$diabetes))
+sprintf("Train error GAM: %s", gam_train_error_2)
+
+ypredict_test <- predict(model_gam, newdata = subset(test_data, select = -diabetes), type = "response")
+ypredict_test <- as.factor(as.integer(ypredict_test >= 0.5))
+gam_test_error_2 = mean((ypredict_test != test_data$diabetes))
+sprintf("Test error GAM: %s", gam_test_error_2)
+```
+
+
+```{r}
+set.seed(2)
+
+# Grow the tree
+classification_tree <- rpart(diabetes ~ . , data = train_data, control = rpart.control(cp = 0), 
+                             method = "class")
+plotcp(classification_tree)
+
+```
+
+```{r}
+classification_tree$cptable
+
+
+class_tree_10 <- prune(classification_tree, cp = 0.015873016)
+par(mar = c(2, 2, 2, 2))
+plot(class_tree_10, main = "Pruned Tree")
+text(class_tree_10, cex = 0.5, col = "blue")
+```
+
+```{r}
+tree_train_error_2 <- mean(predict(class_tree_10, subset(train_data, select = -diabetes), type = "class")
+                        != train_data$diabetes)
+sprintf("Train error Classification Tree: %s", tree_train_error_2)
+
+tree_test_error_2 <- mean(predict(class_tree_10, subset(test_data, select = -diabetes), type = "class") 
+                        != test_data$diabetes)
+sprintf("Train error Classification Tree: %s", tree_test_error_2)
+```
+
+
+```{r}
+bagged_tree <- ipred::bagging(diabetes ~ . , data = train_data, nbagg = 100)
+bagged_train_error_2 <- mean(predict(bagged_tree, subset(train_data, select = -diabetes), type = "class")
+                           != train_data$diabetes)
+sprintf("Train error Bagged Trees: %s", bagged_train_error_2)
+
+bagged_test_error_2 <- mean(predict(bagged_tree, subset(test_data, select = -diabetes), type = "class") 
+                        != test_data$diabetes)
+sprintf("Train error Bagged Trees: %s", bagged_test_error_2)
+```
+
+Sistemare: !!!!!!!
+
+```{r}
+train_data$diabetes <- as.factor(train_data$diabetes)
+test_data$diabetes <- as.factor(test_data$diabetes)
+
+#random_forest <- randomForest(diabetes  ~ . , data = train_data, ntree = 100, mtry=2)
+#forest_train_error_2 <- mean(predict(random_forest, subset(train_data, select = -diabetes), type = "response")
+                #           != train_data$diabetes)
+#sprintf("Train error Random Forest: %s", forest_train_error_2)
+
+forest_test_error_2 <- 1 #mean(predict(random_forest, subset(test_data, select = -diabetes), type = "response") 
+   #                     != test_data$diabetes)
+sprintf("Train error Random Forest: %s", forest_test_error_2)
+```
 
 ```{r}
 
@@ -489,34 +718,18 @@ Random forest
 ```
 
 ```{r}
+methods <- c("kNN with 5-fold cv", "kNN with LOO cv", "kNN", "GAM", "Classification Tree",
+            "Bagging", "Random Forest")
 
+test_errors <- c(test_err_5fold, test_err_loo, test_err_knn, gam_test_error, tree_test_error,
+                 bagged_test_error, forest_test_error)
+test_errors_2 <- c(test_err_5fold_2, test_err_loo_2, test_err_knn_2, gam_test_error_2, tree_test_error_2,
+                 bagged_test_error_2, forest_test_error_2)
+df_comparison <- data.frame(methods, test_errors, test_errors_2)
+names(df_comparison) <- c("Method", "Test Error 1", "Test error 2")
+df_comparison
 ```
 
-```{r}
-
-```
-
-```{r}
-
-```
-
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-
-```{r}
-
-```
-
-```{r}
-
-```
 
 ```{r}
 
@@ -527,27 +740,6 @@ Random forest
 
 ```
 
-```{r}
-
-```
-
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-```{r}
-
-```
-
-
-```{r}
-
-```
 
 ```{r}
 
