@@ -13,7 +13,15 @@ library(dplyr)
 
 ## Problem 1: Regression 
 
-bla bla bla
+The first problem of the assignment consists in the analysis of data coming from a study on data toxicity. The dataset is composed of 546 observations and 9 variables. The aim of the analysis is to predict predict acute aquatic toxicity, which is measured through a variable called $LC50$ (the concentration that causes death in 50% of the planktonic crustacean $Daphnia magna$ over a test duration of 48 hours). The other 8 variables, used for the prediction, are:
+- $TPSA$: the topological polar surface area calculated by means of a contribution method that takes into account nitrogen, oxygen, potassium and sulphur;
+- $SAacc$: the Van der Waals surface area (VSA) of atoms that are acceptors of hydrogen bonds;
+- $H050$: the number of hydrogen atoms bonded to heteroatoms;
+- $MLOGP$: expresses the lipophilicity of a molecule, this being the driving force of narcosis;
+- $RDCHI$: a topological index that encodes information about molecular size and branching;
+- $GATS1p$: information on molecular polarisability;
+- $nN$: the number of nitrogen atoms present in the molecule;
+- $C040$: the number of carbon atoms of a certain type, including esters, carboxylic acids, thioesters, carbamic acids, nitriles, etc.;
 
 ```{r}
 df_toxicity <- read.csv("aquatic_toxicity.csv", sep = ";", header = FALSE)
@@ -27,6 +35,10 @@ df_toxicity_dummy ["C040"] <- c(as.integer(df_toxicity_dummy ["C040"]>0))
 
 ```
 
+# Linear Regression
+Firstly, I want to compare the results of the application of linear regression with both the original dataset and a modified dataset, where all the count variables have been transformed using a 0/1 dummy encoding where 0 represents absence of the specific atom and 1 represents presence of the specific atoms. for this reason, I have already created (above) a dicothomic version of the dataset.
+
+Now, I can divide both the datasets into train and test sets, containing 70% and 30% of data, respectively, and then fit linear regression in the two cases and compare the obtained results.
 
 ```{r}
 set.seed(1)
@@ -42,7 +54,7 @@ test_dummy <- df_toxicity_dummy[!sample, ]
 ```{r}
 # linear regression model with original dataset
 linear_model <- lm(LC50 ~ . , data = train)
-summary(linear_model)
+linear_model
 ```
 
 ```{r}
@@ -56,7 +68,7 @@ sprintf("Test error: %s", test_error)
 ```{r}
 # linear regression model with dummy dataset
 linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
-summary(linear_model_dummy)
+linear_model_dummy
 ```
 ```{r}
 prediction_dummy <- predict.lm(linear_model_dummy, test_dummy)
@@ -65,14 +77,21 @@ test_error_dummy <- mean((test_dummy$LC50 - prediction_dummy)^2)
 sprintf("Train error dummy: %s", train_error_dummy) 
 sprintf("Test error dummy: %s", test_error_dummy)
 ```
+The coefficients, in the two cases, have different meanings. If for dummy variables they represent the effect that the presence of the atoms has on the target variable, when dealing with linear values, they represent the change in the dependent variable associated with a one-unit change in that continuous predictor while holding all other predictors constant.
+
+Moreover, we can easily notice that the test error associated to the original dataset is smaller than the one related to the dichotomic dataset.
+
+I then repeat the same procedure 200 times, such that each time I create a new training/test split and I apply linear regression to both the versions of the dataset. The idea behind the repetition is the following: it allows to assess the stability and robustness of the models across different data samples. This repeated process helps you account for the potential variability in model performance due to the randomness in the split of data. In addition, it also provides more reliable estimates of the average performance of the model.
 
 ```{r}
 # repeat the process 200 times 
 repetitions <- 200
 train_error <- 0
 test_error <- 0
+test_errors_lr <- zeros(repetitions, 1)
 train_error_dummy <- 0
 test_error_dummy <- 0
+test_errors_dummy_lr <- zeros(repetitions, 1)
 
 for (i in 1:repetitions){
   sample <- sample(c(TRUE, FALSE), nrow(df_toxicity), replace = TRUE, prob = c(0.7, 0.3))
@@ -85,29 +104,38 @@ for (i in 1:repetitions){
   prediction <- predict.lm(linear_model, test)
   train_error <- train_error + mean(linear_model$residuals^2)/repetitions
   test_error <- test_error + mean((test$LC50 - prediction)^2)/repetitions
+  test_errors_lr[i-1] <- mean((test$LC50 - prediction)^2)/repetitions
 
   linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
   prediction_dummy <- predict.lm(linear_model_dummy, test_dummy)
   train_error_dummy <- train_error_dummy + mean(linear_model_dummy$residuals^2)/repetitions
   test_error_dummy <- test_error_dummy + mean((test_dummy$LC50 -
-                                                prediction_dummy)^2)/repetitions
+                                                 prediction_dummy)^2)/repetitions
+  test_errors_dummy_lr[i-1] <- mean((test_dummy$LC50 - prediction_dummy)^2)/repetitions
 
-} # NB: perché divide per repetitions ogni volta e somma?? Pensarci!!!!
+}
+
 ```
 
 ```{r}
-sprintf("Train error: %s", train_error) # round the error??
-sprintf("Test error: %s", test_error) # round the error??
-sprintf("Train error dummy: %s", train_error_dummy) # round the error??
-sprintf("Test error dummy: %s", test_error_dummy) # round the error??
+boxplot(list(test_errors_lr, test_errors_dummy_lr), col = c("red", "blue"), xlab = "Dataset", ylab = "Test Errors")
+
+legend("bottomleft", legend = c("Original dataset", "Dichotomic dataset"), fill = c("red", "blue"))
 ```
-# answer to question 1
-(Bootstrapping)?
 
-# answer to question 2
-classification, as seen in ML
+```{r}
+sprintf("Train error: %s", train_error) 
+sprintf("Test error: %s", test_error) 
+sprintf("Train error dummy: %s", train_error_dummy) 
+sprintf("Test error dummy: %s", test_error_dummy) 
+```
+As it is possible to can see from both the plot and the results of the errors, in general, the use of the dataset with dicothomic count variables produces worse results. This is due to the fact that using dummy variables is an oversimplification and thus valuable information is ignored.
 
-# VARIABLE SELECTION
+Due to this result, in the next steps I'm going to focus only on the original dataset, without taking into account the dichotomic dataset.
+
+
+# Variable selection
+The next step consists in comparing different variable selection procedures with different stopping criteria. In particular, I'm focusing on Backward Elimination and Forward Selection, both tested with AIC and BIC.
 
 ```{r}
 set.seed(1)
@@ -115,24 +143,22 @@ set.seed(1)
 sample <- sample(c(TRUE, FALSE), nrow(df_toxicity), replace = TRUE, prob = c(0.7, 0.3))
 train <- df_toxicity[sample, ]
 test <- df_toxicity[!sample, ]
-train_dummy <- df_toxicity_dummy[sample, ] # need only the first case here?? Ask!
-test_dummy <- df_toxicity_dummy[!sample, ]
 
 full.model <- lm(LC50 ~ . , data = train)
 null.model <- lm(LC50 ~ 1, data = train)
 ```
 
 ```{r}
-# Backward selection with BIC stopping criterion
+# Backward elimination with BIC stopping criterion
 backward_bic <- step(full.model, direction = "backward", k = log(nrow(train)), trace = FALSE)
-print("Backward selection with BIC stopping criterion")
+print("Backward elimination with BIC stopping criterion")
 backward_bic
 ```
 
 ```{r}
-# Backward selection with AIC stopping criterion
+# Backward elimination with AIC stopping criterion
 backward_aic <- step(full.model, direction = "backward", k = 2, trace = FALSE)
-print("Backward selection with AIC stopping criterion")
+print("Backward elimination with AIC stopping criterion")
 backward_aic
 ```
 
@@ -149,11 +175,10 @@ forward_aic <- step(null.model, direction = "forward", scope = formula(full.mode
 print("Forward selection with AIC stopping criterion")
 forward_aic
 ```
-
-Add a comment about the different models!
-Add best subset?????
+As shown from the results of the 4 methods, the resulting models are the same in all the cases. All of them contain the same 6 variables (the coefficients are different, but the variables are the same): TPSA, SAacc, ML0GP, RDCHI, GATS1p and nN.
 
 # Ridge Regression
+Now, I study the performance of ridge regression, using both 5-fold cross-validation and a bootstrap procedure (considering 100 bootstrap iterations) . The idea is to find the optimal complexity parameter among a grid of lambda values.
 
 ```{r}
 library(glmnet)
@@ -162,6 +187,7 @@ y <- as.vector(train$LC50)
 # Create a sequence of lambda values to try
 lambda_seq <- 10^seq(-5, 5, length = 100)
 
+# 5-fold cross-validation
 ridge_cv_model <- cv.glmnet(x, y, alpha = 0, lambda = lambda_seq, nfolds = 5)
 
 print(ridge_cv_model)
@@ -177,7 +203,7 @@ plot(ridge_cv_model, ylab = "MSE", xlim = c(-5, 5))
 best_lambda <- ridge_cv_model$lambda[which.min(ridge_cv_model$cvm)]
 sprintf("The best value of lambda is %s", best_lambda)
 ```
-So, now we compute the train and test error for the model with the best value of lambda.#add cv even here or not???
+So, I compute the train and test error for the model with the optimal value of lambda:
 
 ```{r}
 ridge_best <- glmnet(x, y, alpha = 0, lambda = best_lambda)
@@ -188,11 +214,12 @@ ridge_cv_test_err <- mean((predict(ridge_best, as.matrix(subset(test, select = -
 sprintf("Ridge cv train error: %s", ridge_cv_train_err)
 sprintf("Ridge cv test error: %s", ridge_cv_test_err)
 ```
-MSE???
 
 ```{r}
 library(boot)
 library(pracma)
+
+# Bootstrap
 ridge_fit <- function(data, indices, lambda_seq) {
   data_train <- data[indices, ]
   X_train <- as.matrix(subset(data_train, select = -LC50))
@@ -213,7 +240,7 @@ for (i in 1:100){
 
 
 ```{r}
-plot(log10(ridge_cv_model$lambda), ridge_cv_model$cvm, ylab = "MSE", type = "l", xlab = "log(lambda)", col = "red", ylim = c(1, 3))
+plot(log10(ridge_cv_model$lambda), ridge_cv_model$cvm, ylab = "MSE", type = "l", xlab = "log(lambda)", col = "red", ylim = c(1.2, 3))
 lines(log10(lambda_seq), mse_boot, col = "black", type = "l", ylim = c(1, 3))
 legend("topleft", legend = c("5-fold Cross-Validation", "Bootstrap"), col = c("red", "black"), lty = 1)
 
@@ -223,7 +250,7 @@ legend("topleft", legend = c("5-fold Cross-Validation", "Bootstrap"), col = c("r
 best_lambda_boot <- lambda_seq[which.min(mse_boot)]
 sprintf("The best value of lambda is %s", best_lambda_boot)
 ```
-So, now we compute the train and test error for the model with the best value of lambda.#add bootstrap even here or not???
+So, I compute the train and test error for the model with the optimal value of lambda:
 
 ```{r}
 ridge_best_boot <- glmnet(x, y, alpha = 0, lambda = best_lambda_boot)
@@ -235,7 +262,12 @@ sprintf("Ridge bootstrap train error: %s", ridge_boot_train_err)
 sprintf("Ridge bootstrap test error: %s", ridge_boot_test_err)
 
 ```
-GAM
+The train and test errors resulting form the two methods are very similar to each other, especially the test error. This means that the two methods work similarly, as it is also shown in the figure above, which allows to compare the MSE w.r.t lambda in the two cases.
+
+
+# Generalized Additive Model
+
+Next, I consider possible non linear effects, fitting a generalized additive model  in which the effects of the variables are fitted using smoothing splines. I decided to compare different levels of complexity for the smoothing splines. In particular, I focused on degrees of freedom from 3 to 10.
 
 ```{r}
 library(gam)
@@ -245,6 +277,7 @@ degrees = 3:10
 train_error_gam <- zeros(length(degrees), 1)
 test_error_gam <- zeros(length(degrees), 1)
 
+# Fit GAM and compute the errors for each degree of freedom
 for (k in degrees){
   gam_model <- gam(LC50 ~ s(TPSA, df = k) + s(SAacc, df = k) + s(H050, df = k) + 
                      s(MLOGP, df = k) + s(RDCHI, df = k) + s(GATS1p, df = k) + 
@@ -261,17 +294,21 @@ for (k in degrees){
 
 
 ```{r}
+# Create a dataframe containing the errors for each degree of freedom
 df_gam <- data.frame(degrees, train_error_gam, test_error_gam)
 names(df_gam) <- c("Degrees of Freedom", "Train Error", "Test Error")
 df_gam
 
 ```
-Best ones = small degrees.
 
-REGRESSION TREE
+I can immediately notice, from the above table, that the lowest test errors are related to small degrees of freedom. In particular, for the final comparison, I will store the result related to degree 3, which correspond to the lowest value of test error.
+
+# Regression Tree
 
 ```{r}
 library(rpart)
+
+set.seed(1)
 
 # Grow the full tree
 full_tree <- rpart(LC50 ~ . , data = train, control = rpart.control(cp=0))
@@ -284,17 +321,17 @@ plotcp(full_tree)
 full_tree$cptable
 
 ```
-The lowest error is given y a cp = 0.0117017714.
+The lowest error is given y a cp = 0.0116540354. So, I prune the tree according to this value. This is the obtained tree:
 
 ```{r}
 # Prune the tree
-pruned_tree <- prune(full_tree, cp = 0.0117017714)
-par(mar = c(2, 2, 2, 2))
+pruned_tree <- prune(full_tree, cp = 0.0116540354)
+par(mar = c(1, 1, 1, 1))
 plot(pruned_tree, main = "Pruned Tree")
 text(pruned_tree, cex = 0.5, col = "blue")
 
 ```
-
+Then, I compute the train and the test error for the pruned tree:
 
 ```{r}
 # Train and test error for the pruned tree
@@ -306,8 +343,9 @@ test_error_tree <- mean((predict(pruned_tree, subset(test, select = -LC50)) -
 sprintf("Train error Regression Tree: %s", train_error_tree)
 sprintf("Test error Regression Tree: %s", test_error_tree)
 ```
-COMPARISON OF ALL THE METHODS
+# Comparison of all the methods
 
+Now that I have applied all the methods, I can make a comparison between all of them, in order to draw some conclusions.
 ```{r}
 methods <- c("Linear Regression", "Dummy Linear Regression", "Variable selection",
             "Ridge Cross-Validation", "Ridge Bootstrap", "GAM", "Regression Tree")
@@ -318,6 +356,7 @@ test_errors <- c(test_error, test_error_dummy, mean((test$LC50 -
                                                      predict.lm(backward_bic, test))^2),
                ridge_cv_test_err, ridge_boot_test_err, test_error_gam[1],
                test_error_tree)
+# Dataframe containing all the errors related to each method
 df_comparison <- data.frame(methods, train_errors, test_errors)
 names(df_comparison) <- c("Method", "Train Error", "Test Error")
 df_comparison
@@ -325,7 +364,7 @@ df_comparison
 ```
 
 The above table shows the train and the test errors for all the different methods used by now. If we consider the best method as the one that minimizes the test error, then in this case the best one is Linear Regression. All the other methods give a larger test error.
-We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies. 
+We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (the test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies. 
 
 
 ## Problem 2: Classification 
