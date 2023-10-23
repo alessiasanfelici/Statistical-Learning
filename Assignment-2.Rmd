@@ -1,10 +1,9 @@
 ---
 title: "Assignment 2"
 output:
-  html_document: default
   pdf_document: default
-  word_document: default
-date: "2023-10-23"
+  html_document: default
+date: "2023-10-19"
 ---
 
 ```{r setup, include=FALSE}
@@ -827,5 +826,5 @@ names(df_comparison) <- c("Method", "Test Error 1", "Test error 2")
 df_comparison
 ```
 
-The results related to the correct dataset, as expected, are better. This is due to the fact that the data I removed were not correct (since they were set to 0 even if they were missing values). Therefore, with the correct data, the performance of almost all the models is improved. In this case, the best models are still kNN with LOO and 5-fold cross validation. Bagging and random forest have an intermediate position, while GAM and classification trees are the worst ones. 
+The results related to the correct dataset, as expected, are better. This is due to the fact that the data I removed were not correct (since they were set to 0 even if they were missin values). Therefore, with the correct data, the performance of almost all the models is improved. In this case, the best models are still kNN with LOO and 5-fold cross validation. Bagging and random forest have an intermediate position, while GAM and classification trees are the worst ones. 
 
