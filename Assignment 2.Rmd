@@ -1,10 +1,10 @@
 ---
-title: "Assignment 2"
+title: "Mandatory Assignment 2 - STK-IN4300"
 output:
   html_document: default
   pdf_document: default
   word_document: default
-date: "2023-10-23"
+author: "Alessia Sanfelici"
 ---
 
 ```{r setup, include=FALSE}
@@ -14,25 +14,25 @@ library(ggplot2)
 library(dplyr)
 ```
 
-## Problem 1: Regression 
+# Problem 1: Regression
 
 The first problem of the assignment consists in the analysis of data coming from a study on data toxicity. The dataset is composed of 546 observations and 9 variables. The aim of the analysis is to predict predict acute aquatic toxicity, which is measured through a variable called $LC50$ (the concentration that causes death in 50% of the planktonic crustacean $Daphnia magna$ over a test duration of 48 hours). The other 8 variables, used for the prediction, are:
 
-- $TPSA$: the topological polar surface area calculated by means of a contribution method that takes into account nitrogen, oxygen, potassium and sulphur;
+-   $TPSA$: the topological polar surface area calculated by means of a contribution method that takes into account nitrogen, oxygen, potassium and sulphur;
 
-- $SAacc$: the Van der Waals surface area (VSA) of atoms that are acceptors of hydrogen bonds;
+-   $SAacc$: the Van der Waals surface area (VSA) of atoms that are acceptors of hydrogen bonds;
 
-- $H050$: the number of hydrogen atoms bonded to heteroatoms;
+-   $H050$: the number of hydrogen atoms bonded to heteroatoms;
 
-- $MLOGP$: expresses the lipophilicity of a molecule, this being the driving force of narcosis;
+-   $MLOGP$: expresses the lipophilicity of a molecule, this being the driving force of narcosis;
 
-- $RDCHI$: a topological index that encodes information about molecular size and branching;
+-   $RDCHI$: a topological index that encodes information about molecular size and branching;
 
-- $GATS1p$: information on molecular polarisability;
+-   $GATS1p$: information on molecular polarisability;
 
-- $nN$: the number of nitrogen atoms present in the molecule;
+-   $nN$: the number of nitrogen atoms present in the molecule;
 
-- $C040$: the number of carbon atoms of a certain type, including esters, carboxylic acids, thioesters, carbamic acids, nitriles, etc.;
+-   $C040$: the number of carbon atoms of a certain type, including esters, carboxylic acids, thioesters, carbamic acids, nitriles, etc.;
 
 ```{r}
 df_toxicity <- read.csv("aquatic_toxicity.csv", sep = ";", header = FALSE)
@@ -46,7 +46,8 @@ df_toxicity_dummy ["C040"] <- c(as.integer(df_toxicity_dummy ["C040"]>0))
 
 ```
 
-# Linear Regression
+## Linear Regression
+
 Firstly, I want to compare the results of the application of linear regression with both the original dataset and a modified dataset, where all the count variables have been transformed using a 0/1 dummy encoding where 0 represents absence of the specific atom and 1 represents presence of the specific atoms. for this reason, I have already created (above) a dicothomic version of the dataset.
 
 Now, I can divide both the datasets into train and test sets, containing 70% and 30% of data, respectively, and then fit linear regression in the two cases and compare the obtained results.
@@ -81,6 +82,7 @@ sprintf("Test error: %s", test_error)
 linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
 linear_model_dummy
 ```
+
 ```{r}
 prediction_dummy <- predict.lm(linear_model_dummy, test_dummy)
 train_error_dummy <- mean(linear_model_dummy$residuals^2)
@@ -88,6 +90,7 @@ test_error_dummy <- mean((test_dummy$LC50 - prediction_dummy)^2)
 sprintf("Train error dummy: %s", train_error_dummy) 
 sprintf("Test error dummy: %s", test_error_dummy)
 ```
+
 The coefficients, in the two cases, have different meanings. If for dummy variables they represent the effect that the presence of the atoms has on the target variable, when dealing with linear values, they represent the change in the dependent variable associated with a one-unit change in that continuous predictor while holding all other predictors constant.
 
 Moreover, we can easily notice that the test error associated to the original dataset is smaller than the one related to the dichotomic dataset.
@@ -140,12 +143,13 @@ sprintf("Test error: %s", test_error)
 sprintf("Train error dummy: %s", train_error_dummy) 
 sprintf("Test error dummy: %s", test_error_dummy) 
 ```
+
 As it is possible to can see from both the plot and the results of the errors, in general, the use of the dataset with dicothomic count variables produces worse results. This is due to the fact that using dummy variables is an oversimplification and thus valuable information is ignored.
 
 Due to this result, in the next steps I'm going to focus only on the original dataset, without taking into account the dichotomic dataset.
 
+## Variable selection
 
-# Variable selection
 The next step consists in comparing different variable selection procedures with different stopping criteria. In particular, I'm focusing on Backward Elimination and Forward Selection, both tested with AIC and BIC.
 
 ```{r}
@@ -186,9 +190,11 @@ forward_aic <- step(null.model, direction = "forward", scope = formula(full.mode
 print("Forward selection with AIC stopping criterion")
 forward_aic
 ```
+
 As shown from the results of the 4 methods, the resulting models are the same in all the cases. All of them contain the same 6 variables (the coefficients are different, but the variables are the same): TPSA, SAacc, ML0GP, RDCHI, GATS1p and nN.
 
-# Ridge Regression
+## Ridge Regression
+
 Now, I study the performance of ridge regression, using both 5-fold cross-validation and a bootstrap procedure (considering 100 bootstrap iterations) . The idea is to find the optimal complexity parameter among a grid of lambda values.
 
 ```{r}
@@ -214,6 +220,7 @@ plot(ridge_cv_model, ylab = "MSE", xlim = c(-5, 5))
 best_lambda <- ridge_cv_model$lambda[which.min(ridge_cv_model$cvm)]
 sprintf("The best value of lambda is %s", best_lambda)
 ```
+
 So, I compute the train and test error for the model with the optimal value of lambda:
 
 ```{r}
@@ -249,7 +256,6 @@ for (i in 1:100){
 }
 ```
 
-
 ```{r}
 plot(log10(ridge_cv_model$lambda), ridge_cv_model$cvm, ylab = "MSE", type = "l", xlab = "log(lambda)", col = "red", ylim = c(1.2, 3))
 lines(log10(lambda_seq), mse_boot, col = "black", type = "l", ylim = c(1, 3))
@@ -261,6 +267,7 @@ legend("topleft", legend = c("5-fold Cross-Validation", "Bootstrap"), col = c("r
 best_lambda_boot <- lambda_seq[which.min(mse_boot)]
 sprintf("The best value of lambda is %s", best_lambda_boot)
 ```
+
 So, I compute the train and test error for the model with the optimal value of lambda:
 
 ```{r}
@@ -273,12 +280,12 @@ sprintf("Ridge bootstrap train error: %s", ridge_boot_train_err)
 sprintf("Ridge bootstrap test error: %s", ridge_boot_test_err)
 
 ```
+
 The train and test errors resulting form the two methods are very similar to each other, especially the test error. This means that the two methods work similarly, as it is also shown in the figure above, which allows to compare the MSE w.r.t lambda in the two cases.
 
+## Generalized Additive Model
 
-# Generalized Additive Model
-
-Next, I consider possible non linear effects, fitting a generalized additive model  in which the effects of the variables are fitted using smoothing splines. I decided to compare different levels of complexity for the smoothing splines. In particular, I focused on degrees of freedom from 3 to 10.
+Next, I consider possible non linear effects, fitting a generalized additive model in which the effects of the variables are fitted using smoothing splines. I decided to compare different levels of complexity for the smoothing splines. In particular, I focused on degrees of freedom from 3 to 10.
 
 ```{r}
 library(gam)
@@ -303,7 +310,6 @@ for (k in degrees){
 
 ```
 
-
 ```{r}
 # Create a dataframe containing the errors for each degree of freedom
 df_gam <- data.frame(degrees, train_error_gam, test_error_gam)
@@ -314,7 +320,7 @@ df_gam
 
 I can immediately notice, from the above table, that the lowest test errors are related to small degrees of freedom. In particular, for the final comparison, I will store the result related to degree 3, which correspond to the lowest value of test error.
 
-# Regression Tree
+## Regression Tree
 
 ```{r}
 library(rpart)
@@ -327,11 +333,11 @@ plotcp(full_tree)
 
 ```
 
-
 ```{r}
 full_tree$cptable
 
 ```
+
 The lowest error is given y a cp = 0.0116540354. So, I prune the tree according to this value. This is the obtained tree:
 
 ```{r}
@@ -355,9 +361,11 @@ test_error_tree <- mean((predict(pruned_tree, subset(test, select = -LC50)) -
 sprintf("Train error Regression Tree: %s", train_error_tree)
 sprintf("Test error Regression Tree: %s", test_error_tree)
 ```
-# Comparison of all the methods
+
+## Comparison of all the methods
 
 Now that I have applied all the methods, I can make a comparison between all of them, in order to draw some conclusions.
+
 ```{r}
 methods <- c("Linear Regression", "Dummy Linear Regression", "Variable selection",
             "Ridge Cross-Validation", "Ridge Bootstrap", "GAM", "Regression Tree")
@@ -375,30 +383,27 @@ df_comparison
 
 ```
 
-The above table shows the train and the test errors for all the different methods used by now. If we consider the best method as the one that minimizes the test error, then in this case the best one is Linear Regression. All the other methods give a larger test error.
-We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (the test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies. 
+The above table shows the train and the test errors for all the different methods used by now. If we consider the best method as the one that minimizes the test error, then in this case the best one is Linear Regression. All the other methods give a larger test error. We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (the test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies.
 
-
-## Problem 2: Classification 
+# Problem 2: Classification
 
 The second problem of this work is based on the study of the Pima Indians Diabetes Database, containing information about 768 women from a population (Pima indians) that is particularly susceptible to diabetes. The response vaiable $diabetes$ identifies two classes ("pos" and "neg"), depending whether r a person involved in the study has developed the disease or not. The dataset contains also other 8 numeric variables:
 
-- $pregnant$: number of pregnancies;
+-   $pregnant$: number of pregnancies;
 
-- $glucose$: plasma glucose concentration at 2 h in an oral glucose tolerance test;
+-   $glucose$: plasma glucose concentration at 2 h in an oral glucose tolerance test;
 
-- $pressure$: diastolic blood pressure (mm Hg);
+-   $pressure$: diastolic blood pressure (mm Hg);
 
-- $triceps$: triceps skin fold thickness (mm);
+-   $triceps$: triceps skin fold thickness (mm);
 
-- $insulin$: 2-h serum insulin (µU/mL);
+-   $insulin$: 2-h serum insulin (µU/mL);
 
-- $mass$: body mass index (kg/m2);
+-   $mass$: body mass index (kg/m2);
 
-- $pedigree$: diabetes pedigree function;
+-   $pedigree$: diabetes pedigree function;
 
-- $age$: age (years);
-
+-   $age$: age (years);
 
 ```{r}
 library(mlbench)
@@ -409,8 +414,8 @@ diabetes_df["diabetes"] <- c(as.integer(diabetes_df["diabetes"] == "pos"))
 head(diabetes_df)
 
 ```
-I randomly split the dataset into a training set (70% of the observations) and a
-test set (remaining 30% of the observations), such that the class distributions (i.e. the empirical distribution of diabetes) is similar in the two sets.
+
+I randomly split the dataset into a training set (70% of the observations) and a test set (remaining 30% of the observations), such that the class distributions (i.e. the empirical distribution of diabetes) is similar in the two sets.
 
 ```{r}
 # Split in train and test sets (we want similar class distributions in the two sets)
@@ -439,7 +444,7 @@ train_data <- train_data[sample(1:nrow(train)), ]
 test_data <- test_data[sample(1:nrow(test)), ]
 ```
 
-# kNN
+## kNN
 
 The first step for this classification problem is to apply a k-Nearest Neighbor method. The idea is to compare the error estimates obtained using 5-fold cross-validation, Leave-One-Out cross-validation and the actual test error I would have obtained when fitting k-NN for the different values of k. The following plot shows the obtained results.
 
@@ -468,7 +473,8 @@ legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col =
          c("blue", "red", "green"), lty = 1)
 
 ```
-It can be immediately noticed that cross-validation tends to underestimate the error, especially for small values of k. 
+
+It can be immediately noticed that cross-validation tends to underestimate the error, especially for small values of k.
 
 I save the values of the lowest test errors related to each of the three methods.
 
@@ -483,7 +489,6 @@ sprintf("k with kNN: %s", k_min_knn)
 
 ```
 
-
 ```{r}
 test_err_5fold <- 1 - fold5_errors$crit[k_min_5fold]
 test_err_loo <- 1- loo_errors$crit[k_min_loo]
@@ -493,7 +498,8 @@ sprintf('Test error with LOO cv: %s', test_err_loo)
 sprintf('Test error with kNN: %s', test_err_knn)
 
 ```
-# Generalized Additive Model
+
+## Generalized Additive Model
 
 Next, I fit a Generalized Additive Model with splines and use a variable selection method to find the best model.
 
@@ -504,6 +510,7 @@ model_gam <- mgcv::gam(diabetes ~ s(pregnant, k = 5) + s(glucose, k = 5) + s(pre
 summary(model_gam)
 
 ```
+
 The result shows that only 4 variables are significant, so I have to remove the non significant variables from the model:
 
 ```{r}
@@ -513,7 +520,8 @@ model_gam <- mgcv::gam(diabetes ~ s(glucose, k = 5) + s(mass, k = 5) + s(pedigre
 summary(model_gam)
 
 ```
-Now, all the variables are significant. 
+
+Now, all the variables are significant.
 
 The following plots show the relationship between the 4 significant variables and the response.
 
@@ -522,6 +530,7 @@ par(mfrow = c(2,2))
 plot(model_gam)
 
 ```
+
 Finally, I compute the train error and the test error for GAM:
 
 ```{r}
@@ -536,7 +545,7 @@ gam_test_error = mean((ypredict_test != test_data$diabetes))
 sprintf("Test error GAM: %s", gam_test_error)
 ```
 
-# Classification tree
+## Classification tree
 
 Now, I start to consider tree-based methods for classifications. The first model I fit is the classification tree, starting from a full tree and then pruning it.
 
@@ -550,11 +559,11 @@ plotcp(classification_tree)
 
 ```
 
-
 ```{r}
 
 classification_tree$cptable
 ```
+
 The minimum value of cp = 0.021164021, so I prune it at this value.
 
 ```{r}
@@ -564,6 +573,7 @@ plot(class_tree, main = "Pruned Tree")
 text(class_tree, cex = 0.5, col = "blue")
 
 ```
+
 The corresponding train and test errors are:
 
 ```{r}
@@ -576,10 +586,10 @@ tree_test_error <- mean(predict(class_tree, subset(test_data, select = -diabetes
 sprintf("Train error Classification Tree: %s", tree_test_error)
 
 ```
-# Bagged trees
+
+## Bagged trees
 
 I now consider another tree-based method, by constructing and evaluating an ensemble of bagged trees. The train and the test arrors are the following:
-
 
 ```{r}
 train_data$diabetes <- as.factor(train_data$diabetes)
@@ -595,7 +605,9 @@ bagged_test_error <- mean(predict(bagged_tree, subset(test_data, select = -diabe
 sprintf("Test error Bagged Trees: %s", bagged_test_error)
 
 ```
-# Random forest
+
+## Random forest
+
 The last tree-based method is a Random Forest, for which I used 100 trees. The train and the test arrors are the following:
 
 ```{r}
@@ -611,9 +623,10 @@ forest_test_error <- mean(predict(random_forest, subset(test_data, select = -dia
 sprintf("Test error Random Forest: %s", forest_test_error)
 
 ```
+
 Comparing the results of the errors of the three tree-based methods, it is clear that the results are very similar. Especially the values of the test errors are almost the same.
 
-# Comparison of all the methods
+## Comparison of all the methods
 
 After the fitting of all these classification methods, it is reasonable to make a comparison of all of them, in order to understand which performs better. Since I consider the best method as the one which minimizes the test error, I just need the test error values to evaluate the performance of each technique.
 
@@ -630,8 +643,7 @@ df_comparison
 
 The above table shows that the lowest terror is obtained with a kNN fitted using LOO cross-validation. The result obtained with 5-fold cross-validation is very good as well. In general, all the test error values shown in the table are very similar, so the different models have a similar performance.
 
-
-# New Dataset
+## New Dataset
 
 Looking more closely at the data, it has been noted that several values are impossible (e.g., a body mass index of 0). This is due to that some of the observations are actually not zeros, but missing values. So, I now consider the correct dataset and compare the old results of all the methods implemented in the previous points to those obtained after removing all observations that contain missing values.
 
@@ -642,6 +654,7 @@ new_diabetes_df["diabetes"] <- c(as.integer(new_diabetes_df["diabetes"] == "pos"
 new_diabetes_df <- na.omit(new_diabetes_df) # remove all the rows containing missing values
 head(new_diabetes_df)
 ```
+
 After the elimination of all the rows containing missing values I can split the dataset in train and test sets, as I did before.
 
 ```{r}
@@ -697,7 +710,6 @@ legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col = c(
        lty = 1)
 ```
 
-
 ```{r}
 k_min_5fold <- which.min(1 - fold5_errors$crit)
 k_min_loo <- which.min(1 - loo_errors$crit)
@@ -717,14 +729,12 @@ sprintf('Test error with LOO cv: %s', test_err_loo_2)
 sprintf('Test error with kNN: %s', test_err_knn_2)
 ```
 
-
 ```{r}
 model_gam <- mgcv::gam(diabetes ~ s(pregnant, k = 5) + s(glucose, k = 5) + s(pressure, k = 5) + 
                    s(triceps, k = 5) + s(insulin, k = 5) + s(mass, k = 5) + s(pedigree, k = 5) + 
                    s(age, k = 5), data = train_data, family = binomial())
 summary(model_gam)
 ```
-
 
 ```{r}
 # Remove the non significant variables
@@ -745,7 +755,6 @@ ypredict_test <- as.factor(as.integer(ypredict_test >= 0.5))
 gam_test_error_2 = mean((ypredict_test != test_data$diabetes))
 sprintf("Test error GAM: %s", gam_test_error_2)
 ```
-
 
 ```{r}
 set.seed(2)
@@ -778,7 +787,6 @@ tree_test_error_2 <- mean(predict(class_tree_10, subset(test_data, select = -dia
 sprintf("Train error Classification Tree: %s", tree_test_error_2)
 ```
 
-
 ```{r}
 train_data$diabetes <- as.factor(train_data$diabetes)
 test_data$diabetes <- as.factor(test_data$diabetes)
@@ -792,8 +800,6 @@ bagged_test_error_2 <- mean(predict(bagged_tree, subset(test_data, select = -dia
                         != test_data$diabetes)
 sprintf("Train error Bagged Trees: %s", bagged_test_error_2)
 ```
-
-Sistemare: !!!!!!!
 
 ```{r}
 random_forest <- randomForest(diabetes  ~ . , data = train_data, ntree = 100, mtry=2)
@@ -827,5 +833,4 @@ names(df_comparison) <- c("Method", "Test Error 1", "Test error 2")
 df_comparison
 ```
 
-The results related to the correct dataset, as expected, are better. This is due to the fact that the data I removed were not correct (since they were set to 0 even if they were missing values). Therefore, with the correct data, the performance of almost all the models is improved. In this case, the best models are still kNN with LOO and 5-fold cross validation. Bagging and random forest have an intermediate position, while GAM and classification trees are the worst ones. 
-
+The results related to the correct dataset, as expected, are better. This is due to the fact that the data I removed were not correct (since they were set to 0 even if they were missing values). Therefore, with the correct data, the performance of almost all the models is improved. In this case, the best models are still kNN with LOO and 5-fold cross validation. Bagging and random forest have an intermediate position, while GAM and classification trees are the worst ones.
