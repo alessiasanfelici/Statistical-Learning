@@ -448,12 +448,14 @@ test_data <- test_data[sample(1:nrow(test)), ]
 
 The first step for this classification problem is to apply a k-Nearest Neighbor method. The idea is to compare the error estimates obtained using 5-fold cross-validation, Leave-One-Out cross-validation and the actual test error I would have obtained when fitting k-NN for the different values of k. The following plot shows the obtained results.
 
-```{r}
+```{r, include=FALSE}
 library(class)
 library(cvms)
 library(kknn)
 library(Rfast)
+```
 
+```{r}
 fold5_errors <- knn.cv(x = as.matrix(subset(train_data,select=-diabetes)), y = train_data$diabetes, 
                       nfolds = 5, stratified = TRUE, seed = TRUE, k = c(1:150),
                       dist.type = "euclidean", type = "C")
