@@ -16,7 +16,7 @@ library(dplyr)
 
 # Problem 1: Regression
 
-The first problem of the assignment consists in the analysis of data coming from a study on data toxicity. The dataset is composed of 546 observations and 9 variables. The aim of the analysis is to predict predict acute aquatic toxicity, which is measured through a variable called $LC50$ (the concentration that causes death in 50% of the planktonic crustacean $Daphnia magna$ over a test duration of 48 hours). The other 8 variables, used for the prediction, are:
+The first problem of the assignment consists in the analysis of data coming from a study on data toxicity. The dataset is composed of 546 observations and 9 variables. The aim of the analysis is to predict acute aquatic toxicity, which is measured through a variable called $LC50$ (the concentration that causes death in 50% of the planktonic crustacean $Daphnia magna$ over a test duration of 48 hours). The other 8 variables, used for the prediction, are:
 
 -   $TPSA$: the topological polar surface area calculated by means of a contribution method that takes into account nitrogen, oxygen, potassium and sulphur;
 
@@ -24,7 +24,7 @@ The first problem of the assignment consists in the analysis of data coming from
 
 -   $H050$: the number of hydrogen atoms bonded to heteroatoms;
 
--   $MLOGP$: expresses the lipophilicity of a molecule, this being the driving force of narcosis;
+-   $MLOGP$: the lipophilicity of a molecule, this being the driving force of narcosis;
 
 -   $RDCHI$: a topological index that encodes information about molecular size and branching;
 
@@ -48,7 +48,7 @@ df_toxicity_dummy ["C040"] <- c(as.integer(df_toxicity_dummy ["C040"]>0))
 
 ## Linear Regression
 
-Firstly, I want to compare the results of the application of linear regression with both the original dataset and a modified dataset, where all the count variables have been transformed using a 0/1 dummy encoding where 0 represents absence of the specific atom and 1 represents presence of the specific atoms. for this reason, I have already created (above) a dicothomic version of the dataset.
+Firstly, I want to compare the results of the application of linear regression with both the original dataset and a modified dataset, where all the count variables have been transformed using a 0/1 dummy encoding where 0 represents absence of the specific atom and 1 represents presence of the specific atoms. For this reason, I have already created (above) a dicothomic version of the dataset.
 
 Now, I can divide both the datasets into train and test sets, containing 70% and 30% of data, respectively, and then fit linear regression in the two cases and compare the obtained results.
 
@@ -66,7 +66,7 @@ test_dummy <- df_toxicity_dummy[!sample, ]
 ```{r}
 # linear regression model with original dataset
 linear_model <- lm(LC50 ~ . , data = train)
-linear_model
+summary(linear_model)
 ```
 
 ```{r}
@@ -80,7 +80,7 @@ sprintf("Test error: %s", test_error)
 ```{r}
 # linear regression model with dummy dataset
 linear_model_dummy <- lm(LC50 ~ ., data = train_dummy)
-linear_model_dummy
+summary(linear_model_dummy)
 ```
 
 ```{r}
@@ -91,11 +91,13 @@ sprintf("Train error dummy: %s", train_error_dummy)
 sprintf("Test error dummy: %s", test_error_dummy)
 ```
 
-The coefficients, in the two cases, have different meanings. If for dummy variables they represent the effect that the presence of the atoms has on the target variable, when dealing with linear values, they represent the change in the dependent variable associated with a one-unit change in that continuous predictor while holding all other predictors constant.
+In the two cases, the coefficients have different meanings. If for dummy variables they represent the effect that the presence of the atoms has on the target variable, when dealing with linear values, they represent the change in the dependent variable associated with a one-unit change in that continuous predictor while holding all other predictors constant.
 
-Moreover, we can easily notice that the test error associated to the original dataset is smaller than the one related to the dichotomic dataset.
+By comparing the summary of the two models, we can notice that the significance of the coefficients is similar. The two main differences can be seen for $nN$ and $RDCHI$ coefficients. The former is significant for the first model but not for the second one. On the contrary, the latter has a smaller p-value in the first model than in the second one.
 
-I then repeat the same procedure 200 times, such that each time I create a new training/test split and I apply linear regression to both the versions of the dataset. The idea behind the repetition is the following: it allows to assess the stability and robustness of the models across different data samples. This repeated process helps you account for the potential variability in model performance due to the randomness in the split of data. In addition, it also provides more reliable estimates of the average performance of the model.
+Focusing on the errors, we can easily notice that the train and the test errors associated to the original dataset are smaller than the ones related to the dichotomic dataset.
+
+I then repeat the same procedure 200 times, such that each time I create a new training/test split and I apply linear regression to both the versions of the dataset. The idea behind the repetition is the following: it allows to assess the stability and robustness of the models across different data samples. This repeated process helps in accounting for the potential variability in model performance due to the randomness in the split of data. In addition, it also provides more reliable estimates of the average performance of the model.
 
 ```{r}
 # repeat the process 200 times 
@@ -144,7 +146,7 @@ sprintf("Train error dummy: %s", train_error_dummy)
 sprintf("Test error dummy: %s", test_error_dummy) 
 ```
 
-As it is possible to can see from both the plot and the results of the errors, in general, the use of the dataset with dicothomic count variables produces worse results. This is due to the fact that using dummy variables is an oversimplification and thus valuable information is ignored.
+As it is possible to see from both the plot and the results of the errors, in general, the use of the dataset with dicothomic count variables produces worse results. This is due to the fact that using dummy variables is an oversimplification and thus valuable information is ignored.
 
 Due to this result, in the next steps I'm going to focus only on the original dataset, without taking into account the dichotomic dataset.
 
@@ -191,7 +193,7 @@ print("Forward selection with AIC stopping criterion")
 forward_aic
 ```
 
-As shown from the results of the 4 methods, the resulting models are the same in all the cases. All of them contain the same 6 variables (the coefficients are different, but the variables are the same): TPSA, SAacc, ML0GP, RDCHI, GATS1p and nN.
+As shown from the results of the 4 methods, the resulting models are the same in all the cases. All of them contain the same 6 variables (the coefficients are different, but the variables are the same): TPSA, SAacc, ML0GP, RDCHI, GATS1p and nN. In particular, focusing on the same variable selection technique, the results obtained with AIC and BIC are the same.
 
 ## Ridge Regression
 
@@ -318,9 +320,11 @@ df_gam
 
 ```
 
-I can immediately notice, from the above table, that the lowest test errors are related to small degrees of freedom. In particular, for the final comparison, I will store the result related to degree 3, which correspond to the lowest value of test error.
+I can immediately notice, from the above table, that the lowest test errors are related to small degrees of freedom. In particular, for the final comparison, I will use the result related to degree 3, which correspond to the lowest value of test error.
 
 ## Regression Tree
+
+The next step is to fit a model using a regression tree. The procedure is the following:
 
 ```{r}
 library(rpart)
@@ -383,11 +387,15 @@ df_comparison
 
 ```
 
-The above table shows the train and the test errors for all the different methods used by now. If we consider the best method as the one that minimizes the test error, then in this case the best one is Linear Regression. All the other methods give a larger test error. We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (the test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies.
+The above table shows the train and the test errors for all the different methods used by now. If we consider the best method as the one that minimizes the test error, then in this case the best one is Linear Regression. All the other methods give a larger test error. 
+
+We can also see that GAM and Regression Tree have a lower train error but a larger test error with respect to the other methods. This means that these techniques work very well with the train sample, but when dealing with new data (the test sample) their performance is worse, thus the test error is larger. This behavior suggest a problem of overfitting for these two methodologies.
+
+
 
 # Problem 2: Classification
 
-The second problem of this work is based on the study of the Pima Indians Diabetes Database, containing information about 768 women from a population (Pima indians) that is particularly susceptible to diabetes. The response vaiable $diabetes$ identifies two classes ("pos" and "neg"), depending whether r a person involved in the study has developed the disease or not. The dataset contains also other 8 numeric variables:
+The second problem of this work is based on the study of the Pima Indians Diabetes Database, containing information about 768 women from a population (Pima indians) that is particularly susceptible to diabetes. The response variable $diabetes$ identifies two classes ("pos" and "neg"), depending whether a person involved in the study has developed the disease or not. The dataset contains also other 8 numeric variables:
 
 -   $pregnant$: number of pregnancies;
 
@@ -476,7 +484,7 @@ legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col =
 
 ```
 
-It can be immediately noticed that cross-validation tends to underestimate the error, especially for small values of k.
+It can be immediately noticed that cross-validation (both with 5-folds and LOO) tends to underestimate the error, especially for small values of k.
 
 I save the values of the lowest test errors related to each of the three methods.
 
@@ -497,7 +505,7 @@ test_err_loo <- 1- loo_errors$crit[k_min_loo]
 test_err_knn <- test_errors_knn[k_min_knn]
 sprintf('Test error with 5-fold cv: %s', test_err_5fold)
 sprintf('Test error with LOO cv: %s', test_err_loo)
-sprintf('Test error with kNN: %s', test_err_knn)
+sprintf('Actual test error with kNN: %s', test_err_knn)
 
 ```
 
@@ -566,10 +574,10 @@ plotcp(classification_tree)
 classification_tree$cptable
 ```
 
-The minimum value of cp = 0.021164021, so I prune it at this value.
+The minimum value of cp = 0.010582011, so I prune it at this value.
 
 ```{r}
-class_tree <- prune(classification_tree, cp = 0.021164021)
+class_tree <- prune(classification_tree, cp = 0.010582011)
 par(mar = c(2, 2, 2, 2))
 plot(class_tree, main = "Pruned Tree")
 text(class_tree, cex = 0.5, col = "blue")
@@ -591,7 +599,7 @@ sprintf("Train error Classification Tree: %s", tree_test_error)
 
 ## Bagged trees
 
-I now consider another tree-based method, by constructing and evaluating an ensemble of bagged trees. The train and the test arrors are the following:
+I now consider another tree-based method, by constructing and evaluating an ensemble of bagged trees. The train and the test errors are then computed.
 
 ```{r}
 train_data$diabetes <- as.factor(train_data$diabetes)
@@ -610,7 +618,7 @@ sprintf("Test error Bagged Trees: %s", bagged_test_error)
 
 ## Random forest
 
-The last tree-based method is a Random Forest, for which I used 100 trees. The train and the test arrors are the following:
+The last tree-based method is a Random Forest, for which I used 100 trees. The train and the test errors are then computed.
 
 ```{r}
 library(randomForest)
@@ -626,11 +634,11 @@ sprintf("Test error Random Forest: %s", forest_test_error)
 
 ```
 
-Comparing the results of the errors of the three tree-based methods, it is clear that the results are very similar. Especially the values of the test errors are almost the same.
+Comparing the results of the errors of the three tree-based methods, it is clear that the results are similar. The test errors of the first two techniques are very close, while for Random Forest the test error is a bit higher.
 
 ## Comparison of all the methods
 
-After the fitting of all these classification methods, it is reasonable to make a comparison of all of them, in order to understand which performs better. Since I consider the best method as the one which minimizes the test error, I just need the test error values to evaluate the performance of each technique.
+After the fitting of all these classification methods, it is reasonable to make a comparison of all of them, in order to understand which performs better. Since I consider the best method as the one minimizing the test error, I just need the test error values to evaluate the performance of each technique.
 
 ```{r}
 methods <- c("kNN with 5-fold cv", "kNN with LOO cv", "GAM", "Classification Tree",
@@ -643,11 +651,11 @@ names(df_comparison) <- c("Method", "Test Error")
 df_comparison
 ```
 
-The above table shows that the lowest terror is obtained with a kNN fitted using LOO cross-validation. The result obtained with 5-fold cross-validation is very good as well. In general, all the test error values shown in the table are very similar, so the different models have a similar performance.
+The above table shows that the lowest test error is obtained with a kNN fitted using 5-fold cross-validation. The result obtained with LOO cross-validation is very good as well. In general, all the test error values shown in the table are similar, so the different models have a similar performance.
 
 ## New Dataset
 
-Looking more closely at the data, it has been noted that several values are impossible (e.g., a body mass index of 0). This is due to that some of the observations are actually not zeros, but missing values. So, I now consider the correct dataset and compare the old results of all the methods implemented in the previous points to those obtained after removing all observations that contain missing values.
+Looking more closely at the data, it has been noted that several values are impossible (e.g., a body mass index of 0). This is due to the fact that some of the observations are actually not zeros, but missing values. So, I now consider the correct dataset and compare the old results of all the methods implemented in the previous points to those obtained after removing all observations that contain missing values.
 
 ```{r}
 data(PimaIndiansDiabetes2)
@@ -711,6 +719,7 @@ title("Comparing error estimates")
 legend("bottomright", legend = c("5-fold cv", "LOO cv", "Test Errors"), col = c("blue", "red", "green"), 
        lty = 1)
 ```
+From the graph, we can notice that now, for k equal to 70 onward, the use of cross-validation does not generate an underestimation of the error anymore: the three lines in the plot have similar values.
 
 ```{r}
 k_min_5fold <- which.min(1 - fold5_errors$crit)
@@ -813,14 +822,8 @@ forest_test_error_2 <- mean(predict(random_forest, subset(test_data, select = -d
                       != test_data$diabetes)
 sprintf("Train error Random Forest: %s", forest_test_error_2)
 ```
+After thf fitting of all the methods, it is possible to make a comparison of the new results with the previous ones. The following table show what I obtained.
 
-```{r}
-
-```
-
-```{r}
-
-```
 
 ```{r}
 methods <- c("kNN with 5-fold cv", "kNN with LOO cv", "GAM", "Classification Tree",
@@ -835,4 +838,5 @@ names(df_comparison) <- c("Method", "Test Error 1", "Test error 2")
 df_comparison
 ```
 
-The results related to the correct dataset, as expected, are better. This is due to the fact that the data I removed were not correct (since they were set to 0 even if they were missing values). Therefore, with the correct data, the performance of almost all the models is improved. In this case, the best models are still kNN with LOO and 5-fold cross validation. Bagging and random forest have an intermediate position, while GAM and classification trees are the worst ones.
+
+The results related to the correct dataset, as expected, are better. This is due to the fact that the data I removed were not correct (since they were set to 0 even if they were missing values). Therefore, with the correct data, the performance of almost all the models (except fro GAM and Classification Tree) is improved. In this case, the best model is Random Forest. kNN with LOO and 5-fold cross validation still have a good performance, very close to the one of Random Forest. Bagging has an intermediate position, while GAM and classification trees are the worst ones.
